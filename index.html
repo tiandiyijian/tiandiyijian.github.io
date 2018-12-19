@@ -229,6 +229,135 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/19/2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/19/2/" itemprop="url">IPSec传输模式下ESP报文的装包与拆包过程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-19T15:31:48+08:00">
+                2018-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="装包过程"><a href="#装包过程" class="headerlink" title="装包过程"></a>装包过程</h5><p>1.在原IP报文的尾部添加ESP Trailer，该部分包括3部分：第一部分是Padding，因为稍后选择的加密算法可能是快加密算法，所以可能要进行填充；第二部分是Pad length即padding的长度，解包时会用到；第三部分是Next header，用来表明被加密的报文的类型例如TCP。</p>
+<p>2.把IP报文的载荷部分和ESP Trailer作为一个整体进行加密，具体的密钥和加密算法由SA给出。</p>
+<p>3.为第2步得到的加密数据添加ESP header。ESP header由SPI和Seq两部分组成。加密数据与ESP header构成认证部分。</p>
+<p>4.附加完整性度量结果(ICV，Integrity check value)。对第3步得到的认证部分做认证，得到一个32位整数倍的完整性度 量值(MAC)，并附在ESP 报文的尾部。完整性度量算法包括需要的认证密钥由SA 给出。</p>
+<p>5.把IP header的proto部分改为50=ESP。</p>
+<h5 id="拆包过程"><a href="#拆包过程" class="headerlink" title="拆包过程"></a>拆包过程</h5><p>1.接收方收到IP报文后，发现协议类型是50，表明这是一个ESP包。首先查看ESP header，通过SPI决定数据报文所对应的SA，获得对应的模式(tunnel/transport mode)以及安全规范。</p>
+<p>2.计算认证部分的摘要，与附在末尾的ICV做对比，验证数据完整性。 </p>
+<p>3.查看Seq里的顺序号，保证数据是“新鲜”的。</p>
+<p>4.根据SA所提供的加密算法和密钥，解密被加密过的数据，得到原IP报文与ESP trailer。</p>
+<p>5.根据ESP trailer 的填充长度信息，找出填充字段的长度，删去后得到原来的IP报文。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/25/1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -386,7 +515,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
