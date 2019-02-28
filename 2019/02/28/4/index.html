@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="tip1：Adagrad思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以 \sqrt{2} \quad and \quad \sqrt[n]{3}来实现，公式可以整理化简为：  对于这个公式，一种直观的解释是：  但是其实那个分母反应的是二次微分的大小，因为对于多个自变量来说，并不一定是一次微分越大它就离local minimum越远，还要考虑二次">
+<meta name="description" content="tip1：Adagrad 思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以  \sqrt{t+1}来实现，公式可以整理化简为：  对于这个公式，一种直观的解释是：  但是其实那个分母反应的是二次微分的大小，因为对于多个自变量来说，并不一定是一次微分越大它就离local minimum越远，还要考虑二次微分的大小，如下图中的a点和c点，虽然c点的一次">
 <meta property="og:type" content="article">
 <meta property="og:title" content="梯度下降技巧">
 <meta property="og:url" content="http://yoursite.com/2019/02/28/4/index.html">
 <meta property="og:site_name" content="天地一键">
-<meta property="og:description" content="tip1：Adagrad思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以 \sqrt{2} \quad and \quad \sqrt[n]{3}来实现，公式可以整理化简为：  对于这个公式，一种直观的解释是：  但是其实那个分母反应的是二次微分的大小，因为对于多个自变量来说，并不一定是一次微分越大它就离local minimum越远，还要考虑二次">
+<meta property="og:description" content="tip1：Adagrad 思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以  \sqrt{t+1}来实现，公式可以整理化简为：  对于这个公式，一种直观的解释是：  但是其实那个分母反应的是二次微分的大小，因为对于多个自变量来说，并不一定是一次微分越大它就离local minimum越远，还要考虑二次微分的大小，如下图中的a点和c点，虽然c点的一次">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/02/28/4/1.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/28/4/2.png">
@@ -94,10 +94,10 @@
 <meta property="og:image" content="http://yoursite.com/2019/02/28/4/6.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/28/4/7.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/28/4/8.png">
-<meta property="og:updated_time" content="2019-02-28T05:08:09.116Z">
+<meta property="og:updated_time" content="2019-02-28T05:31:25.002Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="梯度下降技巧">
-<meta name="twitter:description" content="tip1：Adagrad思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以 \sqrt{2} \quad and \quad \sqrt[n]{3}来实现，公式可以整理化简为：  对于这个公式，一种直观的解释是：  但是其实那个分母反应的是二次微分的大小，因为对于多个自变量来说，并不一定是一次微分越大它就离local minimum越远，还要考虑二次">
+<meta name="twitter:description" content="tip1：Adagrad 思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以  \sqrt{t+1}来实现，公式可以整理化简为：  对于这个公式，一种直观的解释是：  但是其实那个分母反应的是二次微分的大小，因为对于多个自变量来说，并不一定是一次微分越大它就离local minimum越远，还要考虑二次微分的大小，如下图中的a点和c点，虽然c点的一次">
 <meta name="twitter:image" content="http://yoursite.com/2019/02/28/4/1.png">
 
 
@@ -340,8 +340,10 @@
       
 
       
-        <h5 id="tip1：Adagrad"><a href="#tip1：Adagrad" class="headerlink" title="tip1：Adagrad"></a>tip1：Adagrad</h5><p><img src="/2019/02/28/4/1.png" alt="1"><br>思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以</p>
-<script type="math/tex; mode=display">\sqrt{2} \quad and \quad \sqrt[n]{3}</script><p>来实现，公式可以整理化简为：</p>
+        <h5 id="tip1：Adagrad"><a href="#tip1：Adagrad" class="headerlink" title="tip1：Adagrad"></a>tip1：Adagrad</h5><p><img src="/2019/02/28/4/1.png" alt="1"></p>
+<p>思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以</p>
+<script type="math/tex; mode=display">
+\sqrt{t+1}</script><p>来实现，公式可以整理化简为：</p>
 <p><img src="/2019/02/28/4/2.png" alt="2"></p>
 <p>对于这个公式，一种直观的解释是：</p>
 <p><img src="/2019/02/28/4/3.png" alt="3"></p>

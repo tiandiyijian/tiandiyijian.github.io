@@ -332,8 +332,10 @@
       
         
           
-            <h5 id="tip1：Adagrad"><a href="#tip1：Adagrad" class="headerlink" title="tip1：Adagrad"></a>tip1：Adagrad</h5><p><img src="/2019/02/28/4/1.png" alt="1"><br>思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以</p>
-<script type="math/tex; mode=display">\sqrt{2} \quad and \quad \sqrt[n]{3}</script><p>来实现，公式可以整理化简为：</p>
+            <h5 id="tip1：Adagrad"><a href="#tip1：Adagrad" class="headerlink" title="tip1：Adagrad"></a>tip1：Adagrad</h5><p><img src="/2019/02/28/4/1.png" alt="1"></p>
+<p>思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以</p>
+<script type="math/tex; mode=display">
+\sqrt{t+1}</script><p>来实现，公式可以整理化简为：</p>
 <p><img src="/2019/02/28/4/2.png" alt="2"></p>
 <p>对于这个公式，一种直观的解释是：</p>
 <p><img src="/2019/02/28/4/3.png" alt="3"></p>
