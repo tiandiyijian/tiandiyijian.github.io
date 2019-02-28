@@ -86,19 +86,19 @@
 <meta property="og:site_name" content="天地一键">
 <meta property="og:description" content="tip1：Adagrad思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以$$\sqrt{t+1}$$来实现，公式可以整理化简为：  对于这个公式，一种直观的解释是：  但是其实那个分母反应的是二次微分的大小，因为对于多个自变量来说，并不一定是一次微分越大它就离local minimum越远，还要考虑二次微分的大小，如下图中的a点和c点，虽然c点的一">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2019/02/28/4/C:/blog/blog/source/_posts/4/1.png">
-<meta property="og:image" content="http://yoursite.com/2019/02/28/4/C:/blog/blog/source/_posts/4/2.png">
-<meta property="og:image" content="http://yoursite.com/2019/02/28/4/C:/blog/blog/source/_posts/4/3.png">
-<meta property="og:image" content="http://yoursite.com/2019/02/28/4/C:/blog/blog/source/_posts/4/4.png">
-<meta property="og:image" content="http://yoursite.com/2019/02/28/4/C:/blog/blog/source/_posts/4/5.png">
-<meta property="og:image" content="http://yoursite.com/2019/02/28/4/C:/blog/blog/source/_posts/4/6.png">
-<meta property="og:image" content="http://yoursite.com/2019/02/28/4/C:/blog/blog/source/_posts/4/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/28/4/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/28/4/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/28/4/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/28/4/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/28/4/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/28/4/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/28/4/7.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/28/4/8.png">
-<meta property="og:updated_time" content="2019-02-28T03:21:05.917Z">
+<meta property="og:updated_time" content="2019-02-28T04:33:29.409Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="梯度下降技巧">
 <meta name="twitter:description" content="tip1：Adagrad思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以$$\sqrt{t+1}$$来实现，公式可以整理化简为：  对于这个公式，一种直观的解释是：  但是其实那个分母反应的是二次微分的大小，因为对于多个自变量来说，并不一定是一次微分越大它就离local minimum越远，还要考虑二次微分的大小，如下图中的a点和c点，虽然c点的一">
-<meta name="twitter:image" content="http://yoursite.com/2019/02/28/4/C:/blog/blog/source/_posts/4/1.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/02/28/4/1.png">
 
 
 
@@ -340,17 +340,17 @@
       
 
       
-        <h5 id="tip1：Adagrad"><a href="#tip1：Adagrad" class="headerlink" title="tip1：Adagrad"></a>tip1：Adagrad</h5><p><img src="/2019/02/28/4/C:/blog\blog\source\_posts\4\1.png" alt="1"><br>思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以<br>$$<br>\sqrt{t+1}<br>$$<br>来实现，公式可以整理化简为：</p>
-<p><img src="/2019/02/28/4/C:/blog\blog\source\_posts\4\2.png" alt="2"></p>
+        <h5 id="tip1：Adagrad"><a href="#tip1：Adagrad" class="headerlink" title="tip1：Adagrad"></a>tip1：Adagrad</h5><p><img src="/2019/02/28/4/1.png" alt="1"><br>思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以<br>$$<br>\sqrt{t+1}<br>$$<br>来实现，公式可以整理化简为：</p>
+<p><img src="/2019/02/28/4/2.png" alt="2"></p>
 <p>对于这个公式，一种直观的解释是：</p>
-<p><img src="/2019/02/28/4/C:/blog\blog\source\_posts\4\3.png" alt="3"></p>
+<p><img src="/2019/02/28/4/3.png" alt="3"></p>
 <p>但是其实那个分母反应的是二次微分的大小，因为对于多个自变量来说，并不一定是一次微分越大它就离local minimum越远，还要考虑二次微分的大小，如下图中的a点和c点，虽然c点的一次微分更大，但是a点离local minimum更远。至于为什么那个分母反应的是二次微分的大小，还不是很清楚。</p>
-<p><img src="/2019/02/28/4/C:/blog\blog\source\_posts\4\4.png" alt="4"></p>
+<p><img src="/2019/02/28/4/4.png" alt="4"></p>
 <h5 id="tip2：Stochastic-Gradient-Descent"><a href="#tip2：Stochastic-Gradient-Descent" class="headerlink" title="tip2：Stochastic Gradient Descent"></a>tip2：Stochastic Gradient Descent</h5><p>这种方法可以使学习更快，它看一次example就update一次参数</p>
-<p><img src="/2019/02/28/4/C:/blog\blog\source\_posts\4\5.png" alt="5"></p>
-<p><img src="/2019/02/28/4/C:/blog\blog\source\_posts\4\6.png" alt="6"></p>
+<p><img src="/2019/02/28/4/5.png" alt="5"></p>
+<p><img src="/2019/02/28/4/6.png" alt="6"></p>
 <h5 id="tip3：Feature-Scaling"><a href="#tip3：Feature-Scaling" class="headerlink" title="tip3：Feature Scaling"></a>tip3：Feature Scaling</h5><p>把所有自变量的定义域变为一样的</p>
-<p><img src="/2019/02/28/4/C:/blog\blog\source\_posts\4\7.png" alt="7"></p>
+<p><img src="/2019/02/28/4/7.png" alt="7"></p>
 <p><img src="/2019/02/28/4/8.png" alt="8"></p>
 <p>变化之后update参数效率更高。</p>
 
