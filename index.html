@@ -239,6 +239,155 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/04/8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/04/8/" itemprop="url">CNN</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-04T11:03:03+08:00">
+                2019-04-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/李弘毅机器学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">李弘毅机器学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h5><h5 id="CNN思想"><a href="#CNN思想" class="headerlink" title="CNN思想"></a>CNN思想</h5><p>检测图片的pattern，比如说有没有线条之类的，这样的话，就不用检测整张图片，而是只检测图片的一部分就好了。</p>
+<h5 id="CNN适用的特性"><a href="#CNN适用的特性" class="headerlink" title="CNN适用的特性"></a>CNN适用的特性</h5><ul>
+<li>一些pattern要比整个图片小得多</li>
+<li>同一个pattern可能出现在图片的不同位置</li>
+<li>对图片进行降采样不会改变图片中的object（max pooling）</li>
+</ul>
+<h5 id="分析CNN"><a href="#分析CNN" class="headerlink" title="分析CNN"></a>分析CNN</h5><p>训练好模型之后，对于某一个neron，使用梯度下降求能使它最北被activate的image来分析它在检测什么。 </p>
+<h5 id="CNN其他应用"><a href="#CNN其他应用" class="headerlink" title="CNN其他应用"></a>CNN其他应用</h5><p>Alpha Go使用CNN也是因为棋谱具有前两个特性，但是不具有第三个特性，所以它没有使用Max Pooling。CNN还可以用在语音辨识（filter只在频率上移动）、文字处理（filter只在文字序列方向上移动）</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/24/7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -362,6 +511,18 @@
 </li>
 </ul>
 <h5 id="从软件本质的角度，解释软件范围（需求）控制的可行性"><a href="#从软件本质的角度，解释软件范围（需求）控制的可行性" class="headerlink" title="从软件本质的角度，解释软件范围（需求）控制的可行性"></a>从软件本质的角度，解释软件范围（需求）控制的可行性</h5><p>由于软件本身的复杂性、不可见性、不一致性、可变性，软件范围多数情况下对于客户和开发者都是模糊的，这形成软件产品与其他产品不同的开发过程。因此，范围管理是软件项目管理的重中之重。</p>
+<h4 id="项目管理实践"><a href="#项目管理实践" class="headerlink" title="项目管理实践"></a>项目管理实践</h4><h5 id="看板使用练习（提交看板执行结果贴图，建议使用-Git-project）"><a href="#看板使用练习（提交看板执行结果贴图，建议使用-Git-project）" class="headerlink" title="看板使用练习（提交看板执行结果贴图，建议使用 Git project）"></a>看板使用练习（提交看板执行结果贴图，建议使用 Git project）</h5><ul>
+<li>使用截图工具（png格式输出），展现你团队的任务 Kanban</li>
+<li>每个人的任务是明确的。必须一周后可以看到具体结果</li>
+<li>每个人的任务是1-2项</li>
+<li>至少包含一个团队活动任务</li>
+</ul>
+<h5 id="UML绘图工具练习（提交贴图，必须使用-UMLet）"><a href="#UML绘图工具练习（提交贴图，必须使用-UMLet）" class="headerlink" title="UML绘图工具练习（提交贴图，必须使用 UMLet）"></a>UML绘图工具练习（提交贴图，必须使用 UMLet）</h5><ul>
+<li><p>请在 参考书2 或 教材 中选择一个类图（给出参考书页码图号）</p>
+<p>《UML和模式应用》第9页</p>
+<p><img src="/2019/03/24/7/HW2.png" alt=""></p>
+</li>
+</ul>
 
           
         
@@ -1302,7 +1463,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
