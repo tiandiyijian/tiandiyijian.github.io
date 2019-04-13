@@ -79,26 +79,17 @@
 
 
 
-<meta name="description" content="tip1：Adagrad 思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以  \sqrt{t+1}来实现，公式可以整理化简为：  对于这个公式，一种直观的解释是：  但是其实那个分母反应的是二次微分的大小，因为对于多个自变量来说，并不一定是一次微分越大它就离local minimum越远，还要考虑二次微分的大小，如下图中的a点和c点，虽然c点的一次">
+<meta name="description" content="简答题简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点简述统一过程三大特点，与面向对象的方法有什么关系？简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？实践题项目特点：规模、风险 人力资源：分析（客户）、设计（图）、编码（语言）、测试、 瀑布模型优点：定义了软件的基本活动 大项目：增量">
 <meta property="og:type" content="article">
-<meta property="og:title" content="梯度下降技巧">
-<meta property="og:url" content="http://yoursite.com/2019/02/28/4/index.html">
+<meta property="og:title" content="系统分析作业3">
+<meta property="og:url" content="http://yoursite.com/2019/04/13/swsad-hw3/index.html">
 <meta property="og:site_name" content="天地一键">
-<meta property="og:description" content="tip1：Adagrad 思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以  \sqrt{t+1}来实现，公式可以整理化简为：  对于这个公式，一种直观的解释是：  但是其实那个分母反应的是二次微分的大小，因为对于多个自变量来说，并不一定是一次微分越大它就离local minimum越远，还要考虑二次微分的大小，如下图中的a点和c点，虽然c点的一次">
+<meta property="og:description" content="简答题简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点简述统一过程三大特点，与面向对象的方法有什么关系？简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？实践题项目特点：规模、风险 人力资源：分析（客户）、设计（图）、编码（语言）、测试、 瀑布模型优点：定义了软件的基本活动 大项目：增量">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2019/02/28/4/1.png">
-<meta property="og:image" content="http://yoursite.com/2019/02/28/4/2.png">
-<meta property="og:image" content="http://yoursite.com/2019/02/28/4/3.png">
-<meta property="og:image" content="http://yoursite.com/2019/02/28/4/4.png">
-<meta property="og:image" content="http://yoursite.com/2019/02/28/4/5.png">
-<meta property="og:image" content="http://yoursite.com/2019/02/28/4/6.png">
-<meta property="og:image" content="http://yoursite.com/2019/02/28/4/7.png">
-<meta property="og:image" content="http://yoursite.com/2019/02/28/4/8.png">
-<meta property="og:updated_time" content="2019-04-09T10:26:21.270Z">
+<meta property="og:updated_time" content="2019-04-13T06:58:40.661Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="梯度下降技巧">
-<meta name="twitter:description" content="tip1：Adagrad 思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以  \sqrt{t+1}来实现，公式可以整理化简为：  对于这个公式，一种直观的解释是：  但是其实那个分母反应的是二次微分的大小，因为对于多个自变量来说，并不一定是一次微分越大它就离local minimum越远，还要考虑二次微分的大小，如下图中的a点和c点，虽然c点的一次">
-<meta name="twitter:image" content="http://yoursite.com/2019/02/28/4/1.png">
+<meta name="twitter:title" content="系统分析作业3">
+<meta name="twitter:description" content="简答题简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点简述统一过程三大特点，与面向对象的方法有什么关系？简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？实践题项目特点：规模、风险 人力资源：分析（客户）、设计（图）、编码（语言）、测试、 瀑布模型优点：定义了软件的基本活动 大项目：增量">
 
 
 
@@ -128,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/02/28/4/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/04/13/swsad-hw3/"/>
 
 
 
 
 
-  <title>梯度下降技巧 | 天地一键</title>
+  <title>系统分析作业3 | 天地一键</title>
   
 
 
@@ -251,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/28/4/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/13/swsad-hw3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="天地一键">
@@ -268,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">梯度下降技巧</h1>
+          <h1 class="post-title" itemprop="name headline">系统分析作业3</h1>
         
 
         <div class="post-meta">
@@ -280,8 +271,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-28T10:04:55+08:00">
-                2019-02-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-13T14:35:32+08:00">
+                2019-04-13
               </time>
             
 
@@ -303,8 +294,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/李宏毅机器学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">李宏毅机器学习笔记</span>
+                  <a href="/categories/系统分析/" itemprop="url" rel="index">
+                    <span itemprop="name">系统分析</span>
                   </a>
                 </span>
 
@@ -340,22 +331,19 @@
       
 
       
-        <h5 id="tip1：Adagrad"><a href="#tip1：Adagrad" class="headerlink" title="tip1：Adagrad"></a>tip1：Adagrad</h5><p><img src="/2019/02/28/4/1.png" alt="1"></p>
-<p>思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以</p>
-<script type="math/tex; mode=display">
-\sqrt{t+1}</script><p>来实现，公式可以整理化简为：</p>
-<p><img src="/2019/02/28/4/2.png" alt="2"></p>
-<p>对于这个公式，一种直观的解释是：</p>
-<p><img src="/2019/02/28/4/3.png" alt="3"></p>
-<p>但是其实那个分母反应的是二次微分的大小，因为对于多个自变量来说，并不一定是一次微分越大它就离local minimum越远，还要考虑二次微分的大小，如下图中的a点和c点，虽然c点的一次微分更大，但是a点离local minimum更远。至于为什么那个分母反应的是二次微分的大小，还不是很清楚。</p>
-<p><img src="/2019/02/28/4/4.png" alt="4"></p>
-<h5 id="tip2：Stochastic-Gradient-Descent"><a href="#tip2：Stochastic-Gradient-Descent" class="headerlink" title="tip2：Stochastic Gradient Descent"></a>tip2：Stochastic Gradient Descent</h5><p>这种方法可以使学习更快，它看一次example就update一次参数</p>
-<p><img src="/2019/02/28/4/5.png" alt="5"></p>
-<p><img src="/2019/02/28/4/6.png" alt="6"></p>
-<h5 id="tip3：Feature-Scaling"><a href="#tip3：Feature-Scaling" class="headerlink" title="tip3：Feature Scaling"></a>tip3：Feature Scaling</h5><p>把所有自变量的定义域变为一样的</p>
-<p><img src="/2019/02/28/4/7.png" alt="7"></p>
-<p><img src="/2019/02/28/4/8.png" alt="8"></p>
-<p>变化之后update参数效率更高。</p>
+        <h4 id="简答题"><a href="#简答题" class="headerlink" title="简答题"></a>简答题</h4><h5 id="简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点"><a href="#简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点" class="headerlink" title="简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点"></a>简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点</h5><h5 id="简述统一过程三大特点，与面向对象的方法有什么关系？"><a href="#简述统一过程三大特点，与面向对象的方法有什么关系？" class="headerlink" title="简述统一过程三大特点，与面向对象的方法有什么关系？"></a>简述统一过程三大特点，与面向对象的方法有什么关系？</h5><h5 id="简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？"><a href="#简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？" class="headerlink" title="简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？"></a>简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？</h5><h5 id="软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？"><a href="#软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？" class="headerlink" title="软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？"></a>软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？</h5><h4 id="实践题"><a href="#实践题" class="headerlink" title="实践题"></a>实践题</h4><p>项目特点：规模、风险</p>
+<p>人力资源：分析（客户）、设计（图）、编码（语言）、测试、</p>
+<p>瀑布模型优点：定义了软件的基本活动</p>
+<p>大项目：增量和螺旋合作即统一过程</p>
+<p>统一三大特点：不画图讲故事、架构为中心、分阶段迭代</p>
+<p>四个阶段：</p>
+<ul>
+<li>确定系统做什么、总体描述</li>
+<li>需求基本明确、架构得到验证</li>
+<li>产品特性</li>
+<li>交付</li>
+</ul>
+<p>固定节奏因为统一过程</p>
 
       
     </div>
@@ -380,8 +368,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/27/3/" rel="next" title="参数误差来源">
-                <i class="fa fa-chevron-left"></i> 参数误差来源
+              <a href="/2019/04/11/Pytorch-notes1/" rel="next" title="Pytorch-notes1">
+                <i class="fa fa-chevron-left"></i> Pytorch-notes1
               </a>
             
           </div>
@@ -389,10 +377,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/09/5/" rel="prev" title="系统分析作业1-v1">
-                系统分析作业1-v1 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -515,7 +499,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#tip1：Adagrad"><span class="nav-number">1.</span> <span class="nav-text">tip1：Adagrad</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#tip2：Stochastic-Gradient-Descent"><span class="nav-number">2.</span> <span class="nav-text">tip2：Stochastic Gradient Descent</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#tip3：Feature-Scaling"><span class="nav-number">3.</span> <span class="nav-text">tip3：Feature Scaling</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#简答题"><span class="nav-number">1.</span> <span class="nav-text">简答题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点"><span class="nav-number">1.1.</span> <span class="nav-text">简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#简述统一过程三大特点，与面向对象的方法有什么关系？"><span class="nav-number">1.2.</span> <span class="nav-text">简述统一过程三大特点，与面向对象的方法有什么关系？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？"><span class="nav-number">1.3.</span> <span class="nav-text">简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？"><span class="nav-number">1.4.</span> <span class="nav-text">软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实践题"><span class="nav-number">2.</span> <span class="nav-text">实践题</span></a></li></ol></div>
             
 
           </div>
@@ -715,26 +699,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
