@@ -79,17 +79,20 @@
 
 
 
-<meta name="description" content="torch.reshape和torch.view区别  view返回的是原tensor的一个view，它和原torch共享数据 为了确保新张量始终与原始张量共享其数据，torch.view对两个张量的形状施加了一些邻接约束（但是有时候即使形状兼容也会报错） reshape没有邻接约束，但是它页也不保证数据内存共享，有时候它返回的是原tensor的view，有时候是copy torch.resize">
+<meta name="description" content="使用类图，分别对 Asg_RH 文档中 Make Reservation 用例以及 Payment 用例开展领域建模。然后，根据上述模型，给出建议的数据表以及主要字段，特别是主键和外键Make Reservation：  数据建模： Customer(ID/key, Name, EmailAddress) Room(ID/key, Type, Price, IsAvaliable) Hotel(I">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Pytorch-notes1">
-<meta property="og:url" content="http://yoursite.com/2019/04/11/Pytorch-notes1/index.html">
+<meta property="og:title" content="swsad-hw9">
+<meta property="og:url" content="http://yoursite.com/2019/06/18/swsad-hw9/index.html">
 <meta property="og:site_name" content="天地一键">
-<meta property="og:description" content="torch.reshape和torch.view区别  view返回的是原tensor的一个view，它和原torch共享数据 为了确保新张量始终与原始张量共享其数据，torch.view对两个张量的形状施加了一些邻接约束（但是有时候即使形状兼容也会报错） reshape没有邻接约束，但是它页也不保证数据内存共享，有时候它返回的是原tensor的view，有时候是copy torch.resize">
+<meta property="og:description" content="使用类图，分别对 Asg_RH 文档中 Make Reservation 用例以及 Payment 用例开展领域建模。然后，根据上述模型，给出建议的数据表以及主要字段，特别是主键和外键Make Reservation：  数据建模： Customer(ID/key, Name, EmailAddress) Room(ID/key, Type, Price, IsAvaliable) Hotel(I">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-11T12:04:43.569Z">
+<meta property="og:image" content="https://i.loli.net/2019/06/18/5d08ca94b07e056660.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/18/5d08d2a7571e685082.png">
+<meta property="og:updated_time" content="2019-06-18T12:07:06.407Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pytorch-notes1">
-<meta name="twitter:description" content="torch.reshape和torch.view区别  view返回的是原tensor的一个view，它和原torch共享数据 为了确保新张量始终与原始张量共享其数据，torch.view对两个张量的形状施加了一些邻接约束（但是有时候即使形状兼容也会报错） reshape没有邻接约束，但是它页也不保证数据内存共享，有时候它返回的是原tensor的view，有时候是copy torch.resize">
+<meta name="twitter:title" content="swsad-hw9">
+<meta name="twitter:description" content="使用类图，分别对 Asg_RH 文档中 Make Reservation 用例以及 Payment 用例开展领域建模。然后，根据上述模型，给出建议的数据表以及主要字段，特别是主键和外键Make Reservation：  数据建模： Customer(ID/key, Name, EmailAddress) Room(ID/key, Type, Price, IsAvaliable) Hotel(I">
+<meta name="twitter:image" content="https://i.loli.net/2019/06/18/5d08ca94b07e056660.png">
 
 
 
@@ -119,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/11/Pytorch-notes1/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/06/18/swsad-hw9/"/>
 
 
 
 
 
-  <title>Pytorch-notes1 | 天地一键</title>
+  <title>swsad-hw9 | 天地一键</title>
   
 
 
@@ -251,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/Pytorch-notes1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/18/swsad-hw9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="天地一键">
@@ -268,7 +271,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Pytorch-notes1</h1>
+          <h1 class="post-title" itemprop="name headline">swsad-hw9</h1>
         
 
         <div class="post-meta">
@@ -280,8 +283,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-11T19:36:44+08:00">
-                2019-04-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-18T17:17:20+08:00">
+                2019-06-18
               </time>
             
 
@@ -303,8 +306,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Pytorch学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">Pytorch学习笔记</span>
+                  <a href="/categories/系统分析/" itemprop="url" rel="index">
+                    <span itemprop="name">系统分析</span>
                   </a>
                 </span>
 
@@ -340,15 +343,24 @@
       
 
       
-        <p>torch.reshape和torch.view区别</p>
-<ul>
-<li>view返回的是原tensor的一个view，它和原torch共享数据</li>
-<li>为了确保新张量始终与原始张量共享其数据，torch.view对两个张量的形状施加了一些邻接约束（但是有时候即使形状兼容也会报错）</li>
-<li>reshape没有邻接约束，但是它页也不保证数据内存共享，有时候它返回的是原tensor的view，有时候是copy</li>
-<li>torch.resize_()也用于改变形状，但是如果形状不兼容的话它并不会报错</li>
-</ul>
-<p>torch.from_numpy()用于把numpy数组转化为tensor，.numpy()返回numpy数组，numpy数组和tensor共享内存</p>
-
+        <h5 id="使用类图，分别对-Asg-RH-文档中-Make-Reservation-用例以及-Payment-用例开展领域建模。然后，根据上述模型，给出建议的数据表以及主要字段，特别是主键和外键"><a href="#使用类图，分别对-Asg-RH-文档中-Make-Reservation-用例以及-Payment-用例开展领域建模。然后，根据上述模型，给出建议的数据表以及主要字段，特别是主键和外键" class="headerlink" title="使用类图，分别对 Asg_RH 文档中 Make Reservation 用例以及 Payment 用例开展领域建模。然后，根据上述模型，给出建议的数据表以及主要字段，特别是主键和外键"></a>使用类图，分别对 Asg_RH 文档中 Make Reservation 用例以及 Payment 用例开展领域建模。然后，根据上述模型，给出建议的数据表以及主要字段，特别是主键和外键</h5><p>Make Reservation：</p>
+<p><img src="https://i.loli.net/2019/06/18/5d08ca94b07e056660.png" alt="UTOOLS1560857235381.png"></p>
+<p>数据建模：</p>
+<p>Customer(ID/key, Name, EmailAddress)</p>
+<p>Room(ID/key, Type, Price, IsAvaliable)</p>
+<p>Hotel(ID/key, Name, Address, Telephone, Price, StarRating)</p>
+<p>Location(ID/key, Name)</p>
+<p>Reservation(ID/key, CheckinDate, numberOfNights, numberOfAdults, numberOfChildren)</p>
+<p>Payment：</p>
+<p><img src="https://i.loli.net/2019/06/18/5d08d2a7571e685082.png" alt="UTOOLS1560859298085.png"></p>
+<p>数据建模：</p>
+<p>Customer(ID/key, Name, EmailAddress)</p>
+<p>CreditCard(CardNumber/key, Type, CardSecurityCode)</p>
+<p>Payment(ID/key, TotalCost, CardType)</p>
+<p>PaymentItem(ID/key, Total, Name)</p>
+<p>CardholdersAddress(ID/key, Title, FirstName, LastName, Address1, Address2, City, CountryState, Country, Postcode, DaytimeTelephone, EveningTelephone)</p>
+<p>CreditCardDetail(CardNumber, CardSecurityCode, ExpiryCode)</p>
+<h5 id="使用-UML-State-Model，对每个订单对象生命周期建模"><a href="#使用-UML-State-Model，对每个订单对象生命周期建模" class="headerlink" title="使用 UML State Model，对每个订单对象生命周期建模"></a>使用 UML State Model，对每个订单对象生命周期建模</h5>
       
     </div>
     
@@ -372,8 +384,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/09/Why-Deep/" rel="next" title="Why Deep">
-                <i class="fa fa-chevron-left"></i> Why Deep
+              <a href="/2019/05/20/swsad-hw7/" rel="next" title="系统分析作业7">
+                <i class="fa fa-chevron-left"></i> 系统分析作业7
               </a>
             
           </div>
@@ -381,10 +393,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/04/13/swsad-hw3/" rel="prev" title="系统分析作业3">
-                系统分析作业3 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -436,8 +444,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -488,6 +505,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用类图，分别对-Asg-RH-文档中-Make-Reservation-用例以及-Payment-用例开展领域建模。然后，根据上述模型，给出建议的数据表以及主要字段，特别是主键和外键"><span class="nav-number">1.</span> <span class="nav-text">使用类图，分别对 Asg_RH 文档中 Make Reservation 用例以及 Payment 用例开展领域建模。然后，根据上述模型，给出建议的数据表以及主要字段，特别是主键和外键</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用-UML-State-Model，对每个订单对象生命周期建模"><span class="nav-number">2.</span> <span class="nav-text">使用 UML State Model，对每个订单对象生命周期建模</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

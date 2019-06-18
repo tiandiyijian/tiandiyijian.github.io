@@ -248,6 +248,141 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/21/6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/21/6/" itemprop="url">激活函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-21T09:11:00+08:00">
+                2019-03-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Sigmod：</p>
+<ul>
+<li>问题1：当x很大或很小时导数为0，会让梯度流消失，零梯度传递到下游节点<img src="/2019/03/21/6/1.png" alt=""></li>
+<li>问题2：Sigmod的输出非0中心，<img src="/2019/03/21/6/2.png" alt=""></li>
+<li>指数函数计算代价高</li>
+</ul>
+<p>tanh：</p>
+<p><img src="/2019/03/21/6/3.png" alt=""></p>
+<p>ReLU:</p>
+<p>收敛快，更符合生物学，计算简单快速,但是输入小于零时梯度为0，会产生dead ReLU问题，有些人会在初始化时把偏置设为很小的正数例如0.01<img src="/2019/03/21/6/4.png" alt=""></p>
+<p>Leaky ReLU &amp; PReLU：</p>
+<p><img src="/2019/03/21/6/5.png" alt=""></p>
+<p>ELU:</p>
+<p><img src="/2019/03/21/6/6.png" alt=""></p>
+<p>实践中：</p>
+<p><img src="/2019/03/21/6/7.png" alt=""></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/09/5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1009,7 +1144,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
