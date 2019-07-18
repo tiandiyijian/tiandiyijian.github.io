@@ -88,7 +88,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2019/07/18/5d2ffd87473f299036.png">
 <meta property="og:image" content="https://i.loli.net/2019/07/18/5d3011fb701a984002.png">
-<meta property="og:updated_time" content="2019-07-18T07:12:35.771Z">
+<meta property="og:updated_time" content="2019-07-18T07:55:59.111Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Multi-label Image Recognition by Recurrently Discovering Attentional  Regions">
 <meta name="twitter:description" content="摘要多标签图像识别是计算机视觉中基础但实用的问题，因为真是世界的图像总是会包含丰富多样的语义信息。目前解决这个问题的方法大多依赖于额外的步骤来产生假定区域，即图片中要识别目标出现的区域，这就导致了多余的计算并且达不到最优的效果。作者提出了一种循环记忆-注意模块从而实现了多标签图像分类的可解释性和上下文有关性。作者提出的这种方法在准确率和性能方面的表现都优于 state-of-the-arts。 介">
@@ -353,7 +353,7 @@ p_{i}^{c}=\frac{\exp \left(s_{i}^{c}\right)}{\sum_{c^{\prime}=1}^{C} \exp \left(
 <ul>
 <li>冗余。ST会倾向于选取与最突出的目标对应的区域</li>
 <li>忽略微小目标。ST倾向于选取较大尺寸的区域</li>
-<li>空间翻转。ST选取的区域倾向于水平移动会垂直移动</li>
+<li>空间翻转。ST选取的区域可能是之前选取区域的镜像</li>
 </ul>
 <p>所以对作者ST的空间转换矩阵<em>M</em>加了3个约束：</p>
 <h6 id="锚点约束"><a href="#锚点约束" class="headerlink" title="锚点约束"></a>锚点约束</h6><p>我们希望选取的注意区域分散到图像中所有语义区域上。所以我们就在图像中间画一个半径为 $\frac{\sqrt{2}}{2}$ 的圆，让锚点均匀分散到圆心和圆周上，如图所示：</p>
@@ -373,7 +373,10 @@ p_{i}^{c}=\frac{\exp \left(s_{i}^{c}\right)}{\sum_{c^{\prime}=1}^{C} \exp \left(
 \mathcal{L}=\mathcal{L}_{\mathrm{cls}}+\gamma \mathcal{L}_{\mathrm{loc}}</script><p>作者把平衡参数 $\gamma$ 设为 0.1，因为该模型中主要分类任务占主导地位。</p>
 <h4 id="个人总结"><a href="#个人总结" class="headerlink" title="个人总结"></a>个人总结</h4><p>作者提出的这种方法和以前的多标签图像识别的方法相比较，主要有两个改进：</p>
 <ul>
-<li>计算量小。以往的基于 object proposal方法往往需要大量的计算来选取假定区域，而本文中的方法只需要选取<em>K</em>个注意区域就可以了，并且选取注意区域的时候，ST 的输入都是是卷积网络的输出，也在一定程度上减少了计算量。</li>
+<li>计算量小。以往的基于 object proposal 方法往往需要大量的计算来选取假定区域，而本文中的方法只需要选取<em>K</em>个注意区域就可以了，并且选取注意区域的时候，ST 的输入都是是卷积网络的输出，也在一定程度上减少了计算量。<ul>
+<li>为了更准确地选取注意区域，作者还为转换矩阵<em>M</em> 添加了三个约束。</li>
+</ul>
+</li>
 <li>考虑到了标签之间以及注意区域之间的依赖性。LSTM 的引入使得该模型在预测标签和更新空间转换矩阵时都会考虑到之前已经出现的信息。</li>
 </ul>
 <p>因为有了这两方面的改进，所以这种方法能在准确率和性能方面都达到很好的效果。</p>
