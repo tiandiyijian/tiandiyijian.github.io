@@ -88,7 +88,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2019/08/05/Ajo87uIwln6TkSe.png">
 <meta property="og:image" content="https://i.loli.net/2019/08/05/rBKUs3GDFNegIy7.png">
-<meta property="og:updated_time" content="2019-08-05T03:43:19.169Z">
+<meta property="og:updated_time" content="2019-08-05T03:53:09.117Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="快速排序">
 <meta name="twitter:description" content="快速排序又称划分交换排序，简称快排，它与归并排序算法一样，也是分治策略的典型应用，但二者之间也有本质区别。归并排序的计算量主要消耗于有序子向量的归并操作，而子向量的划分几乎不消耗时间（就是对半分）；快排正好相反，它可以在$O(1)$时间内，由子问题的解直接得到原问题的解，但为了将原问题划分为两个子问题，却需要$O(n)$的时间（选取轴点）。 所谓轴点（pivot），就是左侧元素均不比它大，右侧元素">
@@ -350,8 +350,9 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> lo, <span class="keyword">int</span> hi)</span> </span>&#123; <span class="comment">//0 &lt;= lo &lt; hi &lt;= size， 区间为[lo, hi)</span></span><br><span class="line">    <span class="keyword">if</span> (hi - lo &lt; <span class="number">2</span>) <span class="keyword">return</span>; <span class="comment">//只有一个元素</span></span><br><span class="line">    <span class="keyword">int</span> mi = partition(nums, lo, hi - <span class="number">1</span>);</span><br><span class="line">    quickSort(nums, lo, mi);</span><br><span class="line">    quickSort(nums, mi + <span class="number">1</span>, hi);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>接下来就是如何选取轴点即分区的问题了，方法右很多种，我这里就采取了最常见的一种，示意图为：</p>
 <p><img src="https://i.loli.net/2019/08/05/rBKUs3GDFNegIy7.png" alt="UTOOLS1564968987193.png"></p>
-<p>把首元素即6作为“培养对象”，就是把它作为选取的轴点的值，把它拿出来备份，然后从右侧开始扫描（双指针，初始的时候lo=0， hi=size-1），如果碰到比6小的元素就把它放到位置lo上，然后从lo开始向右扫描，碰到比6大的元素就把它放到位置hi上，然后就重复这样的过程知道lo=hi，最后就把首元素6放到这个位置上并且返回它的秩即lo。代码为：</p>
+<p>把首元素即6作为“培养对象”，就是把它作为选取的轴点的值，把它拿出来备份，然后从右侧开始扫描（双指针，初始的时候$lo=0， hi=size-1$），如果碰到比6小的元素就把它放到位置$lo$上，然后从$lo$开始向右扫描，碰到比6大的元素就把它放到位置$hi$上，然后就重复这样的过程直到$lo=hi$，最后就把首元素6放到这个位置上并且返回它的秩即$lo$。代码为：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> lo, <span class="keyword">int</span> hi)</span> </span>&#123; <span class="comment">//区间为[lo, hi]</span></span><br><span class="line">        swap(nums[lo], nums[lo + rand()%(hi - lo + <span class="number">1</span>)]); <span class="comment">//随机选取一个元素与首元素交换</span></span><br><span class="line">        <span class="keyword">int</span> pivot = nums[lo];</span><br><span class="line">        <span class="keyword">while</span> (lo &lt; hi) &#123;</span><br><span class="line">            <span class="keyword">while</span> (lo &lt; hi &amp;&amp; pivot &lt;= nums[hi]) &#123;</span><br><span class="line">                --hi;</span><br><span class="line">            &#125;</span><br><span class="line">            nums[lo] = nums[hi];</span><br><span class="line">            <span class="keyword">while</span> (lo &lt; hi &amp;&amp; pivot &gt;= nums[lo]) &#123;</span><br><span class="line">                ++lo;</span><br><span class="line">            &#125;</span><br><span class="line">            nums[hi] = nums[lo];</span><br><span class="line">        &#125;</span><br><span class="line">        nums[lo] = pivot;</span><br><span class="line">        <span class="keyword">return</span> lo;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参考：邓俊辉<a href="http://www.xuetangx.com/courses/course-v1:TsinghuaX+30240184_2X+sp/about" target="_blank" rel="noopener">《数据结构》</a></p>
 
       
     </div>
@@ -682,6 +683,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
