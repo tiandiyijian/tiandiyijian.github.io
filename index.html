@@ -248,6 +248,160 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/07/121-best-time-to-buy-and-sell-stock/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/07/121-best-time-to-buy-and-sell-stock/" itemprop="url">Leetcode121-买卖股票的最佳时机</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-07T14:40:58+08:00">
+                2019-08-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Say you have an array for which the <em>i</em>th element is the price of a given stock on day <em>i</em>.</p>
+<p>If you were only permitted to complete at most one transaction (i.e., buy one and sell one share of the stock), design an algorithm to find the maximum profit.</p>
+<p>Note that you cannot sell a stock before you buy one.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: [7,1,5,3,6,4]</span><br><span class="line">Output: 5</span><br><span class="line">Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.</span><br><span class="line">             Not 7-1 = 6, as selling price needs to be larger than buying price.</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [7,6,4,3,1]</span><br><span class="line">Output: 0</span><br><span class="line">Explanation: In this case, no transaction is done, i.e. max profit = 0.</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>给出一段时间内股票价格，只进行一次交易即一次买进和一次卖出，求最大收益。只需要求出局部最小值以及出现在它后面的局部最大值即可。需要注意的有两点：一是局部最大值一定是在局部最小值的后面（所以不能直接拿数组中的最大值减最小值当作答案），这样才能在最小的时候买进最大的时候卖出；二是在一个局部最小值出现之后可能后面还会有比它更小的值。我自己第一遍写的代码为：</p>
+<p>C++：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> maxProfit = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> len = prices.size();</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; profit(len, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; len)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">while</span> (i &lt; len - <span class="number">1</span> &amp;&amp; prices[i] &gt;= prices[i+<span class="number">1</span>])</span><br><span class="line">            &#123;</span><br><span class="line">                ++i;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> low = prices[i]; <span class="comment">//找到一个局部最小值并记录</span></span><br><span class="line">            <span class="keyword">while</span> (i &lt; len &amp;&amp; prices[i] &gt;= low) <span class="comment">//寻找最大利益直到出现比这个局部最小值更小的值即新的局部最小值</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (prices[i] - low &gt; maxProfit) &#123;</span><br><span class="line">                    maxProfit = prices[i] - low; <span class="comment">//更新最大利益</span></span><br><span class="line">                &#125;</span><br><span class="line">                ++i;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxProfit;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>后来在网上参考别人写的发现可以写简单一些，如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (prices.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> lowest = prices[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> maxProfit = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> price: prices) &#123;</span><br><span class="line">            <span class="keyword">if</span> (price &lt; lowest) &#123;</span><br><span class="line">                lowest = price;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (price - lowest &gt; maxProfit) &#123;</span><br><span class="line">                maxProfit = price - lowest;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> maxProfit;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>我的思路是先找到局部最小值然后再开始更新最大利益，这种的思路是在扫描的过程中如果碰见了更小的值则更新最小值，如果比局部最小值大就可以更新最大利益了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/07/122-best-time-to-buy-and-sell-stock-II/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1727,195 +1881,6 @@ p_{i}^{c}=\frac{\exp \left(s_{i}^{c}\right)}{\sum_{c^{\prime}=1}^{C} \exp \left(
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/22/swsad-postgresql/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/22/swsad-postgresql/" itemprop="url">Ubuntu下PostgreSQL的安装使用及远程访问</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-22T15:52:02+08:00">
-                2019-06-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/系统分析/" itemprop="url" rel="index">
-                    <span itemprop="name">系统分析</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>我使用了Django做系分项目的后端，它自带的数据库是sqlite，这个开发阶段用一下还行，上线之后不会使用它的，Django还支持Mysql和PostgreSQL，我原本就是有点抗拒Mysql的，因为之前在win10上使用过，当时用完就卸载了，后来又需要使用的时候怎么安装都装不上，最后废了好大劲才给它装上，据说是因为卸载的时候很难卸载干净。从此以后我对Mysql就产生了不好的感觉，后来我又发现Django有两个filed即ArrayField和JSONField只有PostgreSQL才支持，我在设计数据库的时候就想到了如果有这两种字段就好了，没想到还真有，于是我就决定使用PostgreSQL了。Win10上安装没碰见一点问题，直接安装一路点下去就行了。不过部署到云服务器的时候还是有一点麻烦的，主要是第一次在Ubuntu上使用数据库，很不熟练。接下来我就详细说一下安装使用步骤。</p>
-<h5 id="安装使用"><a href="#安装使用" class="headerlink" title="安装使用"></a>安装使用</h5><p>环境：腾讯云服务器Ubuntu16.04 LTS Server</p>
-<h6 id="卸载python2安装python3"><a href="#卸载python2安装python3" class="headerlink" title="卸载python2安装python3"></a>卸载python2安装python3</h6><p>腾讯云默认的python是python2</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python3.5 # 安装python</span><br><span class="line">sudo apt-get install python3-pip # 安装python 3-pip</span><br><span class="line">sudo rm /usr/bin/python # 删除python 2.7版本</span><br><span class="line">sudo ln -s /usr/bin/python3.5 /usr/bin/python  # 将python链接到最新3.5版的</span><br><span class="line">pip3 install upgrade -- pip # 升级pip</span><br></pre></td></tr></table></figure>
-<h6 id="PostgreSQL安装"><a href="#PostgreSQL安装" class="headerlink" title="PostgreSQL安装"></a>PostgreSQL安装</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python3-pip python3-dev libpq-dev postgresql postgresql-contrib</span><br><span class="line">sudo apt-get install python-psycopg2</span><br></pre></td></tr></table></figure>
-<h6 id="PostgreSQL使用"><a href="#PostgreSQL使用" class="headerlink" title="PostgreSQL使用"></a>PostgreSQL使用</h6><p>键入以下内容登录到交互式Postgres会话：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres psql</span><br></pre></td></tr></table></figure>
-<p>此时界面会变成这样的：</p>
-<p><img src="https://i.loli.net/2019/06/22/5d0de6f48fb8284404.png" alt="UTOOLS1561192181220.png"></p>
-<p>其中，<code>sudo -u postgres</code> 是使用postgres用户登录的意思，因为在安装PostgreSQL的时候会自动创建这么一个用户，并且这个用户的密码是随机的，所以要使用数据库的话也就有了两种方法，一种是更改这个postgres用户的密码，另一种是创建一个新用户，我选第二种，因为对我来说postgres这个用户名太长了。具体做法是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER bob WITH PASSWORD &apos;yourPassword&apos;;</span><br></pre></td></tr></table></figure>
-<p>这样就行了（我创建了一个用户名为bob的用户），如果你喜欢第一种方法的话，也很简单：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER postgres WITH PASSWORD &apos;yourPassword&apos;;</span><br></pre></td></tr></table></figure>
-<p>注意每行指令后面都有分号。</p>
-<p>然后就可以创建数据库了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE db1;  #创建名为db1的数据库</span><br><span class="line">GRANT ALL PRIVILEGES ON DATABASE db1 TO bob;  #给数据库用户访问上面一行创建的数据库的权限</span><br></pre></td></tr></table></figure>
-<p>最后输入<code>\q</code>退出postgres：</p>
-<p><img src="https://i.loli.net/2019/06/22/5d0ded9cabd5894526.png" alt="UTOOLS1561193884873.png"></p>
-<p>这时候已经创建完了数据库及其用户。然后需要安装psycopg2，这是python与PostgreSQL交互用的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip3 install psycopg2  #Fail</span><br><span class="line">apt-get install python-psycopg2  #Success</span><br></pre></td></tr></table></figure>
-<p>这也是一个坑啊，我在WIn10上用第一行命令安装成功了，于是我在Ubuntu上还用它（网上有些教程也是用的它），结果一直失败，最后我一气之下重置了系统并且只是灵机一动地尝试了一下第二行命令，结果就成功了，唉。这时候就可以在Django里使用这个数据库了，修改Django的settings.py文件：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.postgresql_psycopg2'</span>,</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'db'</span>,</span><br><span class="line">        <span class="string">'USER'</span>: <span class="string">'user'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'123456'</span>,</span><br><span class="line">        <span class="string">'HOST'</span>: <span class="string">'localhost'</span>,</span><br><span class="line">        <span class="string">'PORT'</span>: <span class="string">''</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="远程访问"><a href="#远程访问" class="headerlink" title="远程访问"></a>远程访问</h5><p>在服务器上数据库里有什么内容我们很不方便查看，毕竟它没有图形界面，不像在Win10上可以直接用pgAdmin查看。开发的时候有时候看看数据库里有什么会让人更放心（反正我是这样的）。好消息是pgAdmin也可以访问远程地数据库。只需按如下步骤配置：</p>
-<p>首先进入<code>/etc/postgresql/9.5/main</code>这个目录</p>
-<p><img src="https://i.loli.net/2019/06/22/5d0dee81c8e8142148.png" alt="UTOOLS1561194112603.png"></p>
-<p>可以看到里面有一些配置文件，我们需要做一些修改：</p>
-<h6 id="修改postgresql-conf"><a href="#修改postgresql-conf" class="headerlink" title="修改postgresql.conf"></a>修改postgresql.conf</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi postgresql.conf</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>第59行修改监听地址，去掉前面 # 号，并将 ‘localhost’ 改为 ‘*’</p>
-<p><img src="https://i.loli.net/2019/06/22/5d0df04b30ea363479.png" alt="UTOOLS1561194571114.png"></p>
-</li>
-<li><p>第88行启用密码验证，将 <code>#password_encryption = on</code> 前面的 # 号去掉</p>
-<p><img src="https://i.loli.net/2019/06/22/5d0df0ec537d040787.png" alt="UTOOLS1561194732808.png"></p>
-</li>
-</ul>
-<h6 id="修改pg-hba-conf"><a href="#修改pg-hba-conf" class="headerlink" title="修改pg_hba.conf"></a>修改pg_hba.conf</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi pg_hba.conf</span><br></pre></td></tr></table></figure>
-<p>文件末尾添加：<code>host all all 0.0.0.0 0.0.0.0 md5</code></p>
-<p><img src="https://i.loli.net/2019/06/22/5d0df1998491953045.png" alt="UTOOLS1561194906436.png"></p>
-<h6 id="重启服务"><a href="#重启服务" class="headerlink" title="重启服务"></a>重启服务</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/postgresql restart</span><br></pre></td></tr></table></figure>
-<h6 id="设置5432端口的防火墙"><a href="#设置5432端口的防火墙" class="headerlink" title="设置5432端口的防火墙"></a>设置5432端口的防火墙</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 5432 -j ACCEPT</span><br></pre></td></tr></table></figure>
-<h6 id="pgAdmin连接"><a href="#pgAdmin连接" class="headerlink" title="pgAdmin连接"></a>pgAdmin连接</h6><p><img src="https://i.loli.net/2019/06/22/5d0df3038dda498641.png" alt="UTOOLS1561195268310.png"></p>
-<p>先右键选择创建服务器连接</p>
-<p><img src="https://i.loli.net/2019/06/22/5d0df343ee68654979.png" alt="UTOOLS1561195332546.png"></p>
-<p>name可以随便起</p>
-<p><img src="https://i.loli.net/2019/06/22/5d0df3b62229f46864.png" alt="UTOOLS1561195446613.png"></p>
-<p>输入刚才创建的用户名和数据库名以及密码，Host输入服务器的公网ip地址，点击Save。</p>
-<p><img src="https://i.loli.net/2019/06/22/5d0df4132821279263.png" alt="UTOOLS1561195540178.png"></p>
-<p>然后就可以看到我们的数据库db1已经现身了。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1966,7 +1931,7 @@ p_{i}^{c}=\frac{\exp \left(s_{i}^{c}\right)}{\sum_{c^{\prime}=1}^{C} \exp \left(
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
