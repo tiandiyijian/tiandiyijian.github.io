@@ -248,6 +248,462 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/09/77-combinations/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/09/77-combinations/" itemprop="url">Leetcode77-组合</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-09T18:21:03+08:00">
+                2019-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given two integers <em>n</em> and <em>k</em>, return all possible combinations of <em>k</em> numbers out of 1 … <em>n</em>.</p>
+<p><strong>Example:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Input: n = 4, k = 2</span><br><span class="line">Output:</span><br><span class="line">[</span><br><span class="line">  [2,4],</span><br><span class="line">  [3,4],</span><br><span class="line">  [2,3],</span><br><span class="line">  [1,2],</span><br><span class="line">  [1,3],</span><br><span class="line">  [1,4],</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>就是求 1 … <em>n</em>中<em>k</em>个不同的数的所有组合的集合。也就是说，要从<em>n</em>个数中挑<em>k</em>个不同的数并且不可以重复。只需从前往后挑并且不可以挑过一个数之后再挑它之前的数就可以。代码如下：</p>
+<p>Python：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">combine</span><span class="params">(self, n, k)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type n: int</span></span><br><span class="line"><span class="string">        :type k: int</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        </span><br><span class="line">        ans = []</span><br><span class="line">        set = []</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">helper</span><span class="params">(start, set, k)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> len(set) == k:</span><br><span class="line">                ans.append(set)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> range(start, n + <span class="number">1</span> - (k - len(set))):</span><br><span class="line">                    helper(j+<span class="number">1</span>, set + [nums[j]], k)</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">if</span> k &gt; n <span class="keyword">or</span> n &lt; <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> ans</span><br><span class="line">        nums = list(range(<span class="number">1</span>, n+<span class="number">1</span>))</span><br><span class="line">        helper(<span class="number">0</span>, [], k)</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+<p>需要注意的有两点，第一是在<em>helper()</em>的循环中<em>j</em>的范围，根据已经选的数字的个数可以确定它的上限，因为如果它太大最终就不能选够足够的数字，进行那样的运算是浪费时间，比如说我还要选3个数，那么$j=n$的话最终肯定是选不够的。第二是我生成了一个<em>1</em>到<em>n</em>的数组，这个数组中的元素如果换成别的东西比如字母之类的就可以生成别的东西的全排列，这是通用的求组合的方法，第<a href="http://tiandiyijian.top/2019/08/09/78-subsets/" target="_blank" rel="noopener">78题</a>就可以利用这种方法。但是对于这道题来说其实没有必要的，因为它的集合已经确定了就是<em>1</em>到<em>n</em>，下面的C++版本将不生成这个数组来节省空间。</p>
+<p>C++：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; combine(<span class="keyword">int</span> n, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">1</span> || n &lt; k || k &lt; <span class="number">1</span>) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">        helper(<span class="number">1</span>, k, n);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;<span class="built_in">set</span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; ans;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">helper</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> k, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">set</span>.size() == k) &#123;</span><br><span class="line">            ans.push_back(<span class="built_in">set</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = start; i &lt;= n + <span class="number">1</span> - (k - <span class="built_in">set</span>.size()); i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">set</span>.push_back(i);</span><br><span class="line">            helper(i+<span class="number">1</span>, k, n);</span><br><span class="line">            <span class="built_in">set</span>.pop_back();</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>和Python版本的区别无外乎就是是从1 start 的以及<em>helper()</em>中的循环的上限比Python版本的大了1。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/09/78-subsets/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/09/78-subsets/" itemprop="url">Leetcode78-子集</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-09T14:17:06+08:00">
+                2019-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given a set of <strong>distinct</strong> integers, <em>nums</em>, return all possible subsets (the power set).</p>
+<p><strong>Note:</strong> The solution set must not contain duplicate subsets.</p>
+<p><strong>Example:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [1,2,3]</span><br><span class="line">Output:</span><br><span class="line">[</span><br><span class="line">  [3],</span><br><span class="line">  [1],</span><br><span class="line">  [2],</span><br><span class="line">  [1,2,3],</span><br><span class="line">  [1,3],</span><br><span class="line">  [2,3],</span><br><span class="line">  [1,2],</span><br><span class="line">  []</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>这道题的意思就是给你一个集合，求出这个集合的所有子集的集合，也就是幂集。可以按照这样的思路来想：对于这个给定的集合中的每一个元素，都有选与不选两种选择，假如集合中一共有<em>n</em>个元素，那么一共有$2^n$种选择也就是有$2^n$个子集，并且可以发现一个规律，$S_n = S_{n-1} + S\cup \{a_n\}(S \in S_{n-1})$，也就是说集合的<em>S</em>的前<em>n</em>个元素的幂集等于集合的前<em>n-1</em>个元素的幂集加上集合的前<em>n-1</em>个元素的幂集中的每一个集合都添加进去第<em>n</em>个元素（公式是我自己想的也不知道对不对，在网上也没找着，反正就是这个意思），前半部分对应着不选第<em>n</em>个元素，后半部分对应着选第<em>n</em>个元素。代码如下：</p>
+<p>C++：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; subsets(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; emptySet;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; res;</span><br><span class="line">        res.push_back(emptySet);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> num : nums)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> len = res.size();</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; ++i) &#123;</span><br><span class="line">                <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tem(res[i]);</span><br><span class="line">                tem.push_back(num);</span><br><span class="line">                <span class="built_in">cout</span> &lt;&lt; tem.size();</span><br><span class="line">                res.push_back(tem);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Python：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">subsets</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        res = [[]]</span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            res = res + [[num] + set <span class="keyword">for</span> set <span class="keyword">in</span> res]</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+<p>也可以按照组合的思路来写，也就是从<em>n</em>个里面挑0个的结果加从<em>n</em>个里面挑1个的结果一直加到从<em>n</em>个里面挑n个的结果，组合详见<a href="http://tiandiyijian.top/2019/08/09/77-combinations/" target="_blank" rel="noopener">Leetcode77-组合</a>。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/09/148-sort-list/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/09/148-sort-list/" itemprop="url">Leetcode148-排序链表</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-09T12:55:30+08:00">
+                2019-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Sort a linked list in <em>O</em>(<em>n</em> log <em>n</em>) time using constant space complexity.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 4-&gt;2-&gt;1-&gt;3</span><br><span class="line">Output: 1-&gt;2-&gt;3-&gt;4</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: -1-&gt;5-&gt;3-&gt;4-&gt;0</span><br><span class="line">Output: -1-&gt;0-&gt;3-&gt;4-&gt;5</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>题目要求在<em>O</em>(<em>n</em> log <em>n</em>)时间和常数空间复杂度下对链表进行排序。符合该条件的只有自底向上的归并排序，也就是迭代版本的归并排序。该算法的思路如图所示：</p>
+<p><img src="https://i.loli.net/2019/08/09/FoTHRNq7bIdecaZ.png" alt="UTOOLS1565329727090.png"></p>
+<p>每个花括号内的元素都是有序的，第一次循环合并相邻的单个元素，这样链表中相邻的两个元素就是有序的了，第二次循环合并相邻的双个元素，这样相邻的四个元素就是有序的了，直到合并前半部分和后半部分得到就得到了整个有序的链表，一共循环$log_{2}(n)$次，每一次循环都要访问所有节点一次需要$O(n)$时间。用迭代替代了递归，从而只需常数空间复杂度。代码如下：</p>
+<p>C++：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">sortList</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">        ListNode* tmp = head;</span><br><span class="line">        <span class="keyword">while</span> (tmp)</span><br><span class="line">        &#123;</span><br><span class="line">            tmp = tmp-&gt;next;</span><br><span class="line">            ++len;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function">ListNode <span class="title">dummy</span><span class="params">(<span class="number">-1</span>)</span></span>;</span><br><span class="line">        dummy.next = head;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; len; i *= <span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ListNode* cur = dummy.next;</span><br><span class="line">            ListNode* tail = &amp;dummy;</span><br><span class="line">            <span class="keyword">while</span> (cur) &#123;</span><br><span class="line">                <span class="keyword">auto</span> l = cur;</span><br><span class="line">                <span class="keyword">auto</span> r = split(cur, i);</span><br><span class="line">                cur = split(r, i); <span class="comment">//分出两部分之后下次循环的第一个节点</span></span><br><span class="line">                <span class="keyword">auto</span> nodes = merge(l, r);</span><br><span class="line">                tail-&gt;next = nodes.first;</span><br><span class="line">                tail = nodes.second;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    pair&lt;ListNode*, ListNode*&gt; merge(ListNode* a, ListNode* b) &#123;</span><br><span class="line">        <span class="function">ListNode <span class="title">dummy</span><span class="params">(<span class="number">-1</span>)</span></span>;</span><br><span class="line">        ListNode *tail = &amp;dummy;</span><br><span class="line">        <span class="keyword">while</span> (a &amp;&amp; b) &#123;</span><br><span class="line">            <span class="keyword">if</span> (a-&gt;val &lt;= b-&gt;val) &#123;</span><br><span class="line">                tail-&gt;next = a;</span><br><span class="line">                a = a-&gt;next;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                tail-&gt;next = b;</span><br><span class="line">                b = b-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            tail = tail-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        tail-&gt;next = a ? a : b;</span><br><span class="line">        <span class="keyword">while</span> (tail-&gt;next) tail = tail-&gt;next;</span><br><span class="line">        <span class="keyword">return</span> make_pair(dummy.next, tail);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">ListNode* <span class="title">split</span><span class="params">(ListNode* a, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (len &gt; <span class="number">1</span> &amp;&amp; a) &#123;</span><br><span class="line">            a = a-&gt;next;</span><br><span class="line">            --len;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode* rest = a ? a-&gt;next : <span class="literal">nullptr</span>; <span class="comment">//有可能从a到结尾不到len个节点，此时a为空</span></span><br><span class="line">        <span class="keyword">if</span> (a) a-&gt;next = <span class="literal">nullptr</span>; <span class="comment">//断开左右两部分</span></span><br><span class="line">        <span class="keyword">return</span> rest;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>代码实现起来有一点麻烦，首先是<em>split()</em>，它需要分出去特定长度的元素，即断开这部分和剩下的部分的连接并饭后剩余部分的头节点用于下次split。然后是<em>merge()</em>，它需要合并两部分链表之后并返回合并之后的链表的头节点和尾节点，目的是把split开的部分再链接起来，即把这次的头接到上次的尾后，把这次的尾接到下次的头前。</p>
+<p>Python：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sortList</span><span class="params">(self, head: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">merge</span><span class="params">(nodea: ListNode, nodeb: ListNode)</span>:</span></span><br><span class="line">            a,b = nodea, nodeb</span><br><span class="line">            thead = rhead = ListNode(<span class="number">-1</span>)</span><br><span class="line">            <span class="keyword">while</span> a <span class="keyword">and</span> b:</span><br><span class="line">                <span class="keyword">if</span> a.val &lt; b.val:</span><br><span class="line">                    rhead.next = a</span><br><span class="line">                    a = a.next</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    rhead.next = b</span><br><span class="line">                    b = b.next</span><br><span class="line">                rhead = rhead.next</span><br><span class="line">            rhead.next = a <span class="keyword">or</span> b</span><br><span class="line">            <span class="keyword">while</span> rhead.next:</span><br><span class="line">                rhead = rhead.next</span><br><span class="line">            <span class="keyword">return</span> thead.next, rhead</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">split</span><span class="params">(head, n)</span>:</span></span><br><span class="line">            <span class="keyword">while</span> n &gt; <span class="number">1</span> <span class="keyword">and</span> head:</span><br><span class="line">                head = head.next</span><br><span class="line">                n -= <span class="number">1</span></span><br><span class="line">            rest = head.next <span class="keyword">if</span> head <span class="keyword">else</span> <span class="keyword">None</span></span><br><span class="line">            <span class="keyword">if</span> head:</span><br><span class="line">                head.next = <span class="keyword">None</span></span><br><span class="line">            <span class="keyword">return</span> rest</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head <span class="keyword">or</span> <span class="keyword">not</span> head.next:</span><br><span class="line">            <span class="keyword">return</span> head</span><br><span class="line">        temp = head</span><br><span class="line">        length = <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> temp.next:</span><br><span class="line">            temp = temp.next</span><br><span class="line">            length += <span class="number">1</span></span><br><span class="line">        <span class="comment"># print(length)</span></span><br><span class="line">        dummy = ListNode(<span class="number">-1</span>)</span><br><span class="line">        dummy.next = head</span><br><span class="line">        <span class="comment"># l = r = cur = None</span></span><br><span class="line">        i = <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> i &lt; length:</span><br><span class="line">            cur = dummy.next</span><br><span class="line">            tail = dummy</span><br><span class="line">            <span class="keyword">while</span> cur:</span><br><span class="line">                l = cur</span><br><span class="line">                r = split(l, i)</span><br><span class="line">                cur = split(r, i)</span><br><span class="line">                nodes = merge(l, r)</span><br><span class="line">                tail.next = nodes[<span class="number">0</span>]</span><br><span class="line">                tail = nodes[<span class="number">1</span>]</span><br><span class="line">            i *= <span class="number">2</span></span><br><span class="line">        <span class="keyword">return</span> dummy.next</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/07/121-best-time-to-buy-and-sell-stock/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1297,595 +1753,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/17/paper-reading-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/17/paper-reading-1/" itemprop="url">Multi-label Image Recognition by Recurrently Discovering Attentional  Regions</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-17T23:27:40+08:00">
-                2019-07-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>多标签图像识别是计算机视觉中基础但实用的问题，因为真是世界的图像总是会包含丰富多样的语义信息。目前解决这个问题的方法大多依赖于额外的步骤来产生假定区域，即图片中要识别目标出现的区域，这就导致了多余的计算并且达不到最优的效果。作者提出了一种循环记忆-注意模块从而实现了多标签图像分类的可解释性和上下文有关性。作者提出的这种方法在准确率和性能方面的表现都优于 state-of-the-arts。</p>
-<h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>最近，卷积神经网络通过强有效的图片特征提取在视觉识别识别/分类任务上取得了巨大的成功，于是通过结合一些目标定位技术卷积神经网络也被应用到了多标签图像识别问题上。这些方法通常可以分为两步：</p>
-<ul>
-<li>产生一系列包含所有可能的前景目标的假定区域</li>
-<li>训练分类器或神经网络来预测假定区域的标签的 score ，最后把所有假定区域的预测结果汇总起来得到多标签分类结果</li>
-</ul>
-<p>这些方法在产生假定区域时进行了大量冗余的计算并且没有充分考虑到前景目标之间的依赖关系从而导致在面对复杂场景时得不到最优的表现。</p>
-<p>最近，Wang等人提出通过将循环神经网络和卷积神经网络结合来共同表征语义标签依赖性和图像标签相关性。然而，他们的模型忽视了语义标签和图像内容之间的显式关联，并且没有充分利用图像中的空间背景。</p>
-<p>基于这些情况，作者提出了一种端到端的可训练的框架，该框架明确地发现与多个语义标签相对应的图像尺度上的注意区域，并从全局角度捕获这些区域间的上下文依赖性。</p>
-<p>注意到，作者提出的方法并不需要提取假定区域的步骤，而是提取注意区域，这是对之前的基于 object proposal 的方法的一大改进，主要体现在减少计算量方面。因为obiect proposal方法需要大量的计算来提取假定区域，而作者提出的方法会自动发现<em>K</em>个注意区域，然后会根据这<em>K</em>个区域来预测标签。后面会详细介绍。</p>
-<h4 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h4><p>模型总体架构为：</p>
-<p><img src="https://i.loli.net/2019/07/18/5d2ffd87473f299036.png" alt="UTOOLS1563426181381.png"></p>
-<p>模型由两部分组成：第一部分是CNN，用来提取图片特征，作者使用的是 VGG-16 ，把它最后得到的 feature maps 记作 $ f_{I} $ ，它是ST的输入；第二部分是ST即 spatial transformer ，用来定位注意区域；第三部分是LSTM，它把ST输出的注意区域作为输入来预测该区域的标签并且更新ST的参数从而在下一次循环中使得ST能够输出新的注意区域。第二部分和第三部分构成了作者提出的循环注意模块。</p>
-<h5 id="ST"><a href="#ST" class="headerlink" title="ST"></a>ST</h5><p>ST把输入映射空间转换为给定大小的输出映射空间（输出映射是输入映射的子区域）。本文中，ST的作用是从CNN的输出 $ f_{I} $ 中提取注意区域 $ f_{k} $ ，它需要一个空间转换矩阵 <em>M</em> ：</p>
-<script type="math/tex; mode=display">
-\mathbf{M}=\left[\begin{array}{ccc}{s_{x}} & {0} & {t_{x}} \\ {0} & {s_{y}} & {t_{y}}\end{array}\right]</script><p>其中 $ s_x $ 、$ s_y $ 是缩放参数，  $ t_x $ 、$ t_y $ 是平移参数，也就是说ST只能对输入映射做缩放和平移操作。</p>
-<h5 id="Recurrent-Memorized-Attention-Module"><a href="#Recurrent-Memorized-Attention-Module" class="headerlink" title="Recurrent Memorized-Attention Module"></a>Recurrent Memorized-Attention Module</h5><p>该模块包含两部分即ST和LSTM，它会进行<em>K</em>次迭代，这个<em>K</em>就是上文提到的<em>K</em>，每一次迭代ST都会产生一个注意区域，可以被表示为：</p>
-<script type="math/tex; mode=display">
-\mathbf{f}_{k}=\operatorname{st}\left(\mathbf{f}_{I}, \mathbf{M}_{k}\right), \mathbf{M}_{k}=\left[\begin{array}{ccc}{s_{x}^{k}} & {0} & {t_{x}^{k}} \\ {0} & {s_{y}^{k}} & {t_{y}^{k}}\end{array}\right]</script><p>st()是空间转换函数，$ M_k $ 是根据上一次迭代估计得到的空间转换矩阵。注意$ f_k $ 是根据 $ f_I $ 得到的而不是输入的图像，这样就省去了很多计算。LSTM以 $ f_k $ 为输入，然后就是LSTM的常规操作：</p>
-<script type="math/tex; mode=display">
-\begin{aligned} \mathbf{x}_{k} &=\operatorname{relu}\left(\mathbf{W}_{f x} \mathbf{f}_{k}+\mathbf{b}_{x}\right) \\ \mathbf{i}_{k} &=\sigma\left(\mathbf{W}_{x i} \mathbf{x}_{k}+\mathbf{W}_{h i} \mathbf{h}_{k-1}+\mathbf{b}_{i}\right) \\ \mathbf{g}_{k} &=\sigma\left(\mathbf{W}_{x g} \mathbf{x}_{k}+\mathbf{W}_{h g} \mathbf{h}_{k-1}+\mathbf{b}_{g}\right) \\ \mathbf{o}_{k} &=\sigma\left(\mathbf{W}_{x o} \mathbf{x}_{k}+\mathbf{W}_{h o} \mathbf{h}_{k-1}+\mathbf{b}_{o}\right) \\ \mathbf{m}_{k} &=\tanh \left(\mathbf{W}_{x m} \mathbf{x}_{k}+\mathbf{W}_{h m} \mathbf{h}_{k-1}+\mathbf{b}_{m}\right) \\ \mathbf{c}_{k} &=\mathbf{g}_{k} \odot \mathbf{c}_{k-1}+\mathbf{i}_{k} \odot \mathbf{m}_{k} \\ \mathbf{h}_{k} &=\mathbf{o}_{k} \odot \mathbf{c}_{k} \end{aligned}</script><p>转换矩阵<em>M</em> 的更新过程为：</p>
-<script type="math/tex; mode=display">
-\begin{aligned} \mathbf{z}_{k} &=\operatorname{relu}\left(\mathbf{W}_{h z} \mathbf{h}_{k}+\mathbf{b}_{z}\right) \\ \mathbf{s}_{k} &=\mathbf{W}_{z s} \mathbf{z}_{k}+\mathbf{b}_{s}, k \neq 0 \\ \mathbf{M}_{k+1} &=\mathbf{W}_{z m} \mathbf{z}_{k}+\mathbf{b}_{m} \end{aligned}</script><p>其中，$ s_k $ 就是该区域的标签的预测值，$ M_{k+1} $ 是用于下一次迭代的转换矩阵。迭代完成之后，把所有的 $ s_k $ 合并就得到了最终的多标签预测的结果。</p>
-<p>使用LSTM有两个好处，第一是语义标签之间是有联系的，记住之前的信息有助于预测当前的标签；第二是我们肯定希望能找到所有的有用的区域，而记住之前的区域的信息也能隐式地帮助我们寻找新的注意区域。</p>
-<h4 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h4><h5 id="Loss-for-Classification"><a href="#Loss-for-Classification" class="headerlink" title="Loss for Classification"></a>Loss for Classification</h5><p>假设有<em>N</em>个训练样本，每一个样本 $ x_i $ 的标签向量为 $ y_i = \left\{y_{i}^{1}, y_{i}^{2}, \ldots, y_{i}^{C}\right\} $，$ y_{i}^{c}(c=1,2, \ldots, C) $ 等于1如果该样本具有标签<em>c</em>，否则就等于0。第<em>i</em>个样本的概率向量被定义为$\hat{\mathbf{p}}_{i}=\mathbf{y}_{i} /\left|\mathbf{y}_{i}\right|_{1}$ ，预测概率向量为：</p>
-<script type="math/tex; mode=display">
-p_{i}^{c}=\frac{\exp \left(s_{i}^{c}\right)}{\sum_{c^{\prime}=1}^{C} \exp \left(s_{i}^{c^{\prime}}\right)} c=1,2, \ldots, C</script><p>Loss被定义为：</p>
-<script type="math/tex; mode=display">
-\mathcal{L}_{\mathrm{cls}}=\frac{1}{N} \sum_{i=1}^{N} \sum_{c=1}^{C}\left(p_{i}^{c}-\hat{p}_{i}^{c}\right)^{2}</script><h5 id="Loss-for-Attentional-Region-Constraints"><a href="#Loss-for-Attentional-Region-Constraints" class="headerlink" title="Loss for Attentional Region Constraints"></a>Loss for Attentional Region Constraints</h5><p>如果只用第一个Loss会有如下缺点：</p>
-<ul>
-<li>冗余。ST会倾向于选取与最突出的目标对应的区域</li>
-<li>忽略微小目标。ST倾向于选取较大尺寸的区域</li>
-<li>空间翻转。ST选取的区域可能是之前选取区域的镜像</li>
-</ul>
-<p>所以对作者ST的空间转换矩阵<em>M</em>加了3个约束：</p>
-<h6 id="锚点约束"><a href="#锚点约束" class="headerlink" title="锚点约束"></a>锚点约束</h6><p>我们希望选取的注意区域分散到图像中所有语义区域上。所以我们就在图像中间画一个半径为 $\frac{\sqrt{2}}{2}$ 的圆，让锚点均匀分散到圆心和圆周上，如图所示：</p>
-<p><img src="https://i.loli.net/2019/07/18/5d3011fb701a984002.png" alt="UTOOLS1563431418210.png"></p>
-<p>锚点约束被定义为：</p>
-<script type="math/tex; mode=display">
-\ell_{A}=\frac{1}{2}\left\{\left(t_{x}^{k}-c_{x}^{k}\right)^{2}+\left(t_{y}^{k}-c_{y}^{k}\right)^{2}\right\}</script><p>$\left(c_{x}^{k}, c_{y}^{k}\right)$ 是第<em>k</em>个锚点的坐标。</p>
-<h6 id="缩放约束"><a href="#缩放约束" class="headerlink" title="缩放约束"></a>缩放约束</h6><p>该约束试图把缩放参数约束到一定范围内，从而使得选取的注意区域不会太大，它被定义为：</p>
-<script type="math/tex; mode=display">
-\begin{array}{c}{\ell_{S}=\ell_{s_{x}}+\ell_{s_{y}}} \\ {\ell_{s_{x}}=\left(\max \left(\left|s_{x}\right|-\alpha, 0\right)\right)^{2}} \\ {\ell_{s_{y}}=\left(\max \left(\left|s_{y}\right|-\alpha, 0\right)\right)^{2}}\end{array}</script><p>$\alpha$ 是阈值，在作者的实验中被设为 0.5。</p>
-<h6 id="正值约束"><a href="#正值约束" class="headerlink" title="正值约束"></a>正值约束</h6><p>该约束也是针对缩放参数的，它希望缩放参数是正数，这样选取的注意区域就不是之前选取的注意区域的镜像。它被定义为：</p>
-<script type="math/tex; mode=display">
-\ell_{P}=\max \left(0, \beta-s_{x}\right)+\max \left(0, \beta-s_{y}\right)</script><p>作者把这三个约束结合起来定义为：</p>
-<script type="math/tex; mode=display">
-\mathcal{L}_{\mathrm{loc}}=\ell_{S}+\lambda_{1} \ell_{A}+\lambda_{2} \ell_{P}</script><p>其中 $\lambda_{1}$ 和 $ \lambda_{2}$ 是权重参数，作者把它们设为 0.01 和 0.1。 最终，总的损失被定义为：</p>
-<script type="math/tex; mode=display">
-\mathcal{L}=\mathcal{L}_{\mathrm{cls}}+\gamma \mathcal{L}_{\mathrm{loc}}</script><p>作者把平衡参数 $\gamma$ 设为 0.1，因为该模型中主要分类任务占主导地位。</p>
-<h4 id="个人总结"><a href="#个人总结" class="headerlink" title="个人总结"></a>个人总结</h4><p>作者提出的这种方法和以前的多标签图像识别的方法相比较，主要有两个改进：</p>
-<ul>
-<li>计算量小。以往的基于 object proposal 方法往往需要大量的计算来选取假定区域，而本文中的方法只需要选取<em>K</em>个注意区域就可以了，并且选取注意区域的时候，ST 的输入都是是卷积网络的输出，也在一定程度上减少了计算量。<ul>
-<li>为了更准确地选取注意区域，作者还为转换矩阵<em>M</em> 添加了三个约束。</li>
-</ul>
-</li>
-<li>考虑到了标签之间以及注意区域之间的依赖性。LSTM 的引入使得该模型在预测标签和更新空间转换矩阵时都会考虑到之前已经出现的信息。</li>
-</ul>
-<p>因为有了这两方面的改进，所以这种方法能在准确率和性能方面都达到很好的效果。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/swsad-final-report/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/23/swsad-final-report/" itemprop="url">roronoaws-final-report</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-23T20:18:37+08:00">
-                2019-06-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/系统分析/" itemprop="url" rel="index">
-                    <span itemprop="name">系统分析</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>学号：16340162  Github账户：<a href="https://github.com/roronoaws" target="_blank" rel="noopener">roronoaws</a></p>
-<h5 id="简短的课程学习自我总结"><a href="#简短的课程学习自我总结" class="headerlink" title="简短的课程学习自我总结"></a>简短的课程学习自我总结</h5><p>虽然在此次项目中，我的角色是技术经理和js工程师，但是我体验了一次全栈工程师的感觉。因为项目最终制品的微信小程序前端和后端全是我做的。当然，这并不是队友什么都没有做，他们也在做。因为我们的队伍是在方向群里随缘组的，大家都不认识，在开会讨论过做什么之后，我们就没有过什么交流了。我刚开始在做前端，做到感觉差不多的时候和后端商量接口的问题，我发现我们的想法出现了一定的偏差。我本身就对前后端都有兴趣，本来我是想做后端的，因为我之前并没有做过后端并且我很喜欢学习新东西所以想体验一下，但是有队友先说了她做后端所以我才做的前端。所以当出现这种情况的时候我就大胆决定我自己再写一个后端吧。然后我就自学了Django，并最终顺利的完成了所有内容，虽说还存在一些不足之处，但我还是有很大的成就感的。关于这门课程我还有想法，开始我并没有很看重老师所讲的内容，但是到了后面，学过各种图之后，我能体会到潘老师所说的：把这些图都画好，项目能做不好吗？</p>
-<h5 id="PSP-2-1-统计"><a href="#PSP-2-1-统计" class="headerlink" title="PSP 2.1 统计"></a>PSP 2.1 统计</h5><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">PSP 2.1</th>
-<th style="text-align:center">Personal Software Process Stages</th>
-<th style="text-align:center">Time(%)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"><strong>Planning</strong></td>
-<td style="text-align:center"><strong>计划</strong></td>
-<td style="text-align:center"><strong>10</strong></td>
-</tr>
-<tr>
-<td style="text-align:center">estimate</td>
-<td style="text-align:center">预估任务时间</td>
-<td style="text-align:center">10</td>
-</tr>
-<tr>
-<td style="text-align:center"><strong>Development</strong></td>
-<td style="text-align:center"><strong>开发</strong></td>
-<td style="text-align:center"><strong>80</strong></td>
-</tr>
-<tr>
-<td style="text-align:center">analysis</td>
-<td style="text-align:center">需求分析</td>
-<td style="text-align:center">10</td>
-</tr>
-<tr>
-<td style="text-align:center">design spec</td>
-<td style="text-align:center">生成设计文档</td>
-<td style="text-align:center">5</td>
-</tr>
-<tr>
-<td style="text-align:center">estimate</td>
-<td style="text-align:center">设计复审（与前端团队成员审核设计文档）</td>
-<td style="text-align:center">6</td>
-</tr>
-<tr>
-<td style="text-align:center">coding standard</td>
-<td style="text-align:center">代码规范</td>
-<td style="text-align:center">2</td>
-</tr>
-<tr>
-<td style="text-align:center">design</td>
-<td style="text-align:center">具体设计，包括绘制 UI，设计架构等</td>
-<td style="text-align:center">15</td>
-</tr>
-<tr>
-<td style="text-align:center">coding</td>
-<td style="text-align:center">具体编码</td>
-<td style="text-align:center">25</td>
-</tr>
-<tr>
-<td style="text-align:center">code review</td>
-<td style="text-align:center">代码复审</td>
-<td style="text-align:center">5</td>
-</tr>
-<tr>
-<td style="text-align:center">test</td>
-<td style="text-align:center">测试（修改代码）</td>
-<td style="text-align:center">12</td>
-</tr>
-<tr>
-<td style="text-align:center"><strong>Report</strong></td>
-<td style="text-align:center"><strong>报告</strong></td>
-<td style="text-align:center"><strong>10</strong></td>
-</tr>
-<tr>
-<td style="text-align:center">test report</td>
-<td style="text-align:center">测试报告</td>
-<td style="text-align:center">1</td>
-</tr>
-<tr>
-<td style="text-align:center">size measurement</td>
-<td style="text-align:center">计算工作量</td>
-<td style="text-align:center">1</td>
-</tr>
-<tr>
-<td style="text-align:center">postmortem &amp; process improvement plan</td>
-<td style="text-align:center">每次迭代结束后写总结文档，并提出改进计划</td>
-<td style="text-align:center">8</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h5 id="最得意-或有价值-或有苦劳的工作清单"><a href="#最得意-或有价值-或有苦劳的工作清单" class="headerlink" title="最得意/或有价值/或有苦劳的工作清单"></a>最得意/或有价值/或有苦劳的工作清单</h5><ul>
-<li>最得意<ul>
-<li>完成项目前后端所有内容，就是最终制品的前后端的每一行代码除了自动生成的都是我打的。</li>
-<li>顺利地把服务端部署到了腾讯云服务器上：本来我就打算在自己电脑上利用端口映射跑一下服务端就行了，但是后面听老师讲了一些部署的技术，我感觉自己做得不够，正好腾讯云也有新用户15天免费，于是我就又买了域名在腾讯云虚拟机上完整地部署好了Nginx+Uwsgi+Django，但是也有遗憾，就是因为时间紧没有体验一下Docker技术。</li>
-</ul>
-</li>
-<li>最有价值<ul>
-<li>自学Django并且成功地做出了后端，一番纠结之后在NodeJS和Python之间选择了后者，又在一番纠结之后在Django和Flask之间选择了前者，我不知道我的选择是不是最优的，但是我最后的确做成了，并且有点喜欢Django了。</li>
-</ul>
-</li>
-<li>最有苦劳<ul>
-<li>这也是最伤心的一点，我一直想促进团队的合作，但我自己也是一个内向的人，虽说有过多次尝试但我最终还是没能做到，至于我决定自己再写一个后端的原因也是我感觉在沟通效率这么低的情况下也许我自己做会比和别人一起做效率更高。</li>
-</ul>
-</li>
-</ul>
-<h5 id="个人GIT总结"><a href="#个人GIT总结" class="headerlink" title="个人GIT总结"></a>个人GIT总结</h5><p>Dashboard 文档集合</p>
-<p><img src="https://i.loli.net/2019/06/23/5d0f87010775251876.png" alt="UTOOLS1561298690194.png"></p>
-<p>client仓库</p>
-<p><img src="https://i.loli.net/2019/06/23/5d0f88858de0b64642.png" alt="UTOOLS1561299076222.png"></p>
-<p>这个我需要说明一下，虽说它叫client，但是它最终制品的新程序端和后端的代码全在这里面（就是蓝色方框里的那两个文件夹）：</p>
-<p><img src="https://i.loli.net/2019/06/23/5d0f88d832a8b95003.png" alt="UTOOLS1561299159869.png"></p>
-<p>但队友在server那个仓库也有做后端，只不过后面我又做了这个。并且数据库的模型基本都是她建立的，我只是又稍微做了一些修改。</p>
-<h5 id="特别致谢"><a href="#特别致谢" class="headerlink" title="特别致谢"></a>特别致谢</h5><p>虽说我们队友之间的交流出现了问题，但是在我决定在时间不多的情况下再写一个后端的情况下他们也支持我的工作，完成了大部分文档的编写工作。这个学期也上了IT项目管理这门课，里面专门有一章讲的就是沟通的重要性，在这次项目里我也充分体会到了这一点，可能我这个小组都是不擅长沟通的人吧。不管怎么说，虽说过程不怎么顺利，但是最后我们还是一起完成了。最后说一句，感谢大家一起完成这个项目吧。</p>
-<h5 id="个人博客清单"><a href="#个人博客清单" class="headerlink" title="个人博客清单"></a>个人博客清单</h5><ul>
-<li><a href="http://tiandiyijian.top/2019/06/22/swsad-django-img/" target="_blank" rel="noopener">Django中图片的上传和访问问题</a></li>
-<li><a href="http://tiandiyijian.top/2019/06/22/swsad-postgresql/" target="_blank" rel="noopener">Ubuntu下PostgreSQL的安装使用及远程访问</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/swsad-video/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/23/swsad-video/" itemprop="url">系统分析项目演示视频</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-23T20:09:31+08:00">
-                2019-06-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/系统分析/" itemprop="url" rel="index">
-                    <span itemprop="name">系统分析</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <iframe style="width: 600px;height: 338px" frameborder="no" allowfullscreen mozallowfullscreen="" webkitallowfullscreen="" src="http://share.polyv.net/front/video/preview?vid=581611e41d9582fb824941446e9e2960_5"></iframe>
-
-<p>使用说明：</p>
-<p>用户首次使用时需要点击登录进行微信授权，授权过一次之后以后可以自动登录了。</p>
-<p>每个用户注册即送30余额，在“我的”页面，用户可以点击“我的余额”查看自己的余额；用户可以分别点击“发布问卷”和“发布简历”来发布问卷和简历供别的用户填写，在发布问卷或简历的时候不仅要创建问题，也要填入别人填写之后能得到的报酬，当别人填写自己发布的问卷或简历时，将会从自己的余额中扣除相应的钱。</p>
-<p>用户能在问卷和简历页面分别看到别人发布的问卷和简历，也可以点击上方的搜索框搜索自己感兴趣的内容，在成功填写并提交之后会得到相应的报酬，每个问卷和奖励用户只能填写一次，发布的人自己也可以填写。</p>
-<p>在“我的”界面分别点击“我的问卷”或“我的简历”可以进入查看自己发布的问卷或简历列表页面，点击其中一项之后可以进入回答该问卷或简历的用户名列表界面，点击其中一项可以进入该用户的回答页面；点击上方的停止回答按钮，别的用户将不可以再回答该问卷或简历并获得报酬。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1931,7 +1803,7 @@ p_{i}^{c}=\frac{\exp \left(s_{i}^{c}\right)}{\sum_{c^{\prime}=1}^{C} \exp \left(
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
