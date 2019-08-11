@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="题目描述Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element. 分析题目要求找到数组中第k大的元素，如果把这个数组从大到小排列，那就是第$k-1$个元素。但是仔细一想会发现">
+<meta name="description" content="题目描述Given an array of size n, find the majority element. The majority element is the element that appears ⌊ n/2 ⌋ times. You may assume that the array is non-empty and the majority element always exis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Leetcode215-数组中的第K个最大元素">
-<meta property="og:url" content="http://yoursite.com/2019/08/05/215-kth-largest-element-in-an-array/index.html">
+<meta property="og:title" content="Leetcode169-求众数">
+<meta property="og:url" content="http://yoursite.com/2019/08/11/169-majority-element/index.html">
 <meta property="og:site_name" content="天地一键">
-<meta property="og:description" content="题目描述Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element. 分析题目要求找到数组中第k大的元素，如果把这个数组从大到小排列，那就是第$k-1$个元素。但是仔细一想会发现">
+<meta property="og:description" content="题目描述Given an array of size n, find the majority element. The majority element is the element that appears ⌊ n/2 ⌋ times. You may assume that the array is non-empty and the majority element always exis">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-05T04:18:01.296Z">
+<meta property="og:updated_time" content="2019-08-11T14:04:31.921Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Leetcode215-数组中的第K个最大元素">
-<meta name="twitter:description" content="题目描述Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element. 分析题目要求找到数组中第k大的元素，如果把这个数组从大到小排列，那就是第$k-1$个元素。但是仔细一想会发现">
+<meta name="twitter:title" content="Leetcode169-求众数">
+<meta name="twitter:description" content="题目描述Given an array of size n, find the majority element. The majority element is the element that appears ⌊ n/2 ⌋ times. You may assume that the array is non-empty and the majority element always exis">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/08/05/215-kth-largest-element-in-an-array/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/08/11/169-majority-element/"/>
 
 
 
 
 
-  <title>Leetcode215-数组中的第K个最大元素 | 天地一键</title>
+  <title>Leetcode169-求众数 | 天地一键</title>
   
 
 
@@ -251,7 +251,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/05/215-kth-largest-element-in-an-array/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/11/169-majority-element/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="天地一键">
@@ -268,7 +268,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Leetcode215-数组中的第K个最大元素</h1>
+          <h1 class="post-title" itemprop="name headline">Leetcode169-求众数</h1>
         
 
         <div class="post-meta">
@@ -280,8 +280,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-05T09:10:37+08:00">
-                2019-08-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-11T21:35:36+08:00">
+                2019-08-11
               </time>
             
 
@@ -340,9 +340,25 @@
       
 
       
-        <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Find the <strong>k</strong>th largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.</p>
-<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>题目要求找到数组中第k大的元素，如果把这个数组从大到小排列，那就是第$k-1$个元素。但是仔细一想会发现其实没有必要把整个数组都排好序，只需要求得这个有序数组的第$k-1$个元素就行了，其他的并不需要。这就想到了快速排序中选取轴点的概念，每一次选取的轴点所在的位置就是最终排好序的数组中它所在的位置，所以，当选取的轴点的秩为$k-1$的时候，就可以停止了。详见<a href="http://bit.ly/2YGAbYb" target="_blank" rel="noopener">快速排序</a>。所以该题的解法就是不断选取轴点直到选取的轴点的秩为$k-1$，然后返回该轴点的元素的值。代码为：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findKthLargest</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> lo =  <span class="number">0</span>, hi =  nums.size()<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = paration(nums, lo, hi);</span><br><span class="line">            <span class="keyword">if</span> (mid == k<span class="number">-1</span>) <span class="keyword">return</span> nums[mid];</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (mid &gt; k<span class="number">-1</span>) &#123; <span class="comment">//如果mid &gt; k - 1, 说明要找的值在mid的左边</span></span><br><span class="line">                hi = mid - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> lo = mid + <span class="number">1</span>; <span class="comment">//否则要找的值就在mid的右边，没必要两边都找</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// return nums[k-1];</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">paration</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> lo, <span class="keyword">int</span> hi)</span> </span>&#123;</span><br><span class="line">        swap(nums[lo], nums[lo + rand()%(hi-lo+<span class="number">1</span>)]);</span><br><span class="line">        <span class="keyword">int</span> pivot = nums[lo];</span><br><span class="line">        <span class="keyword">while</span> (lo &lt; hi) &#123;</span><br><span class="line">            <span class="keyword">while</span> (lo &lt; hi &amp;&amp; pivot &gt;= nums[hi]) &#123;</span><br><span class="line">                --hi;</span><br><span class="line">            &#125;</span><br><span class="line">            nums[lo] = nums[hi];</span><br><span class="line">            <span class="keyword">while</span> (lo &lt; hi &amp;&amp; pivot &lt;= nums[lo]) &#123;</span><br><span class="line">                ++lo;</span><br><span class="line">            &#125;</span><br><span class="line">            nums[hi] = nums[lo];</span><br><span class="line">        &#125;</span><br><span class="line">        nums[lo] = pivot;</span><br><span class="line">        <span class="keyword">return</span> lo;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+        <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given an array of size <em>n</em>, find the majority element. The majority element is the element that appears <code>⌊ n/2 ⌋</code> times.</p>
+<p>You may assume that the array is non-empty and the majority element always exist in the array.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [3,2,3]</span><br><span class="line">Output: 3</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [2,2,1,1,1,2,2]</span><br><span class="line">Output: 2</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>题目要求求出给定数组中的众数，也就是出现次数大于$\frac{n}{2}$的数。我刚开始想到的解法是用一个字典把数组中数字出现的次数都保存下来，但是这样消耗了太多的空间。后来了解到有一个算法叫做<a href="[https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_majority_vote_algorithm](https://en.wikipedia.org/wiki/Boyer–Moore_majority_vote_algorithm">Boyer–Moore majority vote algorithm</a>)，它的步骤如下：</p>
+<ul>
+<li>初始化一个候选元素 candidate 和 计数器 counter = 0</li>
+<li>对数组中每一个元素 x：<ul>
+<li>如果 counter = 0，那么 candidate = x</li>
+<li>如果 candidate = x，counter += 1，否则 counter -= 1</li>
+</ul>
+</li>
+<li>candidate 即为所求</li>
+</ul>
+<p>感觉直观上不是很容易想出来，举个例子就容易看明白了：就比如说数组<code>「1 3 2 3 3」</code>，第一次循环 candidate = 1， counter = 1；第二次循环 candidate = 1， counter = 0；第三次循环 candidate = 2， counter = 1；第四次循环 candidate = 2， counter = 0；最后一次循环循环 candidate = 3， counter = 1；最终 candidate = 3。我最后是这么理解的，在扫描数组的过程中，肯定会遇见真正的众数，而众数的数量是大于数组长度的一半的，所以最终的 candidate 肯定为众数并且 counter 就等于众数的个数减去非众数的个数。</p>
+<p>代码如下（C++）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">majorityElement</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> candidate;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> &amp;i:nums) &#123;</span><br><span class="line">            <span class="keyword">if</span> (count==<span class="number">0</span>) candidate = i;</span><br><span class="line">            count += candidate == i ? <span class="number">1</span> : <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> candidate;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -367,8 +383,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/04/20-ValidParentheses/" rel="next" title="Leetcode20-有效的括号">
-                <i class="fa fa-chevron-left"></i> Leetcode20-有效的括号
+              <a href="/2019/08/09/77-combinations/" rel="next" title="Leetcode77-组合">
+                <i class="fa fa-chevron-left"></i> Leetcode77-组合
               </a>
             
           </div>
@@ -376,10 +392,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/08/05/Quicksort/" rel="prev" title="快速排序">
-                快速排序 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
