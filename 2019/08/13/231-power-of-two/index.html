@@ -79,19 +79,17 @@
 
 
 
-<meta name="description" content="ER图 数据库物理模型使用的数据库为Postgresql 11 Users    Field Data type Primary key? Description     openid character varying Yes 用户的openid   money numeric  用户的余额   idOfSurveyAnswered integer[]  用户回答过的问卷的id列表   idOf">
+<meta name="description" content="题目描述Given an integer, write a function to determine if it is a power of two. Example 1: 123Input: 1Output: true Explanation: 20 = 1 Example 2: 123Input: 16Output: trueExplanation: 24 = 16 Example 3: 1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="系分项目数据库设计">
-<meta property="og:url" content="http://yoursite.com/2019/06/20/swsad-db/index.html">
+<meta property="og:title" content="Leetcode231-2的幂">
+<meta property="og:url" content="http://yoursite.com/2019/08/13/231-power-of-two/index.html">
 <meta property="og:site_name" content="天地一键">
-<meta property="og:description" content="ER图 数据库物理模型使用的数据库为Postgresql 11 Users    Field Data type Primary key? Description     openid character varying Yes 用户的openid   money numeric  用户的余额   idOfSurveyAnswered integer[]  用户回答过的问卷的id列表   idOf">
+<meta property="og:description" content="题目描述Given an integer, write a function to determine if it is a power of two. Example 1: 123Input: 1Output: true Explanation: 20 = 1 Example 2: 123Input: 16Output: trueExplanation: 24 = 16 Example 3: 1">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2019/06/20/swsad-db/ER.png">
-<meta property="og:updated_time" content="2019-06-23T07:25:50.391Z">
+<meta property="og:updated_time" content="2019-08-13T13:24:01.953Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="系分项目数据库设计">
-<meta name="twitter:description" content="ER图 数据库物理模型使用的数据库为Postgresql 11 Users    Field Data type Primary key? Description     openid character varying Yes 用户的openid   money numeric  用户的余额   idOfSurveyAnswered integer[]  用户回答过的问卷的id列表   idOf">
-<meta name="twitter:image" content="http://yoursite.com/2019/06/20/swsad-db/ER.png">
+<meta name="twitter:title" content="Leetcode231-2的幂">
+<meta name="twitter:description" content="题目描述Given an integer, write a function to determine if it is a power of two. Example 1: 123Input: 1Output: true Explanation: 20 = 1 Example 2: 123Input: 16Output: trueExplanation: 24 = 16 Example 3: 1">
 
 
 
@@ -121,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/06/20/swsad-db/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/13/231-power-of-two/">
 
 
 
 
 
-  <title>系分项目数据库设计 | 天地一键</title>
+  <title>Leetcode231-2的幂 | 天地一键</title>
   
 
 
@@ -253,7 +251,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/20/swsad-db/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/13/231-power-of-two/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="天地一键">
@@ -270,7 +268,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">系分项目数据库设计</h1>
+          <h1 class="post-title" itemprop="name headline">Leetcode231-2的幂</h1>
         
 
         <div class="post-meta">
@@ -282,8 +280,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-20T17:11:09+08:00">
-                2019-06-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-13T20:49:18+08:00">
+                2019-08-13
               </time>
             
 
@@ -305,8 +303,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/系统分析/" itemprop="url" rel="index">
-                    <span itemprop="name">系统分析</span>
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
                   </a>
                 </span>
 
@@ -342,276 +340,24 @@
       
 
       
-        <h4 id="ER图"><a href="#ER图" class="headerlink" title="ER图"></a>ER图</h4><p><img src="/2019/06/20/swsad-db/ER.png" alt="1561274670747"></p>
-<h4 id="数据库物理模型"><a href="#数据库物理模型" class="headerlink" title="数据库物理模型"></a>数据库物理模型</h4><p>使用的数据库为Postgresql 11</p>
-<h5 id="Users"><a href="#Users" class="headerlink" title="Users"></a>Users</h5><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Data type</th>
-<th>Primary key?</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>openid</td>
-<td>character varying</td>
-<td>Yes</td>
-<td>用户的openid</td>
-</tr>
-<tr>
-<td>money</td>
-<td>numeric</td>
-<td></td>
-<td>用户的余额</td>
-</tr>
-<tr>
-<td>idOfSurveyAnswered</td>
-<td>integer[]</td>
-<td></td>
-<td>用户回答过的问卷的id列表</td>
-</tr>
-<tr>
-<td>idOfResumeAnswered</td>
-<td>integer[]</td>
-<td></td>
-<td>用户回答过的简历的id列表</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h5 id="Surveys"><a href="#Surveys" class="headerlink" title="Surveys"></a>Surveys</h5><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Data type</th>
-<th>Primary key？</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>id</td>
-<td>integer</td>
-<td>Yes</td>
-<td>问卷的id</td>
-</tr>
-<tr>
-<td>title</td>
-<td>character varying</td>
-<td></td>
-<td>问卷名</td>
-</tr>
-<tr>
-<td>description</td>
-<td>character varying</td>
-<td></td>
-<td>问卷描述</td>
-</tr>
-<tr>
-<td>numOfQuestions</td>
-<td>integer</td>
-<td></td>
-<td>问卷问题数</td>
-</tr>
-<tr>
-<td>reward</td>
-<td>numeric</td>
-<td></td>
-<td>回答问卷得到的报酬</td>
-</tr>
-<tr>
-<td>questions</td>
-<td>json[]</td>
-<td></td>
-<td>问卷的问题</td>
-</tr>
-<tr>
-<td>idOfReleaser</td>
-<td>character varying</td>
-<td></td>
-<td>问卷发布者的id(openid)</td>
-</tr>
-<tr>
-<td>stop</td>
-<td>boolean</td>
-<td></td>
-<td>问卷是否已停止回答的标志</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h5 id="Resumes"><a href="#Resumes" class="headerlink" title="Resumes"></a>Resumes</h5><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Data type</th>
-<th>Primary key？</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>id</td>
-<td>integer</td>
-<td>Yes</td>
-<td>简历的id</td>
-</tr>
-<tr>
-<td>title</td>
-<td>character varying</td>
-<td></td>
-<td>简历名</td>
-</tr>
-<tr>
-<td>description</td>
-<td>character varying</td>
-<td></td>
-<td>简历描述</td>
-</tr>
-<tr>
-<td>reward</td>
-<td>numeric</td>
-<td></td>
-<td>简历问卷得到的报酬</td>
-</tr>
-<tr>
-<td>questions</td>
-<td>json[]</td>
-<td></td>
-<td>简历的问题</td>
-</tr>
-<tr>
-<td>idOfReleaser</td>
-<td>character varying</td>
-<td></td>
-<td>简历发布者的id(openid)</td>
-</tr>
-<tr>
-<td>stop</td>
-<td>boolean</td>
-<td></td>
-<td>简历是否已停止回答的标志</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h5 id="AnswerOfSurvey"><a href="#AnswerOfSurvey" class="headerlink" title="AnswerOfSurvey"></a>AnswerOfSurvey</h5><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Data type</th>
-<th>Primary key？</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>id</td>
-<td>integer</td>
-<td>Yes</td>
-<td>问卷答案的id</td>
-</tr>
-<tr>
-<td>title</td>
-<td>character varying</td>
-<td></td>
-<td>问卷名</td>
-</tr>
-<tr>
-<td>numOfQuestions</td>
-<td>integer</td>
-<td></td>
-<td>问卷问题数</td>
-</tr>
-<tr>
-<td>idOfSurvey</td>
-<td>integer</td>
-<td></td>
-<td>该答案对应的问卷的id</td>
-</tr>
-<tr>
-<td>questions</td>
-<td>json[]</td>
-<td></td>
-<td>问卷的问题</td>
-</tr>
-<tr>
-<td>nameOfUser</td>
-<td>character varying</td>
-<td></td>
-<td>问卷回答者的用户名</td>
-</tr>
-<tr>
-<td>idOfReleaser</td>
-<td>character varying</td>
-<td></td>
-<td>问卷发布者的id(openid)</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h5 id="AnswerOfResume"><a href="#AnswerOfResume" class="headerlink" title="AnswerOfResume"></a>AnswerOfResume</h5><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Data type</th>
-<th>Primary key？</th>
-<th style="text-align:left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>id</td>
-<td>integer</td>
-<td>Yes</td>
-<td style="text-align:left">简历答案的id</td>
-</tr>
-<tr>
-<td>title</td>
-<td>character varying</td>
-<td></td>
-<td style="text-align:left">简历名</td>
-</tr>
-<tr>
-<td>idOfResume</td>
-<td>integer</td>
-<td></td>
-<td style="text-align:left">该答案对应的简历的id</td>
-</tr>
-<tr>
-<td>questions</td>
-<td>json[]</td>
-<td></td>
-<td style="text-align:left">简历的问题</td>
-</tr>
-<tr>
-<td>nameOfUser</td>
-<td>character varying</td>
-<td></td>
-<td style="text-align:left">简历回答者的用户名</td>
-</tr>
-<tr>
-<td>idOfReleaser</td>
-<td>character varying</td>
-<td></td>
-<td style="text-align:left">简历发布者的id(openid)</td>
-</tr>
-<tr>
-<td>photo</td>
-<td>character varying</td>
-<td></td>
-<td style="text-align:left">该简历回答者上传的照片在服务器里的路径</td>
-</tr>
-</tbody>
-</table>
-</div>
+        <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given an integer, write a function to determine if it is a power of two.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: 1</span><br><span class="line">Output: true </span><br><span class="line">Explanation: 20 = 1</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: 16</span><br><span class="line">Output: true</span><br><span class="line">Explanation: 24 = 16</span><br></pre></td></tr></table></figure>
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 218</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>给出一个数，判断它是不是2的幂次方。首先，非正数都不是。对于一个正整数来说，让他一直除以2，如果最终等于1就说明它是2的幂次方，否则就不是，然而这样太耗时。来观察一下2的幂次方的二进制表示的特征：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 =&gt; 00000000</span><br><span class="line">2 =&gt; 00000010</span><br><span class="line">4 =&gt; 00000100</span><br><span class="line">8 =&gt; 00001000</span><br><span class="line">……</span><br><span class="line">64 =&gt;  01000000</span><br><span class="line">128 =&gt; 10000000</span><br></pre></td></tr></table></figure>
+<p>可以看出特征就是只有一位是1，其余位都是0。接下来，让我们来分析一下把一个整数减去1的情况。</p>
+<p>如果一个整数不等于0，那么该数的二进制表示中至少有一位是1。假设它是奇数（最右边一位是1），它减去1之后，只有最后一位会从1变成0其余位都不变。把它和原数字做与运算，会发现只有最后一位从1变成0其余位都不变。例如<code>7&amp;6 = 1011&amp;1010 = 1010</code>。</p>
+<p>接下来假设这个数是偶数（最右边一位是0）的情况，如果该数的二进制表示中最右边的1出现在第m位（从右向左数），那么把它减1之后，第m位变成0，它右边的0都变成1，把它和原数字做与运算，会发现第m位及其右边的数字都变成0，左边的不受影响。例如<code>6&amp;5 = 1100&amp;1011 = 1000</code>。</p>
+<p>从上面两种情况可以得出结论，把一个整数减去1，再和原数做与运算，会把该数的最右边的1变成0而其余位不变。基于这个思路，如果一个数是2的幂次方，那么它的二进制表示只有一个1，那么把它和它减一的差做与运算就得到了0。</p>
+<p>代码如下：</p>
+<p>C++：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isPowerOfTwo</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> !(n &amp; (n<span class="number">-1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Python：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isPowerOfTwo</span><span class="params">(self, n: int)</span> -&gt; bool:</span></span><br><span class="line">        <span class="keyword">if</span> n &lt;= <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">return</span> n &amp; (n<span class="number">-1</span>) == <span class="number">0</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -636,8 +382,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/19/swsad-api/" rel="next" title="Interface API design 接口 API 设计">
-                <i class="fa fa-chevron-left"></i> Interface API design 接口 API 设计
+              <a href="/2019/08/13/pca/" rel="next" title="线性降维-主成分分析（PCA）">
+                <i class="fa fa-chevron-left"></i> 线性降维-主成分分析（PCA）
               </a>
             
           </div>
@@ -646,8 +392,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/21/swsad-deploy/" rel="prev" title="后端部署文档">
-                后端部署文档 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/08/13/104-maximum-depth-of-binary-tree/" rel="prev" title="Leetcode104-二叉树的最大深度">
+                Leetcode104-二叉树的最大深度 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -771,7 +517,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#ER图"><span class="nav-number">1.</span> <span class="nav-text">ER图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库物理模型"><span class="nav-number">2.</span> <span class="nav-text">数据库物理模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Users"><span class="nav-number">2.1.</span> <span class="nav-text">Users</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Surveys"><span class="nav-number">2.2.</span> <span class="nav-text">Surveys</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Resumes"><span class="nav-number">2.3.</span> <span class="nav-text">Resumes</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AnswerOfSurvey"><span class="nav-number">2.4.</span> <span class="nav-text">AnswerOfSurvey</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AnswerOfResume"><span class="nav-number">2.5.</span> <span class="nav-text">AnswerOfResume</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#题目描述"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li></ol></div>
             
 
           </div>

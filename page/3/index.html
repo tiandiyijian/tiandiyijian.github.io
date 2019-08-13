@@ -248,6 +248,371 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/22/swsad-django-img/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/22/swsad-django-img/" itemprop="url">Django中图片的上传和访问问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-22T12:53:45+08:00">
+                2019-06-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/系统分析/" itemprop="url" rel="index">
+                    <span itemprop="name">系统分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近做系统分析项目的小程序的时候，需要一个上传和查看图片的功能，而我使用的后端框架是Django，所以就来说一下Django是如何处理图片的，还有这中间遇到了哪些坑。</p>
+<h5 id="上传图片"><a href="#上传图片" class="headerlink" title="上传图片"></a>上传图片</h5><p>上传图片比较简单，首先要在项目的settings.py文件里面加上下面两行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MEDIA_ROOT = os.path.join(BASE_DIR, <span class="string">'media'</span>) <span class="comment"># media即为图片上传的根路径</span></span><br><span class="line">MEDIA_URL = <span class="string">'/media/'</span></span><br></pre></td></tr></table></figure>
+<p>在models.py里使用Django自带的ImageField，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Img</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    img_url = models.ImageField(upload_to=<span class="string">'images/'</span>) <span class="comment"># upload_to指定图片上传的途径，如果不存在则自动创建</span></span><br></pre></td></tr></table></figure>
+<p>然后就可以编写views.py了，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">uploadImg</span><span class="params">(request)</span>:</span> <span class="comment"># 图片上传函数</span></span><br><span class="line">   <span class="keyword">if</span> request.method == <span class="string">'POST'</span>:</span><br><span class="line">       img = Img(img_url=request.FILES.get(<span class="string">'img'</span>))</span><br><span class="line">       img.save()</span><br><span class="line">   <span class="keyword">return</span> render(request, <span class="string">'imgupload.html'</span>)</span><br></pre></td></tr></table></figure>
+<p>看到这可能会有点困惑，为什么会把ImageField命名为img_url呢？答案很简单，因为这个字段存储的就是图片的路径啊。好的，既然是路径，那在views.py里为什么又出现<code>img_url=request.FILES.get(&#39;img&#39;)</code>了呢？等号右边明明是图片文件啊！？刚开始我也很困惑，不过后来我实验过之后发现这样做的结果就是Django会把<code>request.FILES.get(&#39;img&#39;)</code>上传到<code>/media/images</code>这个目录里去，然后<code>img_url</code>这个字段存储的是<code>images/图片名</code>。OK，实验一下看看</p>
+<p>在urls.py文件中添加url映射路径：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">'uploadImg/'</span>, views.uploadImg),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>在所建app的目录新建文件夹templates,并创建uploadImg.html添加以下内容：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">title</span>&gt;</span>uploadImg<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">		&#123;% csrf_token %&#125;</span><br><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"img"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"submit"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>此时运行服务器，访问<a href="http://localhost:8000/uploadImg/，可以看到：" target="_blank" rel="noopener">http://localhost:8000/uploadImg/，可以看到：</a></p>
+<p><img src="https://i.loli.net/2019/06/22/5d0db68898b3287841.png" alt="1561171432043.png"></p>
+<p>选择一张图片然后点击submit，然后就可以在数据库里看到这个图片了：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0d9620ea2ee34235.png" alt="UTOOLS1561171489919.png"></p>
+<p>而这张图片就保存在项目的根目录下的<code>media</code>文件夹下的<code>images</code>文件夹里：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0d96a5c71c757852.png" alt="UTOOLS1561171622558.png"></p>
+<p>不如我们来看一下这个<code>img_url</code>到底是什么吧：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0db6b75598184880.png" alt="1561172136735.png"></p>
+<p>打开Django的终端然后输入上图代码，可以看到这个<code>img_url</code>还有三个属性即url、path和name，url是就是从项目的根目录定位到图片的路径，而path是图片在本地的路径，name就是在数据库里存储的内容也就是我们在上上上张图里面看到的那行蓝色小字。</p>
+<p>至此我们已经完成了上传图片的功能，那我们接下来看看如何查看图片吧，先点一下上面提到的那行蓝色小字试试看：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0d9a072e83d20737.png" alt="UTOOLS1561172487964.png"></p>
+<p>结果就看到了这个，报错了啊，看看它说的什么，它说找不到<code>http://localhost:8000/media/images/0.jpg</code>这个路径，这么一看，的确，我们并没有在urls.py文件里面设置图片的路由信息。下面我就来说一下我遇到的坑，因为网上大部分都是说到怎么上传图片的，并没有说怎么查看，所以就只能自己摸索了。</p>
+<h5 id="查看图片"><a href="#查看图片" class="headerlink" title="查看图片"></a>查看图片</h5><p>首先，在项目的urls.py里加入如下内容：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf <span class="keyword">import</span> settings</span><br><span class="line"><span class="keyword">from</span> django.conf.urls.static <span class="keyword">import</span> static</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> settings.DEBUG: <span class="comment"># new</span></span><br><span class="line">    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)</span><br></pre></td></tr></table></figure>
+<p>Django服务器在代码有改动之后会自动重启，所以我们只需要刷新一下刚才的网页就可以看到：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0d9b923f0cd86691.png" alt="UTOOLS1561172882396.png"></p>
+<p>成功啦！但是注意一下刚才添加的代码，它只有在DEBUG模式为True的情况下才会执行，然后好奇的我就把DEBUG模式改为False了，而且再说了，项目如果真要上线的话也要把DEBUG模式关了啊。这能不试试!!？</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0d9d1dbdaf624902.png" alt="UTOOLS1561173278447.png"></p>
+<p>然而改了之后就变成这样的了……然后我就从网上查资料，得到的结果大概意思就是这种静态文件和媒体文件在上线后应该是服务器（比如Nginx）处理的事而不是Django处理的事，啊啊啊我不管我就要看（当时还不知道Nginx怎么搞），然后我又上网找，最终找到了这种办法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path, include</span><br><span class="line"></span><br><span class="line"><span class="comment"># from django.conf import settings</span></span><br><span class="line"><span class="comment"># from django.conf.urls.static import static</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"><span class="keyword">from</span> django.views <span class="keyword">import</span> static</span><br><span class="line"><span class="keyword">from</span> django.conf <span class="keyword">import</span> settings</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">'admin/'</span>, admin.site.urls),</span><br><span class="line">    path(<span class="string">''</span>, include(<span class="string">'Img.urls'</span>)),</span><br><span class="line">    url(<span class="string">r'^media/(?P&lt;path&gt;.*)$'</span>, static.serve,&#123;<span class="string">'document_root'</span>: settings.MEDIA_ROOT&#125;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>在urlpatterns里加入一个新的路由模式，大概就是说，如果碰到’media/‘开头的路由信息，就用静态文件来给它提供内容吧（我猜的）。OK，再刷新一下看看：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0d9f36654b920212.png" alt="UTOOLS1561173814501.png"></p>
+<p>又能看到啦！</p>
+<p>OK，现在我们只是能直接通过url来查看图片了，那么如何在网页中显示呢？改一下views.py文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Img</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your views here.</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">uploadImg</span><span class="params">(request)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'POST'</span>:</span><br><span class="line">        img = Img(img_url=request.FILES.get(<span class="string">'img'</span>))</span><br><span class="line">        img.save()</span><br><span class="line">        context = &#123;<span class="string">'img'</span>: img&#125;</span><br><span class="line">        <span class="keyword">return</span> render(request, <span class="string">'result.html'</span>, context=context)</span><br><span class="line">    <span class="keyword">return</span> render(request, <span class="string">'uploadImg.html'</span>)</span><br></pre></td></tr></table></figure>
+<p>再在app目录下的templates文件夹中添加<code>result.html</code>文件：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>result<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"/media/&#123;&#123;img.img_url&#125;&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"&#123;&#123;img.img_url.url&#125;&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"/media/&#123;&#123;img.img_url.name&#125;&#125;"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意我在里面加了三个图片标签，然后我上传一张图片：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0da3f4ddfb479752.png" alt="UTOOLS1561175029577.png"></p>
+<p>可以看到显示了三张图片，说明那三种查看图片的方式都可以使用，为什么是这样呢？我来分析一下，其实很简单，正如前面那张shell的截图：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">img.img_url = <span class="string">'images/0.jpg'</span></span><br><span class="line">img.img_url.url = <span class="string">'/media/images/0.jpg'</span></span><br><span class="line">img.img_url.name = <span class="string">'images/0.jpg'</span></span><br></pre></td></tr></table></figure>
+<p>这里假设图片名还是<code>0.jpg</code>，只要能搞懂上面这三行就能明白为什么可以这样访问图片了。刚开始我就是不知道这个东西而花了好多功夫才弄明白。</p>
+<p>但其实<code>img.img_url</code>并不是字符串对象，只不过你call它的时候他会返回给它的<code>name</code>给你看：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0da5f6791a029788.png" alt="UTOOLS1561175542090.png"></p>
+<p>这下子基本就把Django中图片的上传与访问全弄清楚了，后来在部署Nginx的时候发现，关于图片的访问，只需要在它的配置文件里写三行代码就够了，不需要在urlpatterns里加新的路由信息，而且图片的请求本来就应该是Nginx负责处理的，详见<a href="http://tiandiyijian.top/2019/06/21/swsad-deploy/" target="_blank" rel="noopener">后端部署文档</a>。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/21/swsad-deploy/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/21/swsad-deploy/" itemprop="url">后端部署文档</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-21T16:34:44+08:00">
+                2019-06-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/系统分析/" itemprop="url" rel="index">
+                    <span itemprop="name">系统分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="部署架构图"><a href="#部署架构图" class="headerlink" title="部署架构图"></a>部署架构图</h4><p><img src="https://i.loli.net/2019/06/21/5d0c9b1f2d1e297107.png" alt="UTOOLS1561107231340.png"></p>
+<h4 id="部署流程"><a href="#部署流程" class="headerlink" title="部署流程"></a>部署流程</h4><h5 id="服务器后台环境配置"><a href="#服务器后台环境配置" class="headerlink" title="服务器后台环境配置"></a>服务器后台环境配置</h5><h6 id="服务器系统环境"><a href="#服务器系统环境" class="headerlink" title="服务器系统环境"></a>服务器系统环境</h6><ul>
+<li>腾讯云 Ubuntu 16.04 LTS Server</li>
+</ul>
+<h6 id="Postgresql安装"><a href="#Postgresql安装" class="headerlink" title="Postgresql安装"></a>Postgresql安装</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python3-pip python3-dev libpq-dev postgresql postgresql-contrib</span><br><span class="line">sudo apt-get install python-psycopg2</span><br></pre></td></tr></table></figure>
+<p>然后键入以下内容登录到交互式Postgres会话：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres psql</span><br></pre></td></tr></table></figure>
+<p>然后创建数据库和用户（注意结尾的分号）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE myproject;</span><br><span class="line">CREATE USER myprojectuser WITH PASSWORD &apos;password&apos;;</span><br><span class="line">ALTER ROLE myprojectuser SET client_encoding TO &apos;utf8&apos;;</span><br><span class="line">ALTER ROLE myprojectuser SET default_transaction_isolation TO &apos;read committed&apos;;</span><br><span class="line">ALTER ROLE myprojectuser SET timezone TO &apos;UTC&apos;;</span><br><span class="line">GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;</span><br></pre></td></tr></table></figure>
+<p>退出SQL提示返回到<code>postgres</code>用户的shell会话：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\q</span><br></pre></td></tr></table></figure>
+<h6 id="卸载python2安装python3"><a href="#卸载python2安装python3" class="headerlink" title="卸载python2安装python3"></a>卸载python2安装python3</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python3.5 # 安装python</span><br><span class="line">sudo apt-get install python3-pip # 安装python 3-pip</span><br><span class="line">sudo rm /usr/bin/python # 删除python 2.7版本</span><br><span class="line">sudo ln -s /usr/bin/python3.5 /usr/bin/python  # 将python链接到最新3.5版的</span><br><span class="line">pip3 install upgrade -- pip # 升级pip</span><br></pre></td></tr></table></figure>
+<h6 id="Django安装"><a href="#Django安装" class="headerlink" title="Django安装"></a>Django安装</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install django #安装django</span><br></pre></td></tr></table></figure>
+<h6 id="uwsgi安装"><a href="#uwsgi安装" class="headerlink" title="uwsgi安装"></a>uwsgi安装</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install uwsgi</span><br><span class="line">uwsgi -- version # 查看版本</span><br></pre></td></tr></table></figure>
+<h6 id="nginx安装"><a href="#nginx安装" class="headerlink" title="nginx安装"></a>nginx安装</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure>
+<h5 id="服务器程序配置运行"><a href="#服务器程序配置运行" class="headerlink" title="服务器程序配置运行"></a>服务器程序配置运行</h5><h6 id="部署连接原理"><a href="#部署连接原理" class="headerlink" title="部署连接原理"></a>部署连接原理</h6><p>浏览器发起web请求&lt;——&gt;nginx接收请求&lt;——&gt;uwsgi处理请求&lt;—–&gt;django程序</p>
+<h6 id="获取源代码"><a href="#获取源代码" class="headerlink" title="获取源代码"></a>获取源代码</h6><p>通过Filezilla向服务器上传Django项目源代码</p>
+<p>然后更改settings.py中的DATABASES:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.postgresql_psycopg2'</span>,</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'myproject'</span>,</span><br><span class="line">        <span class="string">'USER'</span>: <span class="string">'myprojectuser'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'password'</span>,</span><br><span class="line">        <span class="string">'HOST'</span>: <span class="string">'localhost'</span>,</span><br><span class="line">        <span class="string">'PORT'</span>: <span class="string">''</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python manage.py makemigrations</span><br><span class="line">python manage.py migrate #生产数据表</span><br><span class="line">python manage.py collectstatic #搜集静态文件</span><br><span class="line">python manage.py runserver 0.0.0.0:8000 #测试程序能否正常运行</span><br></pre></td></tr></table></figure>
+<h6 id="配置UWSGI："><a href="#配置UWSGI：" class="headerlink" title="配置UWSGI："></a>配置UWSGI：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># server.ini file</span><br><span class="line">[uwsgi]</span><br><span class="line"># Django-related settings</span><br><span class="line">http = 0.0.0.0:8000</span><br><span class="line"># socket = 127.0.0.1:8001</span><br><span class="line"># the base directory (full path)</span><br><span class="line">chdir           = /home/ubuntu/myproject/server</span><br><span class="line"># Django s wsgi file</span><br><span class="line">module          = server.wsgi</span><br><span class="line">master          = true</span><br><span class="line">processes       = 2</span><br><span class="line"></span><br><span class="line">daemonize = /home/ubuntu/myproject/server/uwsgi.log</span><br></pre></td></tr></table></figure>
+<p>然后执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --ini server.ini</span><br></pre></td></tr></table></figure>
+<p>此时应该已经可以通过服务器的公网IP加8000端口访问服务端了</p>
+<h6 id="配置Nginx："><a href="#配置Nginx：" class="headerlink" title="配置Nginx："></a>配置Nginx：</h6><p>执行以下命令创建并编辑项目的配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/nginx/sites-available/server.conf</span><br></pre></td></tr></table></figure>
+<p>并在其中输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"># mysite_nginx.conf</span><br><span class="line"></span><br><span class="line"># the upstream component nginx needs to connect to</span><br><span class="line">upstream django &#123;</span><br><span class="line">    # server unix:///path/to/your/mysite/mysite.sock; # for a file socket</span><br><span class="line">    server 127.0.0.1:8001; # for a web port socket (we&apos;ll use this first)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># configuration of the server</span><br><span class="line">server &#123;</span><br><span class="line">    # the port your site will be served on</span><br><span class="line">    listen      8000;</span><br><span class="line">    # the domain name it will serve for</span><br><span class="line">    server_name 129.28.40.31; # substitute your machine&apos;s IP address or FQDN</span><br><span class="line">    charset     utf-8;</span><br><span class="line"></span><br><span class="line">    # max upload size</span><br><span class="line">    client_max_body_size 75M;   # adjust to taste</span><br><span class="line"></span><br><span class="line">    # Django media</span><br><span class="line">    location /media  &#123;</span><br><span class="line">        alias /home/ubuntu/myproject/server/media;  # your Django project&apos;s media files - amend as required</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location /static &#123;</span><br><span class="line">        alias /home/ubuntu/myproject/server/static; # your Django project&apos;s static files - amend as required</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # Finally, send all non-media requests to the Django server.</span><br><span class="line">    location / &#123;</span><br><span class="line">        uwsgi_pass  django;</span><br><span class="line">        include     /home/ubuntu/myproject/server/uwsgi_params; # the uwsgi_params file you installed</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时把server.ini中的http行注释掉，并把sock行取消注释，然后重启uwsgi。</p>
+<p>然后输入以下命令重启nginx：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+<p>至此完成了所有的部署流程。</p>
+<h6 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h6><p>众所周知，http协议很不安全，于是我就购买了域名并且申请了SSL证书，重新配置server.conf如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"># mysite_nginx.conf</span><br><span class="line"></span><br><span class="line"># the upstream component nginx needs to connect to</span><br><span class="line">upstream django &#123;</span><br><span class="line">    # server unix:///path/to/your/mysite/mysite.sock; # for a file socket</span><br><span class="line">    server 127.0.0.1:8001; # for a web port socket (we&apos;ll use this first)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># configuration of the server</span><br><span class="line">server &#123;</span><br><span class="line">    # the port your site will be served on</span><br><span class="line">    #listen      80;</span><br><span class="line">    listen      443;</span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate /usr/local/nginx/conf/1_tiandiyijian.club_bundle.crt;</span><br><span class="line">    ssl_certificate_key /usr/local/nginx/conf/2_tiandiyijian.club.key;</span><br><span class="line">    ssl_session_timeout 5m;</span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line">    # the domain name it will serve for</span><br><span class="line">    #server_name 129.28.40.31; # substitute your machine&apos;s IP address or FQDN</span><br><span class="line">    server_name tiandiyijian.club;</span><br><span class="line">    charset     utf-8;</span><br><span class="line"></span><br><span class="line">    # max upload size</span><br><span class="line">    client_max_body_size 75M;   # adjust to taste</span><br><span class="line"></span><br><span class="line">    # Django media</span><br><span class="line">    location /media  &#123;</span><br><span class="line">        alias /home/ubuntu/myproject/server/media;  # your Django project&apos;s media files - amend as required</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location /static &#123;</span><br><span class="line">        alias /home/ubuntu/myproject/server/static; # your Django project&apos;s static files - amend as required</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # Finally, send all non-media requests to the Django server.</span><br><span class="line">    location / &#123;</span><br><span class="line">        uwsgi_pass  django;</span><br><span class="line">        include     /home/ubuntu/myproject/server/uwsgi_params; # the uwsgi_params file you installed</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后重启Nginx就可以通过https访问服务端了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/20/swsad-db/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -3157,299 +3522,6 @@ J\left(W, b, a^{L}, y\right)=-\sum_{k} y_{k} \ln a_{k}^{L}</script><p>其中$ a_
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/Pytorch-notes1/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/11/Pytorch-notes1/" itemprop="url">Pytorch-notes1</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-11T19:36:44+08:00">
-                2019-04-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Pytorch学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">Pytorch学习笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>torch.reshape和torch.view区别</p>
-<ul>
-<li>view返回的是原tensor的一个view，它和原torch共享数据</li>
-<li>为了确保新张量始终与原始张量共享其数据，torch.view对两个张量的形状施加了一些邻接约束（但是有时候即使形状兼容也会报错）</li>
-<li>reshape没有邻接约束，但是它页也不保证数据内存共享，有时候它返回的是原tensor的view，有时候是copy</li>
-<li>torch.resize_()也用于改变形状，但是如果形状不兼容的话它并不会报错</li>
-</ul>
-<p>torch.from_numpy()用于把numpy数组转化为tensor，.numpy()返回numpy数组，numpy数组和tensor共享内存</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/09/Why-Deep/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/09/Why-Deep/" itemprop="url">Why Deep</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-09T16:59:06+08:00">
-                2019-04-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/李宏毅机器学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">李宏毅机器学习笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>深层的网络架构是更结构化的，每一层可以看作是不同的函数，高层的网络调用底层的，好处是参数更少、不容易overfitting、需要的training data更少。Deep learning并不是用很多的数据，相反，它是用比较少的数据做到同样的事情。</p>
-<p>也可以用逻辑电路来类比DNN，两层的逻辑电路就可以实现任意的电路，但是我们也可以用更多层电路以更少的gate来完成；理论上两层的神经网络就可以做到任何事情，但是我们也可以用更多层网络来完成相同的事情，它的参数会比两层的网络更少。</p>
-<p>深度学习可以把看起来很像但实际不一样的东西区分开，把看起来很不像但实际上一样的东西正确归类。原理应该是深度学习把这些点映射到其他维度或者坐标系。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3500,7 +3572,7 @@ J\left(W, b, a^{L}, y\right)=-\sum_{k} y_{k} \ln a_{k}^{L}</script><p>其中$ a_
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

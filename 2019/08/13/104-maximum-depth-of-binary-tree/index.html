@@ -79,19 +79,17 @@
 
 
 
-<meta name="description" content="ER图 数据库物理模型使用的数据库为Postgresql 11 Users    Field Data type Primary key? Description     openid character varying Yes 用户的openid   money numeric  用户的余额   idOfSurveyAnswered integer[]  用户回答过的问卷的id列表   idOf">
+<meta name="description" content="题目描述Given a binary tree, find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node. Note: A leaf is a node with no child">
 <meta property="og:type" content="article">
-<meta property="og:title" content="系分项目数据库设计">
-<meta property="og:url" content="http://yoursite.com/2019/06/20/swsad-db/index.html">
+<meta property="og:title" content="Leetcode104-二叉树的最大深度">
+<meta property="og:url" content="http://yoursite.com/2019/08/13/104-maximum-depth-of-binary-tree/index.html">
 <meta property="og:site_name" content="天地一键">
-<meta property="og:description" content="ER图 数据库物理模型使用的数据库为Postgresql 11 Users    Field Data type Primary key? Description     openid character varying Yes 用户的openid   money numeric  用户的余额   idOfSurveyAnswered integer[]  用户回答过的问卷的id列表   idOf">
+<meta property="og:description" content="题目描述Given a binary tree, find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node. Note: A leaf is a node with no child">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2019/06/20/swsad-db/ER.png">
-<meta property="og:updated_time" content="2019-06-23T07:25:50.391Z">
+<meta property="og:updated_time" content="2019-08-13T14:00:10.154Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="系分项目数据库设计">
-<meta name="twitter:description" content="ER图 数据库物理模型使用的数据库为Postgresql 11 Users    Field Data type Primary key? Description     openid character varying Yes 用户的openid   money numeric  用户的余额   idOfSurveyAnswered integer[]  用户回答过的问卷的id列表   idOf">
-<meta name="twitter:image" content="http://yoursite.com/2019/06/20/swsad-db/ER.png">
+<meta name="twitter:title" content="Leetcode104-二叉树的最大深度">
+<meta name="twitter:description" content="题目描述Given a binary tree, find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node. Note: A leaf is a node with no child">
 
 
 
@@ -121,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/06/20/swsad-db/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/13/104-maximum-depth-of-binary-tree/">
 
 
 
 
 
-  <title>系分项目数据库设计 | 天地一键</title>
+  <title>Leetcode104-二叉树的最大深度 | 天地一键</title>
   
 
 
@@ -253,7 +251,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/20/swsad-db/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/13/104-maximum-depth-of-binary-tree/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="天地一键">
@@ -270,7 +268,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">系分项目数据库设计</h1>
+          <h1 class="post-title" itemprop="name headline">Leetcode104-二叉树的最大深度</h1>
         
 
         <div class="post-meta">
@@ -282,8 +280,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-20T17:11:09+08:00">
-                2019-06-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-13T21:52:27+08:00">
+                2019-08-13
               </time>
             
 
@@ -292,28 +290,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/系统分析/" itemprop="url" rel="index">
-                    <span itemprop="name">系统分析</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -342,276 +318,18 @@
       
 
       
-        <h4 id="ER图"><a href="#ER图" class="headerlink" title="ER图"></a>ER图</h4><p><img src="/2019/06/20/swsad-db/ER.png" alt="1561274670747"></p>
-<h4 id="数据库物理模型"><a href="#数据库物理模型" class="headerlink" title="数据库物理模型"></a>数据库物理模型</h4><p>使用的数据库为Postgresql 11</p>
-<h5 id="Users"><a href="#Users" class="headerlink" title="Users"></a>Users</h5><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Data type</th>
-<th>Primary key?</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>openid</td>
-<td>character varying</td>
-<td>Yes</td>
-<td>用户的openid</td>
-</tr>
-<tr>
-<td>money</td>
-<td>numeric</td>
-<td></td>
-<td>用户的余额</td>
-</tr>
-<tr>
-<td>idOfSurveyAnswered</td>
-<td>integer[]</td>
-<td></td>
-<td>用户回答过的问卷的id列表</td>
-</tr>
-<tr>
-<td>idOfResumeAnswered</td>
-<td>integer[]</td>
-<td></td>
-<td>用户回答过的简历的id列表</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h5 id="Surveys"><a href="#Surveys" class="headerlink" title="Surveys"></a>Surveys</h5><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Data type</th>
-<th>Primary key？</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>id</td>
-<td>integer</td>
-<td>Yes</td>
-<td>问卷的id</td>
-</tr>
-<tr>
-<td>title</td>
-<td>character varying</td>
-<td></td>
-<td>问卷名</td>
-</tr>
-<tr>
-<td>description</td>
-<td>character varying</td>
-<td></td>
-<td>问卷描述</td>
-</tr>
-<tr>
-<td>numOfQuestions</td>
-<td>integer</td>
-<td></td>
-<td>问卷问题数</td>
-</tr>
-<tr>
-<td>reward</td>
-<td>numeric</td>
-<td></td>
-<td>回答问卷得到的报酬</td>
-</tr>
-<tr>
-<td>questions</td>
-<td>json[]</td>
-<td></td>
-<td>问卷的问题</td>
-</tr>
-<tr>
-<td>idOfReleaser</td>
-<td>character varying</td>
-<td></td>
-<td>问卷发布者的id(openid)</td>
-</tr>
-<tr>
-<td>stop</td>
-<td>boolean</td>
-<td></td>
-<td>问卷是否已停止回答的标志</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h5 id="Resumes"><a href="#Resumes" class="headerlink" title="Resumes"></a>Resumes</h5><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Data type</th>
-<th>Primary key？</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>id</td>
-<td>integer</td>
-<td>Yes</td>
-<td>简历的id</td>
-</tr>
-<tr>
-<td>title</td>
-<td>character varying</td>
-<td></td>
-<td>简历名</td>
-</tr>
-<tr>
-<td>description</td>
-<td>character varying</td>
-<td></td>
-<td>简历描述</td>
-</tr>
-<tr>
-<td>reward</td>
-<td>numeric</td>
-<td></td>
-<td>简历问卷得到的报酬</td>
-</tr>
-<tr>
-<td>questions</td>
-<td>json[]</td>
-<td></td>
-<td>简历的问题</td>
-</tr>
-<tr>
-<td>idOfReleaser</td>
-<td>character varying</td>
-<td></td>
-<td>简历发布者的id(openid)</td>
-</tr>
-<tr>
-<td>stop</td>
-<td>boolean</td>
-<td></td>
-<td>简历是否已停止回答的标志</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h5 id="AnswerOfSurvey"><a href="#AnswerOfSurvey" class="headerlink" title="AnswerOfSurvey"></a>AnswerOfSurvey</h5><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Data type</th>
-<th>Primary key？</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>id</td>
-<td>integer</td>
-<td>Yes</td>
-<td>问卷答案的id</td>
-</tr>
-<tr>
-<td>title</td>
-<td>character varying</td>
-<td></td>
-<td>问卷名</td>
-</tr>
-<tr>
-<td>numOfQuestions</td>
-<td>integer</td>
-<td></td>
-<td>问卷问题数</td>
-</tr>
-<tr>
-<td>idOfSurvey</td>
-<td>integer</td>
-<td></td>
-<td>该答案对应的问卷的id</td>
-</tr>
-<tr>
-<td>questions</td>
-<td>json[]</td>
-<td></td>
-<td>问卷的问题</td>
-</tr>
-<tr>
-<td>nameOfUser</td>
-<td>character varying</td>
-<td></td>
-<td>问卷回答者的用户名</td>
-</tr>
-<tr>
-<td>idOfReleaser</td>
-<td>character varying</td>
-<td></td>
-<td>问卷发布者的id(openid)</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h5 id="AnswerOfResume"><a href="#AnswerOfResume" class="headerlink" title="AnswerOfResume"></a>AnswerOfResume</h5><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Data type</th>
-<th>Primary key？</th>
-<th style="text-align:left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>id</td>
-<td>integer</td>
-<td>Yes</td>
-<td style="text-align:left">简历答案的id</td>
-</tr>
-<tr>
-<td>title</td>
-<td>character varying</td>
-<td></td>
-<td style="text-align:left">简历名</td>
-</tr>
-<tr>
-<td>idOfResume</td>
-<td>integer</td>
-<td></td>
-<td style="text-align:left">该答案对应的简历的id</td>
-</tr>
-<tr>
-<td>questions</td>
-<td>json[]</td>
-<td></td>
-<td style="text-align:left">简历的问题</td>
-</tr>
-<tr>
-<td>nameOfUser</td>
-<td>character varying</td>
-<td></td>
-<td style="text-align:left">简历回答者的用户名</td>
-</tr>
-<tr>
-<td>idOfReleaser</td>
-<td>character varying</td>
-<td></td>
-<td style="text-align:left">简历发布者的id(openid)</td>
-</tr>
-<tr>
-<td>photo</td>
-<td>character varying</td>
-<td></td>
-<td style="text-align:left">该简历回答者上传的照片在服务器里的路径</td>
-</tr>
-</tbody>
-</table>
-</div>
+        <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given a binary tree, find its maximum depth.</p>
+<p>The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.</p>
+<p><strong>Note:</strong> A leaf is a node with no children.</p>
+<p><strong>Example:</strong></p>
+<p>Given binary tree <code>[3,9,20,null,null,15,7]</code>,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  3</span><br><span class="line"> / \</span><br><span class="line">9  20</span><br><span class="line">  /  \</span><br><span class="line"> 15   7</span><br></pre></td></tr></table></figure>
+<p>return its depth = 3.</p>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>我的思路是根节点的深度为1，然后遍历它的左右子树，每一次遍历到它的子树就给深度增加1，代码如下（C++）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> depth = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">helper</span><span class="params">(TreeNode *node, <span class="keyword">int</span> currentDepth)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (node) &#123;</span><br><span class="line">            <span class="keyword">if</span> (currentDepth &gt; depth) depth = currentDepth;</span><br><span class="line">            helper(node-&gt;left, currentDepth+<span class="number">1</span>);</span><br><span class="line">            helper(node-&gt;right, currentDepth+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        helper(root, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> depth;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然而，还有更简单的写法（C++）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">            max(maxDepth(root-&gt;left), maxDepth(root-&gt;right)) + <span class="number">1</span>;        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这种写法的思路和我正好相反，我的可以看作是自顶向下，把根节点的深度当作1，然后逐渐向下加；这种写法的思路是把叶子节点的深度当作1，逐渐向上加。</p>
 
       
     </div>
@@ -636,8 +354,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/19/swsad-api/" rel="next" title="Interface API design 接口 API 设计">
-                <i class="fa fa-chevron-left"></i> Interface API design 接口 API 设计
+              <a href="/2019/08/13/231-power-of-two/" rel="next" title="Leetcode231-2的幂">
+                <i class="fa fa-chevron-left"></i> Leetcode231-2的幂
               </a>
             
           </div>
@@ -645,10 +363,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/21/swsad-deploy/" rel="prev" title="后端部署文档">
-                后端部署文档 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -771,7 +485,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#ER图"><span class="nav-number">1.</span> <span class="nav-text">ER图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库物理模型"><span class="nav-number">2.</span> <span class="nav-text">数据库物理模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Users"><span class="nav-number">2.1.</span> <span class="nav-text">Users</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Surveys"><span class="nav-number">2.2.</span> <span class="nav-text">Surveys</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Resumes"><span class="nav-number">2.3.</span> <span class="nav-text">Resumes</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AnswerOfSurvey"><span class="nav-number">2.4.</span> <span class="nav-text">AnswerOfSurvey</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AnswerOfResume"><span class="nav-number">2.5.</span> <span class="nav-text">AnswerOfResume</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#题目描述"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li></ol></div>
             
 
           </div>
