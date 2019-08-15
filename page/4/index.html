@@ -248,6 +248,1025 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/17/swsad-hw6/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/17/swsad-hw6/" itemprop="url">系统分析作业6</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-17T14:35:32+08:00">
+                2019-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/系统分析/" itemprop="url" rel="index">
+                    <span itemprop="name">系统分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="简答题"><a href="#简答题" class="headerlink" title="简答题"></a>简答题</h4><h5 id="用例的概念"><a href="#用例的概念" class="headerlink" title="用例的概念"></a>用例的概念</h5><p>用例就是一组相关的成功和失败场景集合，用来描述参与者如何使用系统来实现其目标。</p>
+<h5 id="用例和场景的关系？什么是主场景或-happy-path？"><a href="#用例和场景的关系？什么是主场景或-happy-path？" class="headerlink" title="用例和场景的关系？什么是主场景或 happy path？"></a>用例和场景的关系？什么是主场景或 happy path？</h5><p>场景是参与者和系统之间的一系列特定的活动和交互，也称为用例实例。场景是使用系统的一个特定情节或用例的一条执行路径。所以说，场景是用例的实例，用例是场景的集合。</p>
+<p>主场景或happy path描述了满足涉众关注点的典型成功路径。要注意的是,它通常不包括任何条件或分支。虽然包含条件或分支并不是错误,但是,保持一定的连贯性,并且将所有条件处理都推延至扩展部分,这种具有争议的做法更易于理解和扩展。</p>
+<h5 id="用例有哪些形式？"><a href="#用例有哪些形式？" class="headerlink" title="用例有哪些形式？"></a>用例有哪些形式？</h5><ul>
+<li>摘要（Brief）——简洁的一段式摘要，通常用于主成功场景。</li>
+<li>非正式（Casual）——非正式的段落格式。用几个段落覆盖不同场景。</li>
+<li>详述（Fully）——详细编写所有步骤即各种变化，同时具有补充部分，如前置条件和成功保证。</li>
+</ul>
+<h5 id="对于复杂业务，为什么编制完整用例非常难？"><a href="#对于复杂业务，为什么编制完整用例非常难？" class="headerlink" title="对于复杂业务，为什么编制完整用例非常难？"></a>对于复杂业务，为什么编制完整用例非常难？</h5><p>复杂的业务涉及到的场景非常多，业务流程复杂繁琐，且场景与场景之间也有各种各样的关联，要编制完整用例不但需要熟悉各种业务场景和流程，还要懂得建模相关的专业知识，如何分离和提炼一个场景的主要元素也是在复杂场景中显得尤为重要和困难。</p>
+<h5 id="什么是用例图？"><a href="#什么是用例图？" class="headerlink" title="什么是用例图？"></a>什么是用例图？</h5><p>用例图是一种优秀的系统语境图；也就是说，用例图能够展示系统边界、位于边界之外的事物以及系统如何被使用。用例图可以作为沟通的工具，用以概括系统及其参与者的行为。</p>
+<h5 id="用例图的基本符号与元素？"><a href="#用例图的基本符号与元素？" class="headerlink" title="用例图的基本符号与元素？"></a>用例图的基本符号与元素？</h5><p>Actor：系统的主要参与者，指与系统交互的角色。可以是人、计算机系统、组织等。符号为：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>元素</th>
+<th style="text-align:center">符号</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>参与者</td>
+<td style="text-align:center"><img src="https://i.loli.net/2019/05/19/5ce0c856dc47c31049.png" alt="UTOOLS1558235224466.png"></td>
+<td>表示系统的主要参与者，指与系统交互的角色。可以是人、计算机系统、组织等</td>
+</tr>
+<tr>
+<td>用例</td>
+<td style="text-align:center"><img src="https://i.loli.net/2019/05/19/5ce0c918c5eb579270.png" alt="UTOOLS1558235417838.png"></td>
+<td>表示一组相关的成功和失败场景集合</td>
+</tr>
+<tr>
+<td>系统边界</td>
+<td style="text-align:center"><img src="https://i.loli.net/2019/05/19/5ce0caba02fec34800.png" alt="UTOOLS1558235830954.png"></td>
+<td>表示正在建模的系统的边界</td>
+</tr>
+<tr>
+<td>关联关系</td>
+<td style="text-align:center"><img src="https://i.loli.net/2019/05/19/5ce149b23e90d57083.png" alt="1558235994831.png"></td>
+<td>表示参与者与用例之间的关系</td>
+</tr>
+<tr>
+<td>包含关系</td>
+<td style="text-align:center"><img src="https://i.loli.net/2019/05/19/5ce149d60d7ad14530.png" alt="1558236055283.png"></td>
+<td>表示子用例是父用例的一部分，通常强调离开这个特性，父用例无法达成目标或失去意义，箭头指向子用例</td>
+</tr>
+<tr>
+<td>拓展关系</td>
+<td style="text-align:center"><img src="https://i.loli.net/2019/05/19/5ce0cebeb35c356119.png" alt="UTOOLS1558236865186.png"></td>
+<td>表示子用例是父用例的可选场景或技术特征，箭头指向父用例</td>
+</tr>
+<tr>
+<td>泛化关系</td>
+<td style="text-align:center"><img src="https://i.loli.net/2019/05/19/5ce0ce90f040626591.png" alt="UTOOLS1558236817784.png"></td>
+<td>表示一个父用例可以被特定化形成多个子用例，而父用例和子用例之间的关系就是泛化关系</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="用例图的画法与步骤"><a href="#用例图的画法与步骤" class="headerlink" title="用例图的画法与步骤"></a>用例图的画法与步骤</h5><ul>
+<li>确定系统的范围和边界</li>
+<li>确定参与者：主要参与者，协作参与者，幕后参与者</li>
+<li>描述用例</li>
+<li>确定参与者之间的关系和用例间的关系（包含，扩展）</li>
+<li>对用例分类，并确定用例之间的关系</li>
+<li>建立用例图，并定义用例图的层次结构</li>
+<li>评审用例模型</li>
+</ul>
+<h5 id="用例图给利益相关人与开发者的价值有哪些？"><a href="#用例图给利益相关人与开发者的价值有哪些？" class="headerlink" title="用例图给利益相关人与开发者的价值有哪些？"></a>用例图给利益相关人与开发者的价值有哪些？</h5><ul>
+<li>对利益相关人来说<ul>
+<li>明确系统的业务范围、服务对象（角色）、外部系统与设备</li>
+<li>可以直观看到系统的结果和用户的功能体验，保证系统按照用户的需求进行设计</li>
+<li>用例能够根据需要对复杂程度和形式化程序进行增减调节，即能够响应用户（利益相关人)提出的需求，而用例图则使得这种调节更加便利，可以通过修改图形间的关系实现</li>
+</ul>
+</li>
+<li>对开发者来说<ul>
+<li>帮助识别技术风险，提前实施关键技术原型公关与学习</li>
+<li>易于评估项目工作量，合理规划迭代周期，规划人力需要</li>
+<li>用例图可以指导开发和测试，同时可以在整个过程中对其他工作流起到指导作用</li>
+</ul>
+</li>
+</ul>
+<h4 id="建模练习题（用例模型）"><a href="#建模练习题（用例模型）" class="headerlink" title="建模练习题（用例模型）"></a>建模练习题（用例模型）</h4><h5 id="选择2-3个你熟悉的类似业务的在线服务系统（或移动-APP），如定旅馆（携程、去哪儿等）、定电影票、背单词APP等，分别绘制它们用例图。并满足以下要求："><a href="#选择2-3个你熟悉的类似业务的在线服务系统（或移动-APP），如定旅馆（携程、去哪儿等）、定电影票、背单词APP等，分别绘制它们用例图。并满足以下要求：" class="headerlink" title="选择2-3个你熟悉的类似业务的在线服务系统（或移动 APP），如定旅馆（携程、去哪儿等）、定电影票、背单词APP等，分别绘制它们用例图。并满足以下要求："></a>选择2-3个你熟悉的类似业务的在线服务系统（或移动 APP），如定旅馆（携程、去哪儿等）、定电影票、背单词APP等，分别绘制它们用例图。并满足以下要求：</h5><ul>
+<li>请使用用户的视角，描述用户目标或系统提供的服务</li>
+<li>粒度达到子用例级别，并用 include 和 exclude 关联它们</li>
+<li>请用色彩标注出你认为创新（区别于竞争对手的）用例或子用例</li>
+<li>尽可能识别外部系统和服务</li>
+</ul>
+<p><img src="/2019/05/17/swsad-hw6/wanda.png" alt="万达电影+.png"></p>
+<p><img src="/2019/05/17/swsad-hw6/12306.png" alt="12306"></p>
+<h5 id="然后，回答下列问题"><a href="#然后，回答下列问题" class="headerlink" title="然后，回答下列问题"></a>然后，回答下列问题</h5><h6 id="为什么相似系统的用例图是相似的？"><a href="#为什么相似系统的用例图是相似的？" class="headerlink" title="为什么相似系统的用例图是相似的？"></a>为什么相似系统的用例图是相似的？</h6><p>因为它们的用例都是相似的，所以用例图也就相似。</p>
+<h6 id="如果是定旅馆业务，请对比-Asg-RH-用例图，简述如何利用不同时代、不同地区产品的用例图，展现、突出创新业务和技术"><a href="#如果是定旅馆业务，请对比-Asg-RH-用例图，简述如何利用不同时代、不同地区产品的用例图，展现、突出创新业务和技术" class="headerlink" title="如果是定旅馆业务，请对比 Asg_RH 用例图，简述如何利用不同时代、不同地区产品的用例图，展现、突出创新业务和技术"></a>如果是定旅馆业务，请对比 Asg_RH 用例图，简述如何利用不同时代、不同地区产品的用例图，展现、突出创新业务和技术</h6><p>随着时间的推移，计算机技术的软件和硬件都得到了快速的发展，新的技术不断投入到使用中，很多业务也都从PC端迁移到了移动端， 比如Asg_RH中的系统就是PC端的，而现如今大部分的订旅馆业务都是在移动端完成的，一个很大的进步的例子就是移动端可以利用GPS定位技术快速定位并且推荐就近旅馆。</p>
+<h6 id="如何利用用例图定位创新思路（业务创新、或技术创新、或商业模式创新）在系统中的作用"><a href="#如何利用用例图定位创新思路（业务创新、或技术创新、或商业模式创新）在系统中的作用" class="headerlink" title="如何利用用例图定位创新思路（业务创新、或技术创新、或商业模式创新）在系统中的作用"></a>如何利用用例图定位创新思路（业务创新、或技术创新、或商业模式创新）在系统中的作用</h6><p>用例图能够帮助我们清晰地看到用户的需求以及系统是如何被使用的，这样就有利于我们去分析系统的优缺点，从而有利于找到改进的思路去进行相应的创新。</p>
+<h6 id="请使用-SCRUM-方法，选择一个用例图，编制某定旅馆开发的需求（backlog）开发计划表"><a href="#请使用-SCRUM-方法，选择一个用例图，编制某定旅馆开发的需求（backlog）开发计划表" class="headerlink" title="请使用 SCRUM 方法，选择一个用例图，编制某定旅馆开发的需求（backlog）开发计划表"></a>请使用 SCRUM 方法，选择一个用例图，编制某定旅馆开发的需求（backlog）开发计划表</h6><p>选择上面万达电影+的用例图</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Title</th>
+<th>Est</th>
+<th>Iter</th>
+<th>Imp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10101</td>
+<td>Buy ticket</td>
+<td>2</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr>
+<td>10102</td>
+<td>Choose cinema</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>10103</td>
+<td>Choose movie</td>
+<td>2</td>
+<td>24</td>
+<td>4</td>
+</tr>
+<tr>
+<td>10104</td>
+<td>Choose time</td>
+<td>2</td>
+<td>2</td>
+<td>4</td>
+</tr>
+<tr>
+<td>10105</td>
+<td>Choose seat</td>
+<td>2</td>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>10106</td>
+<td>Show optional seats</td>
+<td>3</td>
+<td>2</td>
+<td>4</td>
+</tr>
+<tr>
+<td>10107</td>
+<td>Help choose seat</td>
+<td>3</td>
+<td>4</td>
+<td>1</td>
+</tr>
+<tr>
+<td>10108</td>
+<td>Pay</td>
+<td>2</td>
+<td>2</td>
+<td>5</td>
+</tr>
+<tr>
+<td>10109</td>
+<td>Cancel the order</td>
+<td>2</td>
+<td>1</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h6 id="根据任务4，参考-使用用例点估算软件成本，给出项目用例点的估算"><a href="#根据任务4，参考-使用用例点估算软件成本，给出项目用例点的估算" class="headerlink" title="根据任务4，参考 使用用例点估算软件成本，给出项目用例点的估算"></a>根据任务4，参考 <a href="https://www.ibm.com/developerworks/cn/rational/edge/09/mar09/collaris_dekker/index.html" target="_blank" rel="noopener">使用用例点估算软件成本</a>，给出项目用例点的估算</h6><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>用例</th>
+<th>#事务</th>
+<th>#计算</th>
+<th>原因</th>
+<th>UC权重</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Buy ticket</td>
+<td>10</td>
+<td>7</td>
+<td></td>
+<td>复杂</td>
+</tr>
+<tr>
+<td>Choose cinema</td>
+<td>6</td>
+<td>4</td>
+<td>地图和GPS</td>
+<td>平均</td>
+</tr>
+<tr>
+<td>Choose movie</td>
+<td>4</td>
+<td>3</td>
+<td></td>
+<td>简单</td>
+</tr>
+<tr>
+<td>Choose time</td>
+<td>3</td>
+<td>3</td>
+<td></td>
+<td>简单</td>
+</tr>
+<tr>
+<td>Choose seat</td>
+<td>3</td>
+<td>3</td>
+<td></td>
+<td>简单</td>
+</tr>
+<tr>
+<td>Show optional seats</td>
+<td>3</td>
+<td>3</td>
+<td></td>
+<td>简单</td>
+</tr>
+<tr>
+<td>Help choose seat</td>
+<td>5</td>
+<td>4</td>
+<td>多种情况智能推荐</td>
+<td>平均</td>
+</tr>
+<tr>
+<td>Pay</td>
+<td>3</td>
+<td>3</td>
+<td></td>
+<td>简单</td>
+</tr>
+<tr>
+<td>Cancel the order</td>
+<td>3</td>
+<td>3</td>
+<td></td>
+<td>简单</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/03/Dynamic-Programmming/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/03/Dynamic-Programmming/" itemprop="url">动态规划</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-03T16:44:51+08:00">
+                2019-05-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>前一阵子做leetcode动态规划的题做得有点心态爆炸，导致我有一段时间都没有动力了，果然我还是太菜了。</p>
+<p><img src="/2019/05/03/Dynamic-Programmming/cai.png" alt="cai"></p>
+<p>于是今天就找了本书看了一下动态规划，它的思想类似于递归，也是把问题分成小问题来解决，但是与递归相比它的好处是可以记住已经求过的子问题的解，从而可以大大节省时间。</p>
+<p>举个很简单的例子，求斐波那契数列，用递归来实现的话代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> n &lt; <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">1</span> <span class="keyword">or</span> n == <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> fib(n<span class="number">-1</span>) + fib(n<span class="number">-2</span>)</span><br></pre></td></tr></table></figure>
+<p>用动态规划来实现的话代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> n &lt; <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">1</span> <span class="keyword">or</span> n == <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    fib1 = fib2 = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n<span class="number">-2</span>):</span><br><span class="line">        fib1, fib2 = fib2, fib1 + fib2</span><br><span class="line">    <span class="keyword">return</span> fib2</span><br></pre></td></tr></table></figure>
+<p>可以把递归看作是自顶向下的，比如说要计算fib(4)就要计算fib(3)和fib(2)，要计算fib(3)就要计算fib(2)和fib(1)等等，可以看出其中最大的问题是重复计算，比如说在求fib(4)的时候要调用fib(2)，再求fib(3)的时候也要调用fib(2)。而动态规划可以看作是自底向上的，从fib(1)、fib(2)开始逐渐向后推导，这样就没有重复的计算了。</p>
+<p>然后拿道题试一下，我随便选了第<a href="https://leetcode.com/problems/delete-operation-for-two-strings/" target="_blank" rel="noopener">583</a>道题，题目描述如下：</p>
+<p><img src="https://i.loli.net/2019/05/03/5ccc093840503.png" alt="UTOOLS1556875578437.png"></p>
+<p>大概意思是给你俩单词，然后删掉其中的一些字母使它俩一样，我们要找的是最少的步数，那么对应的最后留下的相同部分是最长的公共子序列，这样问题就可以转换为求两个字符串的最长公共子序列了。题目要求的步数也就是两个字符串的长度相加再减去二倍的最长公共子序列的长度。</p>
+<p>用递归的做法为（其实我刚开始没想到，看了答案才知道的）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minDistance</span><span class="params">(self, word1: str, word2: str)</span> -&gt; int:</span></span><br><span class="line">    	<span class="keyword">return</span> len(word1) + len(word2) - <span class="number">2</span> * self.lcs(word1, word2, len(word1), len(word2))</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lcs</span><span class="params">(self, word1, word2, m, n)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> m == <span class="number">0</span> <span class="keyword">or</span> n == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">if</span> word1[m<span class="number">-1</span>] == word2[n<span class="number">-1</span>]:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span> + self.lcs(word1, word2, m<span class="number">-1</span>, n<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> max(self.lcs(word1, word2, m<span class="number">-1</span>, n), self.lcs(word1, word2, m, n<span class="number">-1</span>))</span><br></pre></td></tr></table></figure>
+<p>与前面说得一样，可以把递归看作是自顶向下的，我们是从后向前求的。用动态规划的做法为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minDistance</span><span class="params">(self, word1: str, word2: str)</span> -&gt; int:</span></span><br><span class="line">        m, n = len(word1), len(word2)</span><br><span class="line">        <span class="keyword">if</span> m == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> n</span><br><span class="line">        <span class="keyword">if</span> n == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> m</span><br><span class="line">        dp = [[<span class="number">0</span>]*(n+<span class="number">1</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(m+<span class="number">1</span>)]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, m+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>, n+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> word2[j<span class="number">-1</span>] == word1[i<span class="number">-1</span>]:</span><br><span class="line">                    dp[i][j] = dp[i<span class="number">-1</span>][j<span class="number">-1</span>] + <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    dp[i][j] = max(dp[i<span class="number">-1</span>][j], dp[i][j<span class="number">-1</span>])</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, m+<span class="number">1</span>):</span><br><span class="line">            print(dp[i][<span class="number">1</span>:n+<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> m + n - <span class="number">2</span> * dp[m][n]</span><br></pre></td></tr></table></figure>
+<p>我从算法图解这本书里面找了几张很直观的图（其实刚开始我说的那本书就是这本）：</p>
+<p><img src="https://i.loli.net/2019/05/03/5ccc15030ea9c.png" alt="1556876872369.png"></p>
+<p><img src="https://i.loli.net/2019/05/03/5ccc0e5feddee.png" alt="UTOOLS1556876898363.png"></p>
+<p>伪代码为：</p>
+<p><img src="https://i.loli.net/2019/05/03/5ccc0f900cdcb.png" alt="UTOOLS1556877202278.png"></p>
+<p>我们可以发现网格中每一行的值总是依赖于上一行的，于是我们可以把二维的网格简化为一维的列表，具体做法为，只初始化一个列表，然后每一次迭代开始的时候先复制一次这个列表然后再利用这个列表来进行值的更新，代码为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minDistance</span><span class="params">(self, word1: str, word2: str)</span> -&gt; int:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">minDistance2</span><span class="params">(self, word1: str, word2: str)</span> -&gt; int:</span></span><br><span class="line">        m, n = len(word1), len(word2)</span><br><span class="line">        <span class="keyword">if</span> m == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> n</span><br><span class="line">        <span class="keyword">if</span> n == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> m</span><br><span class="line">        dp = [<span class="number">0</span>] * (n+<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">            tem = dp.copy()</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>, n + <span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> word2[j<span class="number">-1</span>] == word1[i]:</span><br><span class="line">                    dp[j] = tem[j<span class="number">-1</span>] + <span class="number">1</span><span class="comment">#tem[j-1]相当于dp[i-1][j-1]</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    dp[j] = max(dp[j<span class="number">-1</span>], dp[j])<span class="comment">#dp[j-1]就相当于dp[i][j-1],dp[j]就相当于dp[i-1][j]</span></span><br><span class="line">            print(dp[<span class="number">1</span>:])</span><br><span class="line">        <span class="keyword">return</span> m + n - <span class="number">2</span> * dp[n]</span><br></pre></td></tr></table></figure>
+<p>刚开始的时候我没有把dp复制一次，当word2[j-1] == word1[i]的时候我也直接用dp[j] = dp[j-1] + 1来更新的，后来发现这样是不对的，因为dp[j-1]不一定等于tem[j-1]，为什么这么说呢？举个例子，word1是ace，word2是exe，这样对应的网格就应该为：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>e</strong></th>
+<th><strong>x</strong></th>
+<th><strong>e</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>a</strong></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong>c</strong></td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong>e</strong></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>关键就在于最后一行，如果使用dp[j] = dp[j-1] + 1来更新的话，那么网格中右下角中的那个值就应该为2了，也能够看出这个问题出现的原因是exe中含有两个e，但是ace的e只能算一次。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/18/Pytorch-notes2/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/18/Pytorch-notes2/" itemprop="url">Pytorch-notes2</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-18T15:56:29+08:00">
+                2019-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Pytorch学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Pytorch学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a>Dropout</h5><p>可以使用nn.Dropout来降低过拟合的风险，具体用法示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mymodel</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.fc1 = nn.Linear(<span class="number">784</span>, <span class="number">256</span>)</span><br><span class="line">        self.fc2 = nn.Linear(<span class="number">256</span>, <span class="number">128</span>)</span><br><span class="line">        self.fc3 = nn.Linear(<span class="number">128</span>, <span class="number">64</span>)</span><br><span class="line">        self.fc4 = nn.Linear(<span class="number">64</span>, <span class="number">10</span>)</span><br><span class="line">        </span><br><span class="line">        self.dropout = nn.Dropout(p=<span class="number">0.2</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        x = x.view(x.shape[<span class="number">0</span>], <span class="number">784</span>)</span><br><span class="line">        </span><br><span class="line">        x = self.dropout(F.relu(self.fc1(x)))</span><br><span class="line">        x = self.dropout(F.relu(self.fc2(x)))</span><br><span class="line">        x = self.dropout(F.relu(self.fc3(x)))</span><br><span class="line">        x = F.log_softmax(self.fc4(x), dim=<span class="number">1</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
+<p>Dropout需要一个决定每一个neuron dropout的概率的参数，训练的时候要用model.train()模式，测试或验证的时候要用model.eval()模式，这个模式中所有的neuron都不会dropout。</p>
+<h5 id="GPU"><a href="#GPU" class="headerlink" title="GPU"></a>GPU</h5><p>使用GPU只需要把model和传入model的Tensor转为cuda即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">device = torch.device(<span class="string">"cuda:0"</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">"cpu"</span>)<span class="comment">#第一行代码</span></span><br><span class="line"><span class="comment">#if torch.cuda.device_count() &gt; 1: #多个GPU</span></span><br><span class="line"><span class="comment">#  model = nn.DataParallel(model)</span></span><br><span class="line">model.to(device)<span class="comment">#第二行代码</span></span><br><span class="line">mytensor = my_tensor.to(device)<span class="comment">#第三行代码</span></span><br></pre></td></tr></table></figure>
+<h5 id="SoftMax"><a href="#SoftMax" class="headerlink" title="SoftMax"></a>SoftMax</h5><script type="math/tex; mode=display">
+\operatorname{Softmax}\left(x_{i}\right)=\frac{\exp \left(x_{i}\right)}{\sum_{j} \exp \left(x_{j}\right)}</script><p>分类任务中尝使用Softmax作为输出的概率，相关的还有LogSoftmax，就是对Softmax的输出取了对数：</p>
+<script type="math/tex; mode=display">
+\operatorname{LogSoftmax}\left(x_{i}\right)=\log \left(\frac{\exp \left(x_{i}\right)}{\sum_{j} \exp \left(x_{j}\right)}\right)</script><p>分类任务中的loss常用对数似然损失函数：</p>
+<script type="math/tex; mode=display">
+J\left(W, b, a^{L}, y\right)=-\sum_{k} y_{k} \ln a_{k}^{L}</script><p>其中$ a_{k} $就是Softmax的输出，$ y_{k} $的值为0或1，当某一训练样本属于第i类的时候，$ y_{i} $=1。Pytorch中的NLLLoss和CrossEntropyLoss是用来计算对数似然损失的，区别是，NLLLoss的输入是LogSoftmax的输出和labels，CrossEntropyLoss结合了LogSoftmax和NLLLoss，它的一个输入和LogSoftmax相同，另一个则是labels。CrossEntropyLoss的表达式为：</p>
+<script type="math/tex; mode=display">
+\operatorname{loss}(x, c l a s s)=-\log \left(\frac{\exp (x[c l a s s])}{\sum_{j} \exp (x[j])}\right)=-x[c l a s s]+\log \left(\sum_{j} \exp (x[j])\right)</script><p>一种推荐做法是以LogSoftmax作为网络的输出层，NLLLoss作为损失函数，这样做的好处是只需对输出做exp()就可以得到概率。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/13/swsad-hw3/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/13/swsad-hw3/" itemprop="url">系统分析作业3</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-13T14:35:32+08:00">
+                2019-04-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/系统分析/" itemprop="url" rel="index">
+                    <span itemprop="name">系统分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="简答题"><a href="#简答题" class="headerlink" title="简答题"></a>简答题</h3><h4 id="简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点"><a href="#简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点" class="headerlink" title="简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点"></a>简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点</h4><h5 id="瀑布模型"><a href="#瀑布模型" class="headerlink" title="瀑布模型"></a>瀑布模型</h5><p>瀑布模型是将软件生命周期的各项活动规定为按固定顺序而连接的若干阶段工作，形如瀑布流水，最终得到软件产品。各软件生命周期如下图：</p>
+<p><a href="https://imgchr.com/i/AL3sED" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/04/13/AL3sED.md.png" alt="AL3sED.md.png"></a></p>
+<p>瀑布模型中的每一个开发活动具有下列特征：</p>
+<ul>
+<li>本阶段活动的工作对象来自于上一项活动的输出，这些输出一般是代表本阶段活动结束的里程碑式的文档。</li>
+<li>根据本阶段的活动规程执行相应的任务。</li>
+<li>本阶段活动产出相关的软件工件，作为下一阶段活动的输入。</li>
+<li>对本阶段活动执行情况进行评审。</li>
+</ul>
+<p>瀑布模型的优点：</p>
+<ul>
+<li>降低软件开发的复杂程度，提高软件开发过程的透明性，提高软件开发过程的可管理性；</li>
+<li>推迟软件实现，强调在软件实现前必须进行分析和设计工作；</li>
+<li>以项目的阶段评审和文档控制为手段有效地对整个开发过程进行指导，保证了阶段之间的正确衔接，能够及时发现并纠正开发过程中存在的缺陷，使产品达到预期的质量要求。</li>
+</ul>
+<p>瀑布模型的缺点：</p>
+<ul>
+<li>强调过程活动的线性顺序；</li>
+<li>缺乏灵活性，尤其无法解决软件需求不明确或不准确的问题；</li>
+<li>风险控制能力较弱；</li>
+<li>瀑布模型中的软件活动是文档驱动的，当阶段之间规定过多的文档时，会极大地增加系统的工作量；</li>
+<li>管理人员如果仅仅以文档的完成情况来评估项目完成进度，往往会产生错误的结论。</li>
+</ul>
+<h5 id="增量模型"><a href="#增量模型" class="headerlink" title="增量模型"></a>增量模型</h5><p>增量模型首先对系统最核心或最清晰的需求进行分析、设计、实现、测试并集成到系统中，再按优先级逐步实现后续需求。运用增量模型的软件开发过程是递增式的过程。</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb199604bf01.png" alt="UTOOLS1555143007815.png"></p>
+<p>增量模型的优点：</p>
+<ul>
+<li>增强客户对系统的信心；</li>
+<li>降低系统失败风险；</li>
+<li>提高系统可靠性；</li>
+<li>人员分配灵活，刚开始不用投入大量人力资源；</li>
+<li>提高系统的稳定性和可维护性。</li>
+</ul>
+<p>增量模型的缺点</p>
+<ul>
+<li>建立初始模型时，作为增量基础的基本业务服务的确定有一定难度；</li>
+<li>由于各个构件是逐渐并入已有的软件体系结构中的，所以加入构件必须不破坏已构造好的系统部分，这需要软件具备开放式的体系结构；</li>
+<li>在开发过程中，需求的变化是不可避免的。增量模型的灵活性可以使其适应这种变化的能力大大优于瀑布模型和快速原型模型，但也很容易退化为边做边改模型，从而使软件过程的控制失去整体性；</li>
+<li>如果增量包之间存在相交的情况且未很好处理，则必须做全盘系统分析；</li>
+<li>增量粒度难以选择。</li>
+</ul>
+<h5 id="螺旋模型（含原型方法）"><a href="#螺旋模型（含原型方法）" class="headerlink" title="螺旋模型（含原型方法）"></a>螺旋模型（含原型方法）</h5><p>螺旋模型是一种演化软件开发过程模型，它兼顾了快速原型的迭代的特征以及瀑布模型的系统化与严格监控。螺旋模型最大的特点在于引入了其他模型不具备的风险分析，使软件在无法排除重大风险时有机会停止，以减小损失。同时，在每个迭代阶段构建原型是螺旋模型用以减小风险的途径。螺旋模型更适合大型的昂贵的系统级的软件应用。</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb199920472b.png" alt="UTOOLS1555143058049.png"></p>
+<p>螺旋模型的四个象限：</p>
+<ul>
+<li>确定目标：确定软件项目目标；明确对软件开发过程和软件产品的约束；制定详细的项目管理计划；根据当前的需求和风险因素，制定实施方案，并进行可行性分析，选定一个实施方案，并对其进行规划。</li>
+<li>识别和解决风险：明确每一个项目风险，估计风险发生的可能性、频率、损害程度，并制定风险管理措施规避这些风险。</li>
+<li>工程实现：针对每一个阶段的任务要求执行开发和测试活动。</li>
+<li>准备下一轮迭代：客户使用原型，反馈修改意见；根据客户的反馈，对产品及其开发过程进行评审，决定是否进入螺旋线的下一个回路。</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>通过原型建立，使得软件开发在每个迭代有最初明确的方向；</li>
+<li>通过风险分析，最大程度地降低软件彻底失败造成损失的可能性；</li>
+<li>在每个迭代阶段植入软件测试，使每个阶段的质量得到保证；</li>
+<li>整体过程具备很高的灵活性，在开发过程的任何阶段自由应对变化；</li>
+<li>每个迭代阶段累计开发成本，使支出状况容易掌握；</li>
+<li>通过对用户反馈的采集，与用户沟通，以保证用户需求的最大实现。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>过度依赖风险分析经验与技术，一旦风险分析过程出现偏差将导致重大损失；</li>
+<li>过于灵活的开发过程不利于已经签署合同的客户与开发者之间的协调；</li>
+<li>只适用于大型软件，过多的风险管理支出将会影响客户的最终收益。</li>
+</ul>
+<h4 id="简述统一过程三大特点，与面向对象的方法有什么关系？"><a href="#简述统一过程三大特点，与面向对象的方法有什么关系？" class="headerlink" title="简述统一过程三大特点，与面向对象的方法有什么关系？"></a>简述统一过程三大特点，与面向对象的方法有什么关系？</h4><p>三大特点：</p>
+<ul>
+<li>用例驱动</li>
+<li>以体系结构为中心</li>
+<li>迭代和增量</li>
+</ul>
+<p>统一过程将软件开发过程要素和软件工件要素整合在统一的软件工程框架中，是一个面向对象的程序开发方法论。</p>
+<h4 id="简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？"><a href="#简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？" class="headerlink" title="简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？"></a>简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？</h4><p>统一过程中的软件生命周期在时间维度上被分解为四个顺序的阶段：初始阶段、精化阶段、构建阶段和产品交付阶段。</p>
+<p>里程碑：</p>
+<ul>
+<li>初始阶段：生命周期目标里程碑，包括一些重要的文档，如：项目构想 (Vision)、原始用例模型、原始业务风险评估、一个或者多个原型、原始业务案例等。通过对文档的评审确定用例需求理解正确、项目风险评估合理、阶段计划可行等。</li>
+<li>精化阶段：生命周期体系结构里程碑，包括风险分析文档、软件体系结构基线、项目计划、可执行的进化原型、初始版本的用户手册等。通过评审确定软件体系结构已经稳定、高风险的业务需求和技术机制已经解决、修订的项目计划可行等。</li>
+<li>构建阶段：初始运行能力里程碑，包括可以运行的软件产品、用户手册等，它决定了产品是否可以在测试环境中进行部署。此刻，要确定软件、环境、用户是否可以开始系统的运行。</li>
+<li>产品交付阶段：产品发布里程碑，确定最终目标是否实现，是否应该开始产品下一个版本的另一个开发周期。在一些情况下这个里程碑可能与下一个周期的初始阶段相重合。</li>
+</ul>
+<h4 id="软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？"><a href="#软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？" class="headerlink" title="软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？"></a>软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？</h4><p>因为统一过程将软件生命周期划分为4个固定的阶段即初始阶段、精化阶段、构建阶段和产品交付阶段，并且按照迭代的方式来运行，每轮迭代具有固定的周期和明确的里程碑目标；利用软件产品范围的弹性，合理规划范围（20%业务决定80%满意度），使得软件生产按固定节奏运行，固定迭代周期、固定开发周期、固定升级周期。</p>
+<p>好处：</p>
+<ul>
+<li>建立团队的节奏感：有预期的节奏，容易让团队形成习惯，团队生产效率更规律；</li>
+<li>降低协同成本：能够并行的去安排多个迭代的规划，评审等活动。因为每个人都知道这些活动什么时候进行，减低沟通和协同成本；</li>
+<li>简化规划活动：如果固定的迭代长度，当团队人力固定的时候，团队的生产率理论上也是固定的，有利于规划的合理性；</li>
+<li>便于量化生产过程、个人贡献度、人力资源利用率等数据，有利于更好地监督、控制、调整、评价整个生产。</li>
+</ul>
+<h3 id="实践题"><a href="#实践题" class="headerlink" title="实践题"></a>实践题</h3><h4 id="下载腾讯微信企业版PC端，安装腾讯敏捷产品研发平台（TAPD），了解使用-TAPD-的最佳实践"><a href="#下载腾讯微信企业版PC端，安装腾讯敏捷产品研发平台（TAPD），了解使用-TAPD-的最佳实践" class="headerlink" title="下载腾讯微信企业版PC端，安装腾讯敏捷产品研发平台（TAPD），了解使用 TAPD 的最佳实践"></a>下载腾讯微信企业版PC端，安装腾讯敏捷产品研发平台（TAPD），了解使用 TAPD 的最佳实践</h4><p>下载安装好微信企业版PC端之后，在TAPD的官网点击通过企业微信注册专业版使用就可以了，目前专业版好像并没有收费，刚开始我以为会收费所以试用了标准版，后来才发现标准版并没有需求、迭代、缺陷的功能，升级之后才可以使用。</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1ca6fe20cd.png" alt="UTOOLS1555155568039.png"></p>
+<p>TAPD给出的的项目流程为：</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1c64ac98d4.png" alt="UTOOLS1555154506836.png"></p>
+<h5 id="比较完善-backlog-支持（树结构）"><a href="#比较完善-backlog-支持（树结构）" class="headerlink" title="比较完善 backlog 支持（树结构）"></a>比较完善 backlog 支持（树结构）</h5><p>初次使用的时候，网页下面会跳出如下图所示的指引：</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1c6c54e8a6.png" alt="UTOOLS1555154629706.png"></p>
+<p>我按照这个指引创建了一个需求，然后又为这个需求创建了两个子需求，然后又为其中的一个子需求创建了一个子需求：</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1ccf1807b0.png" alt="UTOOLS1555156208618.png"></p>
+<p>可以看出这些需求是自动按父子关系以树结构排列的，而且每个需求都有自己的ID、标题、优先级、迭代、状态、处理人、预计开始和结束时间信息。</p>
+<h5 id="迭代（sprint）安排"><a href="#迭代（sprint）安排" class="headerlink" title="迭代（sprint）安排"></a>迭代（sprint）安排</h5><p>初次使用迭代的指引为：</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1cef885edb.png" alt="UTOOLS1555156729086.png"></p>
+<p>首先创建迭代，我创建了一个名为Test迭代的迭代</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1d2ec77b81.png" alt="UTOOLS1555157740776.png"></p>
+<p>创建的时候需要设置迭代的开始时间和结束时间</p>
+<p>然后开始规划迭代：</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1d33a42960.png" alt="UTOOLS1555157818859.png"></p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1d3c34587d.png" alt="UTOOLS1555157955500.png"></p>
+<p>可以把迭代1中的需求规划到迭代2，后来发现可以在左上角的页面设置过滤规则来选择需求，对于实际中的操作还是很方便的。</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb202126c570.png" alt="1555158185549.png"></p>
+<p>这个时候可以看到刚才Test迭代的这个迭代已经有了刚才我拖过去的需求，并且迭代1显示已经完成67%了，因为它的部分需求已经被移到3当前这个Test迭代了。</p>
+<p>然后就可以分配工作到处理人了：</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1d5fcbfc78.png" alt="UTOOLS1555158524310.png"></p>
+<p>在迭代的管理界面可以很清晰的看到当前的进度：</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb201d4d5042.png" alt="1555158788883.png"></p>
+<p>另外我还发现一个细节，需求不可以从规划中的状态之间改变为已实现，要先改为实现中然后才能改为已实现，很符合实际情况。</p>
+<h5 id="较好的缺陷管理"><a href="#较好的缺陷管理" class="headerlink" title="较好的缺陷管理"></a>较好的缺陷管理</h5><p>创建了两个缺陷：</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1ec6b95e0c.png" alt="UTOOLS1555164266778.png"></p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1f3de88b40.png" alt="UTOOLS1555166173627.png"></p>
+<p>我创建了一个视图：</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1f38733ce8.png" alt="UTOOLS1555166085292.png"></p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1f413cc5e5.png" alt="UTOOLS1555166227806.png"></p>
+<p>可以看到这里面的缺陷的创建人都是我，还有其他很多过滤条件和规则可以使用，非常方便</p>
+<p>和需求完成过程差不多，缺陷的状态也要先从新变为接受/处理最后才能变为已解决</p>
+<p>缺陷统计中自动生成了关于缺陷的各种各样的图表：</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1f5d275f87.png" alt="UTOOLS1555166673050.png"></p>
+<h5 id="Kanban"><a href="#Kanban" class="headerlink" title="Kanban"></a>Kanban</h5><p><img src="https://i.loli.net/2019/04/13/5cb1fdb3bd2c1.png" alt="UTOOLS1555168690442.png"></p>
+<p>看板是由各个状态栏组成的，每个状态栏又是由工作项组成的，工作项也支持从一个状态栏拖动到另一个状态栏</p>
+<p><img src="http://yanxuan.nosdn.127.net/a1e2110530915ba3521ff2713ced3f8a.png" alt="UTOOLS1555168338681.png"></p>
+<p>每一个工作项可以设置负责人、参与人、开始截止时间以及标签评论等，并且能看到详细的变更历史，这些功能算是比较丰富了，但是我好像没有找到看板显示总体进度的功能。</p>
+<h5 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h5><p>在报表一栏，可以看到缺陷统计、需求分布统计、需求关联统计这三个大的统计信息类</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1f739dee4d.png" alt="UTOOLS1555167031082.png"></p>
+<p>缺陷统计如在上面缺陷那一节介绍的那样，下图是一个缺陷状态分布图的例子：</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1f7dc8198b.png" alt="UTOOLS1555167195572.png"></p>
+<p>需求分布统计中需要自己选择水平轴的参数（必选），纵轴也是可选的，选择内容和水平轴可选内容一样，我创建了一个以状态为水平轴，优先级为纵轴的需求分布统计图：</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb2018c4ffb6.png" alt="1555167538372.png"></p>
+<p>需求关联统计正如其名一样可以生成需求关联信息的表格：</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb2017171eae.png" alt="1555167640435.png"></p>
+<h5 id="一些体会"><a href="#一些体会" class="headerlink" title="一些体会"></a>一些体会</h5><p>本来只是抱着玩一玩了解一下的心态来尝试使用TPAD的，但是在使用的过程中感受到了良好的工具对于同队协同工作的重要性，同时，在实践的过程中也加深了对敏捷开发过程的理解和认识。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/Pytorch-notes1/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1278,457 +2297,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/28/4/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/28/4/" itemprop="url">梯度下降技巧</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-28T10:04:55+08:00">
-                2019-02-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/李宏毅机器学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">李宏毅机器学习笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h5 id="tip1：Adagrad"><a href="#tip1：Adagrad" class="headerlink" title="tip1：Adagrad"></a>tip1：Adagrad</h5><p><img src="/2019/02/28/4/1.png" alt="1"></p>
-<p>思想是刚开始的时候学习快，后来学习慢，因为参数是越来越靠近local minimum的，通过η除以</p>
-<script type="math/tex; mode=display">
-\sqrt{t+1}</script><p>来实现，公式可以整理化简为：</p>
-<p><img src="/2019/02/28/4/2.png" alt="2"></p>
-<p>对于这个公式，一种直观的解释是：</p>
-<p><img src="/2019/02/28/4/3.png" alt="3"></p>
-<p>但是其实那个分母反应的是二次微分的大小，因为对于多个自变量来说，并不一定是一次微分越大它就离local minimum越远，还要考虑二次微分的大小，如下图中的a点和c点，虽然c点的一次微分更大，但是a点离local minimum更远。至于为什么那个分母反应的是二次微分的大小，还不是很清楚。</p>
-<p><img src="/2019/02/28/4/4.png" alt="4"></p>
-<h5 id="tip2：Stochastic-Gradient-Descent"><a href="#tip2：Stochastic-Gradient-Descent" class="headerlink" title="tip2：Stochastic Gradient Descent"></a>tip2：Stochastic Gradient Descent</h5><p>这种方法可以使学习更快，它看一次example就update一次参数</p>
-<p><img src="/2019/02/28/4/5.png" alt="5"></p>
-<p><img src="/2019/02/28/4/6.png" alt="6"></p>
-<h5 id="tip3：Feature-Scaling"><a href="#tip3：Feature-Scaling" class="headerlink" title="tip3：Feature Scaling"></a>tip3：Feature Scaling</h5><p>把所有自变量的定义域变为一样的</p>
-<p><img src="/2019/02/28/4/7.png" alt="7"></p>
-<p><img src="/2019/02/28/4/8.png" alt="8"></p>
-<p>变化之后update参数效率更高。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/27/3/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/27/3/" itemprop="url">参数误差来源</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-27T22:22:43+08:00">
-                2019-02-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/李宏毅机器学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">李宏毅机器学习笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>误差来源 <a href="https://www.youtube.com/watch?v=D_S6y0Jm6dQ&amp;t=1952s" target="_blank" rel="noopener">视频地址</a></p>
-<p>简单的model：Bias大，Variance小，因为Function Set小</p>
-<p>复杂的model：Bias小，Variance大，因为Function Set大</p>
-<p>Bias太大：model不fit training examples，underfitting，解决办法是：</p>
-<ul>
-<li><p>add more features as input</p>
-</li>
-<li><p>a more complex model</p>
-</li>
-<li><p>收集更多数据没用</p>
-</li>
-</ul>
-<p>Variance太大：fit training data，不 fit testing data， overfitting，解决办法是：</p>
-<ul>
-<li><p>more data（可以自己造）</p>
-</li>
-<li><p>regularization（曲线会变平滑，但是可能会使bias变大）</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/19/2/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/19/2/" itemprop="url">IPSec传输模式下ESP报文的装包与拆包过程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-19T15:31:48+08:00">
-                2018-12-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h5 id="装包过程"><a href="#装包过程" class="headerlink" title="装包过程"></a>装包过程</h5><p>1.在原IP报文的尾部添加ESP Trailer，该部分包括3部分：第一部分是Padding，因为稍后选择的加密算法可能是快加密算法，所以可能要进行填充；第二部分是Pad length即padding的长度，解包时会用到；第三部分是Next header，用来表明被加密的报文的类型例如TCP。</p>
-<p>2.把IP报文的载荷部分和ESP Trailer作为一个整体进行加密，具体的密钥和加密算法由SA给出。</p>
-<p>3.为第2步得到的加密数据添加ESP header。ESP header由SPI和Seq两部分组成。加密数据与ESP header构成认证部分。</p>
-<p>4.附加完整性度量结果(ICV，Integrity check value)。对第3步得到的认证部分做认证，得到一个32位整数倍的完整性度 量值(MAC)，并附在ESP 报文的尾部。完整性度量算法包括需要的认证密钥由SA 给出。</p>
-<p>5.把IP header的proto部分改为50=ESP。</p>
-<h5 id="拆包过程"><a href="#拆包过程" class="headerlink" title="拆包过程"></a>拆包过程</h5><p>1.接收方收到IP报文后，发现协议类型是50，表明这是一个ESP包。首先查看ESP header，通过SPI决定数据报文所对应的SA，获得对应的模式(tunnel/transport mode)以及安全规范。</p>
-<p>2.计算认证部分的摘要，与附在末尾的ICV做对比，验证数据完整性。 </p>
-<p>3.查看Seq里的顺序号，保证数据是“新鲜”的。</p>
-<p>4.根据SA所提供的加密算法和密钥，解密被加密过的数据，得到原IP报文与ESP trailer。</p>
-<p>5.根据ESP trailer 的填充长度信息，找出填充字段的长度，删去后得到原来的IP报文。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1774,7 +2347,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
