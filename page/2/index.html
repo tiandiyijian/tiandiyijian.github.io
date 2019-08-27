@@ -248,6 +248,355 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/10-regular-expression-matching/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/12/10-regular-expression-matching/" itemprop="url">Leetcode10-正则表达式匹配</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-12T08:52:20+08:00">
+                2019-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given an input string (<code>s</code>) and a pattern (<code>p</code>), implement regular expression matching with support for <code>&#39;.&#39;</code> and <code>&#39;*&#39;</code>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&apos;.&apos; Matches any single character.</span><br><span class="line">&apos;*&apos; Matches zero or more of the preceding element.</span><br></pre></td></tr></table></figure>
+<p>The matching should cover the <strong>entire</strong> input string (not partial).</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li><code>s</code> could be empty and contains only lowercase letters <code>a-z</code>.</li>
+<li><code>p</code> could be empty and contains only lowercase letters <code>a-z</code>, and characters like <code>.</code> or <code>*</code>.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">s = &quot;aa&quot;</span><br><span class="line">p = &quot;a&quot;</span><br><span class="line">Output: false</span><br><span class="line">Explanation: &quot;a&quot; does not match the entire string &quot;aa&quot;.</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">s = &quot;aa&quot;</span><br><span class="line">p = &quot;a*&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: &apos;*&apos; means zero or more of the preceding element, &apos;a&apos;. Therefore, by repeating &apos;a&apos; once, it becomes &quot;aa&quot;.</span><br></pre></td></tr></table></figure>
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">s = &quot;ab&quot;</span><br><span class="line">p = &quot;.*&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: &quot;.*&quot; means &quot;zero or more (*) of any character (.)&quot;.</span><br></pre></td></tr></table></figure>
+<p><strong>Example 4:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">s = &quot;aab&quot;</span><br><span class="line">p = &quot;c*a*b&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: c can be repeated 0 times, a can be repeated 1 time. Therefore, it matches &quot;aab&quot;.</span><br></pre></td></tr></table></figure>
+<p><strong>Example 5:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">s = &quot;mississippi&quot;</span><br><span class="line">p = &quot;mis*is*p*.&quot;</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>给出一个字符串<code>s</code>和一个模式p<code>，判断</code>p<code>是否能匹配</code>s`，’.’ 匹配任意单个字符，’*’ 匹配零个或多个前面的那一个元素。</p>
+<p>每次从字符串里拿出一个字符和模式中的字符去匹配。先来分析如何匹配一个字符。如果模式中的字符<code>ch</code>是<code>&#39;.&#39;</code>，那么它可以匹配字符串中的任意字符。如果模式中的字符<code>ch</code>不是<code>&#39;.&#39;</code>，而且字符串中的字符也是<code>ch</code>，那么它们也匹配。当字符串中的字符和模式中的字符相匹配时，接着匹配后面的字符。</p>
+<p>相对而言,当模式中的第二个字符不是<code>&#39;*&#39;</code>时，问题要简单很多。如果字符串中的第一个字符和模式中的第一个字符相匹配，那么在字符串和模式上都向后移动一个字符，然后匹配剩余的字符串和模式。如果字符串中的第一个字符和模式中的第一个字符不相匹配，则直接返回 false。</p>
+<p>当模式中的第二个字符是 <code>&#39;*&#39;</code> 时，问题要复杂一些，因为可能有多种不同的匹配方式。一种选择是在模式上向后移动两个字符。这相当于和它前面的字符被忽略了，因为<code>&#39;*&#39;</code>可以匹配字符串中的0个字符。如果模式中的第一个字符和字符串中的第一个字符相匹配，则在字符串上向后移动一个字符，而在模式上有两种选择：可以在模式上向后移动两个字符，也可以保持模式不变。</p>
+<p>如图所示，当匹配进入状态2并且字符串的字符是<code>&#39;a&#39;</code>时，我们有两种选择：可以进入状态3(在模式上向后移动两个字符)，也可以回到状态2(模式保持不变)。</p>
+<p><img src="https://i.loli.net/2019/08/12/GJIYuU5b3ZCVwq9.png" alt="UTOOLS1565576790774.png"></p>
+<p>按照这个思路，可以写出如下代码（C++）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">matchCore</span><span class="params">(<span class="built_in">string</span> &amp;s, <span class="keyword">int</span> i, <span class="built_in">string</span> &amp;p, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (j == p.size()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i == s.size()) <span class="keyword">return</span> <span class="literal">true</span>; <span class="comment">//模式和字符串中字符都匹配完</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//模式中字符已用完但是字符串中字符还没匹配完</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (p[j + <span class="number">1</span>] == <span class="string">'*'</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s[i] == p[j] || (p[j] == <span class="string">'.'</span> &amp;&amp; i &lt; s.size())) &#123;</span><br><span class="line">                <span class="keyword">return</span> matchCore(s, i + <span class="number">1</span>, p, j) <span class="comment">//保留在当前状态</span></span><br><span class="line">                || matchCore(s, i + <span class="number">1</span>, p, j + <span class="number">2</span>) <span class="comment">//进入状态机下一个状态</span></span><br><span class="line">                || matchCore(s, i, p, j + <span class="number">2</span>);    <span class="comment">//忽略a*</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> matchCore(s, i, p, j + <span class="number">2</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// cout &lt;&lt; s[i] &lt;&lt; " " &lt;&lt; p[j] &lt;&lt; endl;</span></span><br><span class="line">        <span class="keyword">if</span> (s[i] == p[j] || (p[j] == <span class="string">'.'</span> &amp;&amp; i &lt; s.size())) &#123;</span><br><span class="line">               <span class="comment">//cout &lt;&lt; i &lt;&lt; " " &lt;&lt; j &lt;&lt; endl;</span></span><br><span class="line">                <span class="keyword">return</span> matchCore(s, i + <span class="number">1</span>, p, j + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isMatch</span><span class="params">(<span class="built_in">string</span> s, <span class="built_in">string</span> p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> matchCore(s, <span class="number">0</span>, p, <span class="number">0</span>);  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>以上内容出自《剑指offer》。</p>
+<p>但是这种递归的方法比较耗时，还有一种动态规划的方法，用<code>dp[i][j]</code>表示<code>s</code>的前<code>i</code>个字符和<code>p</code>的前<code>j</code>个字符相匹配，<code>i</code>和<code>j</code>都是可以等于0的（dp的大小为<code>dp[s.size()+1][p.size()+1]</code>），<code>dp[0][0]=true</code>，因为0个就是没有，没有和没也有是匹配的。当<code>j</code>等于0而<code>i</code>不等于0时，<code>dp[i][0]=false</code>，因为空的模式肯定不能匹配非空的字符串。而当<code>i</code>等于0而<code>j</code>不等于0时情况就不一样了，比如说模式<code>&#39;a*b*&#39;</code>和空的字符串也是匹配的，所以<code>dp[0][j] = dp[0][j-2]</code>。</p>
+<p>对于<code>i</code>和<code>j</code>都大于0的情况，有以下规律：</p>
+<script type="math/tex; mode=display">
+dp[i][j]=\left\{
+\begin{array}{ll}
+dp[i-1][j-1]   &      & {s[i]==p[j] \quad or \quad p[j]=='.'}\\
+dp[i][j-2]     &      & {p[j]=='*'} \\
+dp[i-1][j]     &      & {p[j]=='*' \quad and \quad (s[i]==p[j-1]\ or\ p[j-1]=='.')}\\
+false          &      & {else}
+\end{array} \right.</script><ul>
+<li><p><code>s[i]==p[j] or p[j]==&#39;.&#39;</code>时，代表<code>s</code>的第<code>i</code>个字符和<code>p</code>的第<code>j</code>个字符匹配，那么如果<code>s</code>的前<code>i-1</code>个字符和<code>p</code>的前<code>j-1</code>个字符匹配，<code>s</code>的前<code>i</code>个字符就和<code>p</code>的前<code>j</code>个字符匹配，所以此时<code>dp[i][j]=dp[i-1][j-1]</code></p>
+</li>
+<li><p><code>p[j]==&#39;*&#39;</code>时，举个例子如下面所示，<code>dp[1][3]=dp[1][3-2]</code>，为什么会是这样？它的意思就是<code>&#39;x&#39;</code>和<code>&#39;x&#39;</code>匹配，那么<code>&#39;xa*&#39;</code>和<code>&#39;x&#39;</code>也匹配，在这种情况下，<code>&#39;a*&#39;</code>意味着<code>&#39;a&#39;</code>出现0次</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">        x   a   *    </span><br><span class="line">    T   F   F   F          </span><br><span class="line">x   F   T   F   T dp[1][3] = dp[1][3-2]     </span><br><span class="line">a   F   F   T   T dp[2][3] = dp[1][3]</span><br><span class="line">a   F   F   F   T dp[3][3] = dp[2][3]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>p[j]==&#39;*&#39; and (s[i]==p[j-1] or p[j-1]==&#39;.&#39;)</code>时，还是上面那个例子，观察<code>dp[2][3] = dp[1][3]</code>和<code>dp[3][3] = dp[2][3]</code>，前者对应着<code>&#39;xa&#39;</code>中的<code>&#39;a&#39;</code>等于<code>&#39;xa*&#39;</code>中的<code>&#39;a&#39;</code>，那么<code>&#39;xa&#39;</code>和<code>&#39;xa*&#39;</code>是否匹配就取决于<code>&#39;x&#39;</code>和<code>&#39;xa*&#39;</code>是否匹配，答案是肯定的。后者也是一样的道理，<code>&#39;xaa&#39;</code>中的第二个<code>&#39;a&#39;</code>等于<code>&#39;xa*&#39;</code>中的<code>&#39;a&#39;</code>，那么<code>&#39;xaa&#39;</code>和<code>&#39;xa*&#39;</code>是否匹配就取决于<code>&#39;xa&#39;</code>和<code>&#39;xa*&#39;</code>是否匹配，这就是前面那个问题，答案也是肯定的。我的理解是，如果模式中<code>&#39;*&#39;</code>前面的那个字符和字符串中的某个字符相匹配，就先把字符串中的那个字符吸走（匹配掉），看它前面的内容是否和那个模式匹配         </p>
+</li>
+</ul>
+<p>代码如下（C++）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isMatch</span><span class="params">(<span class="built_in">string</span> s, <span class="built_in">string</span> p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> lens = s.size(), lenp = p.size();</span><br><span class="line">        <span class="keyword">bool</span> dp[lens + <span class="number">1</span>][lenp + <span class="number">1</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= lens; ++i)</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt;= lenp; ++j)</span><br><span class="line">                dp[i][j] = <span class="literal">false</span>;</span><br><span class="line">        </span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= lenp; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (p[i<span class="number">-1</span>] == <span class="string">'*'</span>) dp[<span class="number">0</span>][i] = dp[<span class="number">0</span>][i<span class="number">-2</span>]; <span class="comment">//像a*b*这种其实和空串是匹配的</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= lens; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= lenp; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (s[i<span class="number">-1</span>] == p[j<span class="number">-1</span>] || p[j<span class="number">-1</span>] == <span class="string">'.'</span>) dp[i][j] = dp[i<span class="number">-1</span>][j<span class="number">-1</span>];       </span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (p[j<span class="number">-1</span>] == <span class="string">'*'</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                    dp[i][j] = dp[i][j<span class="number">-2</span>]; <span class="comment">//a*可以不算数</span></span><br><span class="line">                    <span class="keyword">if</span> (p[j<span class="number">-2</span>] == s[i<span class="number">-1</span>] || p[j<span class="number">-2</span>] == <span class="string">'.'</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        dp[i][j] = dp[i][j] || dp[i<span class="number">-1</span>][j]; <span class="comment">//a*算数而且可以算多次,比如说xaa和xa*</span></span><br><span class="line">                        <span class="comment">/*</span></span><br><span class="line"><span class="comment">                                p   x   a   *    </span></span><br><span class="line"><span class="comment">                            S   T   F   F   F          </span></span><br><span class="line"><span class="comment">                            x   F   T   F   T dp[1][3] = dp[1][3-2]     </span></span><br><span class="line"><span class="comment">                            a   F   F   T   T dp[2][3] = dp[1][3]</span></span><br><span class="line"><span class="comment">                            a   F   F   F   T dp[3][3] = dp[2][3]</span></span><br><span class="line"><span class="comment">                        */</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> dp[i][j] = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[lens][lenp];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>代码中需要注意的地方是<code>dp[i][j]</code>对应的是<code>s[0:i-1]</code>和<code>p[0:j-1]</code>是否匹配，要注意下标的问题。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/11/169-majority-element/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/11/169-majority-element/" itemprop="url">Leetcode169-求众数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-11T21:35:36+08:00">
+                2019-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given an array of size <em>n</em>, find the majority element. The majority element is the element that appears <code>⌊ n/2 ⌋</code> times.</p>
+<p>You may assume that the array is non-empty and the majority element always exist in the array.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [3,2,3]</span><br><span class="line">Output: 3</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [2,2,1,1,1,2,2]</span><br><span class="line">Output: 2</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>题目要求求出给定数组中的众数，也就是出现次数大于$\frac{n}{2}$的数。我刚开始想到的解法是用一个字典把数组中数字出现的次数都保存下来，但是这样消耗了太多的空间。后来了解到有一个算法叫做<a href="[https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_majority_vote_algorithm](https://en.wikipedia.org/wiki/Boyer–Moore_majority_vote_algorithm">Boyer–Moore majority vote algorithm</a>)，它的步骤如下：</p>
+<ul>
+<li>初始化一个候选元素 candidate 和 计数器 counter = 0</li>
+<li>对数组中每一个元素 x：<ul>
+<li>如果 counter = 0，那么 candidate = x</li>
+<li>如果 candidate = x，counter += 1，否则 counter -= 1</li>
+</ul>
+</li>
+<li>candidate 即为所求</li>
+</ul>
+<p>感觉直观上不是很容易想出来，举个例子就容易看明白了：就比如说数组<code>「1 3 2 3 3」</code>，第一次循环 candidate = 1， counter = 1；第二次循环 candidate = 1， counter = 0；第三次循环 candidate = 2， counter = 1；第四次循环 candidate = 2， counter = 0；最后一次循环循环 candidate = 3， counter = 1；最终 candidate = 3。我最后是这么理解的，在扫描数组的过程中，肯定会遇见真正的众数，而众数的数量是大于数组长度的一半的，所以最终的 candidate 肯定为众数并且 counter 就等于众数的个数减去非众数的个数。</p>
+<p>代码如下（C++）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">majorityElement</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> candidate;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> &amp;i:nums) &#123;</span><br><span class="line">            <span class="keyword">if</span> (count==<span class="number">0</span>) candidate = i;</span><br><span class="line">            count += candidate == i ? <span class="number">1</span> : <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> candidate;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/09/77-combinations/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1448,311 +1797,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/04/20-ValidParentheses/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/04/20-ValidParentheses/" itemprop="url">Leetcode20-有效的括号</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-04T11:52:53+08:00">
-                2019-08-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given a string containing just the characters <code>&#39;(&#39;</code>, <code>&#39;)&#39;</code>, <code>&#39;{&#39;</code>, <code>&#39;}&#39;</code>, <code>&#39;[&#39;</code> and <code>&#39;]&#39;</code>, determine if the input string is valid.</p>
-<p>An input string is valid if:</p>
-<ol>
-<li>Open brackets must be closed by the same type of brackets.</li>
-<li>Open brackets must be closed in the correct order.</li>
-</ol>
-<p>Note that an empty string is also considered valid.</p>
-<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>栈的经典应用，扫描字符串，碰见左括号就入栈（因为一对括号肯定是左括号先出现），碰见右括号就判断该右括号和栈顶的括号是否是一对，如果不是就说明该字符串不合法，扫描到最后如果栈为空，说明所有括号都是成对出现的，是合法情况，如果不为空就说明有括号不是成对出现的，不合法。代码如下：</p>
-<p>C++：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isValid</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">stack</span>&lt;<span class="keyword">char</span>&gt; t;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); ++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(s[i] == <span class="string">'('</span> || s[i] == <span class="string">'&#123;'</span> || s[i] == <span class="string">'['</span>)&#123;</span><br><span class="line">                t.push(s[i]);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">if</span>(t.empty() || (s[i] == <span class="string">')'</span> &amp;&amp; t.top() != <span class="string">'('</span>) || (s[i] == <span class="string">']'</span> &amp;&amp; t.top() != <span class="string">'['</span>) || (s[i] == <span class="string">'&#125;'</span> &amp;&amp; t.top() != <span class="string">'&#123;'</span>))</span><br><span class="line">                    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">else</span> </span><br><span class="line">                    t.pop();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> t.empty();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>其实也可以加上如果字符串长度如果为奇数就直接返回 false。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/04/155-MinStack/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/04/155-MinStack/" itemprop="url">Leetcode155-最小栈</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-04T10:24:31+08:00">
-                2019-08-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.</p>
-<ul>
-<li>push(x) — Push element x onto stack.</li>
-<li>pop() — Removes the element on top of the stack.</li>
-<li>top() — Get the top element.</li>
-<li>getMin() — Retrieve the minimum element in the stack.</li>
-</ul>
-<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>和一般的栈的区别就是要能在常数时间内返回栈中元素最小值，有很多种方法，最常见的就是使用两个栈，一个保存元素称为元素栈，另一个保存最小值称为最小值栈。保存最小值也有两种做法，一种是在每一个元素插入后都在最小值栈中插入此时对应的最小值，这样两个栈的大小是一样的；另一种是只有在最小值发生变化时才插入或删除最小值栈中的元素，这样两个栈的大小是不一样的。这两种做法在插入、删除和获取最小值值时都会有一些细微的差别。我的做法是只用一个栈，但是这个栈中的元素是一个当前元素和它对应的最小值的 pair ，获取最小值的时候只需要访问栈尾的 pair 的第二个元素即可。代码如下：</p>
-<p>C++:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinStack</span> &#123;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">stack</span>&lt;pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; &gt; s;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/** initialize your data structure here. */</span></span><br><span class="line">    MinStack() &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s.empty() || getMin() &gt; x) &#123;</span><br><span class="line">            s.push(make_pair(x, x));</span><br><span class="line">            <span class="comment">// s.push(pair&lt;int ,int&gt;(x, x));</span></span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            s.push(make_pair(x, getMin()));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!s.empty()) s.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> s.top().first;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getMin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> s.top().second;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>Python:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinStack</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        initialize your data structure here.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.stack = []        </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(self, x: int)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.stack:</span><br><span class="line">            self.stack.append((x, x))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> x &lt; self.stack[<span class="number">-1</span>][<span class="number">1</span>]:</span><br><span class="line">                self.stack.append((x, x))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                self.stack.append((x, self.stack[<span class="number">-1</span>][<span class="number">1</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pop</span><span class="params">(self)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.stack:</span><br><span class="line">            self.stack.pop()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">top</span><span class="params">(self)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> self.stack:</span><br><span class="line">            <span class="keyword">return</span> self.stack[<span class="number">-1</span>][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getMin</span><span class="params">(self)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">return</span> self.stack[<span class="number">-1</span>][<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1803,7 +1847,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

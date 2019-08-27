@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="题目描述Say you have an array for which the ith element is the price of a given stock on day i. Design an algorithm to find the maximum profit. You may complete as many transactions as you like (i.e., buy">
+<meta name="description" content="题目描述Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put. get(key) - Get the value (will always be positive) of the key if">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Leetcode122-买卖股票的最佳时机 II">
-<meta property="og:url" content="http://yoursite.com/2019/08/07/122-best-time-to-buy-and-sell-stock-II/index.html">
+<meta property="og:title" content="Leetcode146-LRU缓存机制">
+<meta property="og:url" content="http://yoursite.com/2019/08/27/146-lru-cache/index.html">
 <meta property="og:site_name" content="天地一键">
-<meta property="og:description" content="题目描述Say you have an array for which the ith element is the price of a given stock on day i. Design an algorithm to find the maximum profit. You may complete as many transactions as you like (i.e., buy">
+<meta property="og:description" content="题目描述Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put. get(key) - Get the value (will always be positive) of the key if">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-07T04:05:17.692Z">
+<meta property="og:updated_time" content="2019-08-27T12:37:24.625Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Leetcode122-买卖股票的最佳时机 II">
-<meta name="twitter:description" content="题目描述Say you have an array for which the ith element is the price of a given stock on day i. Design an algorithm to find the maximum profit. You may complete as many transactions as you like (i.e., buy">
+<meta name="twitter:title" content="Leetcode146-LRU缓存机制">
+<meta name="twitter:description" content="题目描述Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put. get(key) - Get the value (will always be positive) of the key if">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/08/07/122-best-time-to-buy-and-sell-stock-II/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/27/146-lru-cache/">
 
 
 
 
 
-  <title>Leetcode122-买卖股票的最佳时机 II | 天地一键</title>
+  <title>Leetcode146-LRU缓存机制 | 天地一键</title>
   
 
 
@@ -251,7 +251,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/07/122-best-time-to-buy-and-sell-stock-II/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/27/146-lru-cache/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="天地一键">
@@ -268,7 +268,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Leetcode122-买卖股票的最佳时机 II</h1>
+          <h1 class="post-title" itemprop="name headline">Leetcode146-LRU缓存机制</h1>
         
 
         <div class="post-meta">
@@ -280,8 +280,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-07T11:29:16+08:00">
-                2019-08-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-27T19:39:33+08:00">
+                2019-08-27
               </time>
             
 
@@ -290,28 +290,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -340,21 +318,15 @@
       
 
       
-        <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Say you have an array for which the <em>i</em>th element is the price of a given stock on day <em>i</em>.</p>
-<p>Design an algorithm to find the maximum profit. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times).</p>
-<p><strong>Note:</strong> You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).</p>
-<p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: [7,1,5,3,6,4]</span><br><span class="line">Output: 7</span><br><span class="line">Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.</span><br><span class="line">             Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.</span><br></pre></td></tr></table></figure>
-<p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,2,3,4,5]</span><br><span class="line">Output: 4</span><br><span class="line">Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.</span><br><span class="line">             Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are</span><br><span class="line">             engaging multiple transactions at the same time. You must sell before buying again.</span><br></pre></td></tr></table></figure>
-<p><strong>Example 3:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [7,6,4,3,1]</span><br><span class="line">Output: 0</span><br><span class="line">Explanation: In this case, no transaction is done, i.e. max profit = 0.</span><br></pre></td></tr></table></figure>
-<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>这道题的意思就是给你一段时间内股票的价格，问你最多能赚多少钱（股票走势都知道了还不能赚钱就太笨了），在这期间可以进行任意次交易，但是一次买入之后不能再买一次，就是必须买过必须再卖过之后才能再买。如果想赚到最多的钱那我们就在最低价的时候买，然后一直等到它涨停了立刻就卖，这次交易的利润就是这个区间内的最大值（最后一个点）减去最小值（第一个点）。把所有交易的利润加起来就是最大总利润。代码为：</p>
+        <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Design and implement a data structure for <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#LRU" target="_blank" rel="noopener">Least Recently Used (LRU) cache</a>. It should support the following operations: <code>get</code> and <code>put</code>.</p>
+<p><code>get(key)</code> - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.<br><code>put(key, value)</code> - Set or insert the value if the key is not already present. When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.</p>
+<p>The cache is initialized with a <strong>positive</strong> capacity.</p>
+<p>Could you do both operations in time complexity?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">LRUCache cache = new LRUCache( 2 /* capacity */ );</span><br><span class="line"></span><br><span class="line">cache.put(1, 1);</span><br><span class="line">cache.put(2, 2);</span><br><span class="line">cache.get(1);       // returns 1</span><br><span class="line">cache.put(3, 3);    // evicts key 2</span><br><span class="line">cache.get(2);       // returns -1 (not found)</span><br><span class="line">cache.put(4, 4);    // evicts key 1</span><br><span class="line">cache.get(1);       // returns -1 (not found)</span><br><span class="line">cache.get(3);       // returns 3</span><br><span class="line">cache.get(4);       // returns 4</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>我认为这道题的关键是当缓存容量达到上限时，它应该在写入新数据之前删除最近最少使用的数据值，从而为新的数据值留出空间。我刚开始也想到了用哈希表，但是没想到怎么记录最近最少使用的数据值，所以我就只能采用一种笨方法了，用三个数组，一个记录 key 值，一个存放数据，一个记录上一次使用的时间，代码为：</p>
 <p>C++：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (prices.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> maxProfit = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;        </span><br><span class="line">        <span class="keyword">while</span> (i &lt; prices.size() - <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">while</span> (i &lt; prices.size() - <span class="number">1</span> &amp;&amp; prices[i] &gt;= prices[i+<span class="number">1</span>]) &#123; <span class="comment">// 找到一个递增区间内的最小值</span></span><br><span class="line">                ++i;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> low = prices[i];</span><br><span class="line">            <span class="keyword">while</span> (i &lt; prices.size() - <span class="number">1</span> &amp;&amp; prices[i] &lt;= prices[i+<span class="number">1</span>]) &#123; <span class="comment">// 找到该递增区间的最大值</span></span><br><span class="line">                ++i;</span><br><span class="line">            &#125;</span><br><span class="line">            maxProfit += (prices[i] - low);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxProfit;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>其实还有更简单的写法，经过观察发现，每一个递增区间的最大值减最小值也等于把所有相邻的元素的差的和，比如$[1, 2, 6]$这个区间，最大值减最小值等于$6-1=5$也等于$(2-1)+(6-2)=5$，可以理解成在最低点买入之后，股票它涨一点利润也涨一点，直到涨停。所以，代码可以减化成：</p>
-<p>C++</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (prices.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> maxProfit = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; prices.size(); i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (prices[i] &gt; prices[i<span class="number">-1</span>]) maxProfit += prices[i] - prices[i<span class="number">-1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxProfit;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> *_key, *_value, *_time;</span><br><span class="line">    <span class="keyword">int</span> pointer, _capacity, currentTime;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    LRUCache(<span class="keyword">int</span> capacity) &#123;</span><br><span class="line">        _key = <span class="keyword">new</span> <span class="keyword">int</span>[capacity];</span><br><span class="line">        _value = <span class="keyword">new</span> <span class="keyword">int</span>[capacity];</span><br><span class="line">        _time = <span class="keyword">new</span> <span class="keyword">int</span>[capacity];</span><br><span class="line">        pointer = <span class="number">0</span>;</span><br><span class="line">        _capacity = capacity;</span><br><span class="line">        currentTime = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// bool contain = false;</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pointer; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (_key[i] == key) &#123;</span><br><span class="line">                _time[i] = currentTime++;</span><br><span class="line">                <span class="keyword">return</span> _value[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> key, <span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">bool</span> contain = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pointer; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (_key[i] == key) &#123;</span><br><span class="line">                _key[i] = key;</span><br><span class="line">                _value[i] = value;</span><br><span class="line">                _time[i] = currentTime++;</span><br><span class="line">                contain = <span class="literal">true</span>;</span><br><span class="line">                <span class="comment">// break;</span></span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!contain) &#123;</span><br><span class="line">            <span class="keyword">if</span> (pointer &lt; _capacity) &#123;</span><br><span class="line">                _key[pointer] = key;</span><br><span class="line">                _value[pointer] = value;</span><br><span class="line">                _time[pointer] = currentTime++;</span><br><span class="line">                ++ pointer;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">int</span> subscript = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pointer; i++)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (_time[subscript] &gt; _time[i]) subscript = i;</span><br><span class="line">                &#125;</span><br><span class="line">                _key[subscript] = key;</span><br><span class="line">                _value[subscript] = value;</span><br><span class="line">                _time[subscript] = currentTime++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>也能通过，就是太耗时。</p>
 
       
     </div>
@@ -379,8 +351,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/07/23-merge-k-sorted-lists/" rel="next" title="Leetcode23-合并K个排序链表">
-                <i class="fa fa-chevron-left"></i> Leetcode23-合并K个排序链表
+              <a href="/2019/08/15/236-lowest-common-ancestor-of-a-binary-tree/" rel="next" title="Leetcode236-二叉树的最近公共祖先">
+                <i class="fa fa-chevron-left"></i> Leetcode236-二叉树的最近公共祖先
               </a>
             
           </div>
@@ -389,8 +361,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08/07/121-best-time-to-buy-and-sell-stock/" rel="prev" title="Leetcode121-买卖股票的最佳时机">
-                Leetcode121-买卖股票的最佳时机 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/08/27/292-nim-game/" rel="prev" title="Leetcode292-Nim游戏">
+                Leetcode292-Nim游戏 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
