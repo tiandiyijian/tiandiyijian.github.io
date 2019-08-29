@@ -248,6 +248,167 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/29/4-median-of-two-sorted-arrays/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/29/4-median-of-two-sorted-arrays/" itemprop="url">Leetcode4-寻找两个有序数组的中位数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-29T16:01:48+08:00">
+                2019-08-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>There are two sorted arrays and of size m and n respectively.</p>
+<p>Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).</p>
+<p>You may assume <strong>nums1</strong> and <strong>nums2</strong> cannot be both empty.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nums1 = [1, 3]</span><br><span class="line">nums2 = [2]</span><br><span class="line"></span><br><span class="line">The median is 2.0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nums1 = [1, 2]</span><br><span class="line">nums2 = [3, 4]</span><br><span class="line"></span><br><span class="line">The median is (2 + 3)/2 = 2.5</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>题目要求在$O(log(m+n))$时间内找出两个有序数组的中位数。又是对数时间又是有序数组又是中位数，很容易联想到二分查找。具体怎么个二分查找还要和中位数联系起来。中位数什么特点呢？就是一半的元素都比它小另一半的元素都比它大，在有序数组中中位数就是中间的那个数，但是这道题是要求两个有序数组的中位数。最简单的方法就是把这两个有序数组合并取中间那个元素，但是这个操作至少需要$O(m+n)$的时间不满足题目要求。</p>
+<p>那么还是来想一下两个有序数组的中位数的特点。假如把这两个数组各切成两半：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">      left_part          |        right_part</span><br><span class="line">A[0], A[1], ..., A[i-1]  |  A[i], A[i+1], ..., A[m-1]</span><br><span class="line">B[0], B[1], ..., B[j-1]  |  B[j], B[j+1], ..., B[n-1]</span><br></pre></td></tr></table></figure>
+<p>如果可以保证：</p>
+<script type="math/tex; mode=display">
+len(left\_part)=len(right\_part) \\
+max(left\_part)≤min(right\_part)</script><p>那么就把这两个数组分成了左右长度相同的两个部分，左边的部分都比右边的部分小，那么：</p>
+<script type="math/tex; mode=display">
+median= \frac{max(left\_part)+min(right\_part)}{2}</script><p>要确保这两个条件，我们只需要保证：</p>
+<script type="math/tex; mode=display">
+{1.i+j=m−i+n−j (or: m - i + n - j + 1) \\
+\quad 如果n \geq m， 只需要使i = 0 \sim m, j = \frac{m+n+1}{2} - i \\
+2.B[j-1] \leq A[i] and A[i-1] \leq B[j]}</script><p>接着，我们可以按照以下步骤来进行二叉树搜索，详见<a href="https://leetcode-cn.com/problems/median-of-two-sorted-arrays/solution/xun-zhao-liang-ge-you-xu-shu-zu-de-zhong-wei-shu-b/" target="_blank" rel="noopener">leetcode官方题解</a>吧……代码如下：</p>
+<p>C++</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">findMedianSortedArrays</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums1, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> m = nums1.size(), n = nums2.size();</span><br><span class="line">		<span class="keyword">if</span>(m &gt; n)&#123;</span><br><span class="line">			<span class="keyword">return</span> findMedianSortedArrays(nums2, nums1);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">int</span> iMin = <span class="number">0</span>, iMax = m, halfLen = (m + n + <span class="number">1</span>)/<span class="number">2</span>;</span><br><span class="line">		<span class="keyword">while</span>(iMin &lt;= iMax)&#123;</span><br><span class="line">			<span class="keyword">int</span> i = (iMax + iMin)/<span class="number">2</span>;</span><br><span class="line">			<span class="keyword">int</span> j = halfLen - i;</span><br><span class="line">			<span class="keyword">if</span>(i &lt; iMax &amp;&amp; nums1[i] &lt; nums2[j<span class="number">-1</span>])&#123;</span><br><span class="line">				iMin = i + <span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(i &gt; iMin &amp;&amp; nums1[i<span class="number">-1</span>] &gt; nums2[j])&#123;</span><br><span class="line">				iMax = i - <span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span>&#123;</span><br><span class="line">				<span class="keyword">int</span> maxLeft = <span class="number">0</span>;</span><br><span class="line">				<span class="keyword">if</span>(i == <span class="number">0</span>) maxLeft = nums2[j<span class="number">-1</span>];</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span>(j == <span class="number">0</span>) maxLeft = nums1[i<span class="number">-1</span>];</span><br><span class="line">				<span class="keyword">else</span> maxLeft = nums2[j<span class="number">-1</span>] - nums1[i<span class="number">-1</span>] &gt; <span class="number">0</span> ? nums2[j<span class="number">-1</span>] : nums1[i<span class="number">-1</span>];</span><br><span class="line">				<span class="keyword">if</span>((m + n) % <span class="number">2</span> != <span class="number">0</span>) <span class="keyword">return</span> maxLeft;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">int</span> minRight = <span class="number">0</span>;</span><br><span class="line">				<span class="keyword">if</span>(i == m) minRight = nums2[j];</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span>(j == n) minRight = nums1[i];</span><br><span class="line">				<span class="keyword">else</span> minRight = nums2[j] - nums1[i] &gt; <span class="number">0</span> ? nums1[i] : nums2[j];</span><br><span class="line">				<span class="keyword">return</span> (maxLeft + minRight)/<span class="number">2.0</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0.0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/27/292-nim-game/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -419,6 +580,28 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -456,7 +639,9 @@
 <h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>我认为这道题的关键是当缓存容量达到上限时，它应该在写入新数据之前删除最近最少使用的数据值，从而为新的数据值留出空间。我刚开始也想到了用哈希表，但是没想到怎么记录最近最少使用的数据值，所以我就只能采用一种笨方法了，用三个数组，一个记录 key 值，一个存放数据，一个记录上一次使用的时间，代码为：</p>
 <p>C++：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> *_key, *_value, *_time;</span><br><span class="line">    <span class="keyword">int</span> pointer, _capacity, currentTime;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    LRUCache(<span class="keyword">int</span> capacity) &#123;</span><br><span class="line">        _key = <span class="keyword">new</span> <span class="keyword">int</span>[capacity];</span><br><span class="line">        _value = <span class="keyword">new</span> <span class="keyword">int</span>[capacity];</span><br><span class="line">        _time = <span class="keyword">new</span> <span class="keyword">int</span>[capacity];</span><br><span class="line">        pointer = <span class="number">0</span>;</span><br><span class="line">        _capacity = capacity;</span><br><span class="line">        currentTime = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// bool contain = false;</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pointer; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (_key[i] == key) &#123;</span><br><span class="line">                _time[i] = currentTime++;</span><br><span class="line">                <span class="keyword">return</span> _value[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> key, <span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">bool</span> contain = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pointer; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (_key[i] == key) &#123;</span><br><span class="line">                _key[i] = key;</span><br><span class="line">                _value[i] = value;</span><br><span class="line">                _time[i] = currentTime++;</span><br><span class="line">                contain = <span class="literal">true</span>;</span><br><span class="line">                <span class="comment">// break;</span></span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!contain) &#123;</span><br><span class="line">            <span class="keyword">if</span> (pointer &lt; _capacity) &#123;</span><br><span class="line">                _key[pointer] = key;</span><br><span class="line">                _value[pointer] = value;</span><br><span class="line">                _time[pointer] = currentTime++;</span><br><span class="line">                ++ pointer;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">int</span> subscript = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pointer; i++)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (_time[subscript] &gt; _time[i]) subscript = i;</span><br><span class="line">                &#125;</span><br><span class="line">                _key[subscript] = key;</span><br><span class="line">                _value[subscript] = value;</span><br><span class="line">                _time[subscript] = currentTime++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>也能通过，就是太耗时。</p>
+<p>也能通过，就是太耗时。后来了解到一种更巧妙的方法，把数据都存到链表里，每一次访问或插入就把这个数据块移到链表的头部，这样，链表的尾部自然就是最近最少使用的数据了。代码如下：</p>
+<p>C++：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;list&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">unordered_map</span>&lt;<span class="keyword">int</span>, <span class="built_in">list</span>&lt;pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; &gt;::iterator&gt; dict;</span><br><span class="line">    <span class="built_in">list</span>&lt;pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; &gt; cache;</span><br><span class="line">    <span class="keyword">int</span> _capacity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    LRUCache(<span class="keyword">int</span> capacity) &#123;</span><br><span class="line">        _capacity = capacity;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> it = dict.find(key);</span><br><span class="line">        <span class="keyword">if</span> (it == dict.cend()) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        cache.splice(cache.begin(), cache, it-&gt;second);</span><br><span class="line">        <span class="comment">// cout &lt;&lt; (it-&gt;second == cache.begin() ? "t" : "f") &lt;&lt; endl;</span></span><br><span class="line">        <span class="keyword">return</span> it-&gt;second-&gt;second;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> key, <span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">auto</span> it = dict.find(key);</span><br><span class="line">        <span class="keyword">if</span> (it != dict.cend()) &#123;</span><br><span class="line">            it-&gt;second-&gt;second = value;</span><br><span class="line">            cache.splice(cache.begin(), cache, it-&gt;second);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//key不存在</span></span><br><span class="line">        <span class="comment">//已达到容量</span></span><br><span class="line">        <span class="keyword">if</span> (cache.size() == _capacity) &#123;</span><br><span class="line">            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; last = cache.back();</span><br><span class="line">            dict.erase(last.first);</span><br><span class="line">            cache.pop_back();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//添加到头部</span></span><br><span class="line">        cache.emplace_front(key, value);</span><br><span class="line">        <span class="comment">// cache.push_front(make_pair(key, value));</span></span><br><span class="line">        dict[key] = cache.begin();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your LRUCache object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * LRUCache* obj = new LRUCache(capacity);</span></span><br><span class="line"><span class="comment"> * int param_1 = obj-&gt;get(key);</span></span><br><span class="line"><span class="comment"> * obj-&gt;put(key,value);</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LRUCache cache = LRUCache(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    cache.put(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    cache.put(<span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; cache.get(<span class="number">1</span>);       <span class="comment">// returns 1</span></span><br><span class="line">    cache.put(<span class="number">3</span>, <span class="number">3</span>);    <span class="comment">// evicts key 2</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; cache.get(<span class="number">2</span>);       <span class="comment">// returns -1 (not found)</span></span><br><span class="line">    cache.put(<span class="number">4</span>, <span class="number">4</span>);    <span class="comment">// evicts key 1</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; cache.get(<span class="number">1</span>);       <span class="comment">// returns -1 (not found)</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; cache.get(<span class="number">3</span>);       <span class="comment">// returns 3</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; cache.get(<span class="number">4</span>);       <span class="comment">// returns 4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1601,172 +1786,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/65-valid-number/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/12/65-valid-number/" itemprop="url">Leetcode65-有效数字</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-12T11:39:51+08:00">
-                2019-08-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Validate if a given string can be interpreted as a decimal number.</p>
-<p>Some examples:<br><code>&quot;0&quot;</code> =&gt; <code>true</code><br><code>&quot; 0.1 &quot;</code> =&gt; <code>true</code><br><code>&quot;abc&quot;</code> =&gt; <code>false</code><br><code>&quot;1 a&quot;</code> =&gt; <code>false</code><br><code>&quot;2e10&quot;</code> =&gt; <code>true</code><br><code>&quot; -90e3   &quot;</code> =&gt; <code>true</code><br><code>&quot; 1e&quot;</code> =&gt; <code>false</code><br><code>&quot;e3&quot;</code> =&gt; <code>false</code><br><code>&quot; 6e-1&quot;</code> =&gt; <code>true</code><br><code>&quot; 99e2.5 &quot;</code> =&gt; <code>false</code><br><code>&quot;53.5e93&quot;</code> =&gt; <code>true</code><br><code>&quot; --6 &quot;</code> =&gt; <code>false</code><br><code>&quot;-+3&quot;</code> =&gt; <code>false</code><br><code>&quot;95a54e53&quot;</code> =&gt; <code>false</code></p>
-<p><strong>Note:</strong> It is intended for the problem statement to be ambiguous. You should gather all requirements up front before implementing one. However, here is a list of characters that can be in a valid decimal number:</p>
-<ul>
-<li>Numbers 0-9</li>
-<li>Exponent - “e”</li>
-<li>Positive/negative sign - “+”/“-“</li>
-<li>Decimal point - “.”</li>
-</ul>
-<p>Of course, the context of these characters also matters in the input.</p>
-<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>这道题就是让判断输入的数字（字符串形式）是否合法，它还故意不把要求说清，要自己考虑，经过自己的分析和参考别人的内容，我总结出的要求有：</p>
-<ul>
-<li>整数部分可以带正负号</li>
-<li>小数部分不可以带正负号</li>
-<li>小数点前可以没有内容，如.123就代表0.123</li>
-<li>小数点后也可以没有内容，如123.e2就代表123.0e2</li>
-<li>小数点前后必须至少有一部分有内容，例如.e23是非法的</li>
-<li>指数部分必须有数字，如23e就是非法的</li>
-<li>指数前也必须有数字，如e3是非法的</li>
-<li>指数部分可以带正负号</li>
-<li>指数部分必须是整数即不能有小数点</li>
-<li>数字开始前结束后都能有空格，但是中间不能有空格</li>
-</ul>
-<p>以上，可以写出代码（C++）：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">scanInteger</span><span class="params">(<span class="built_in">string</span> &amp;s, <span class="keyword">int</span> &amp;i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s[i] == <span class="string">'+'</span> || s[i] == <span class="string">'-'</span>)</span><br><span class="line">            ++i;</span><br><span class="line">        <span class="keyword">return</span> scanUnsignedInteger(s, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">scanUnsignedInteger</span><span class="params">(<span class="built_in">string</span> &amp;s, <span class="keyword">int</span> &amp;i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> start = i;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; s.size() &amp;&amp; s[i] &lt;= <span class="string">'9'</span> &amp;&amp; s[i] &gt;= <span class="string">'0'</span>) ++i;</span><br><span class="line">        <span class="keyword">return</span> i &gt; start; <span class="comment">//如果i=start就说明没有数字</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isNumber</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>, len = s.size();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (s[i] == <span class="string">' '</span>) ++i; <span class="comment">//跳过开头空格</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">bool</span> isNum = scanInteger(s, i); </span><br><span class="line">        <span class="comment">// cout &lt;&lt; "1: i: " &lt;&lt; i &lt;&lt; " isNum: " &lt;&lt; isNum &lt;&lt; endl;       </span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (s[i] == <span class="string">'.'</span>) &#123;</span><br><span class="line">            ++i;</span><br><span class="line">            isNum = scanUnsignedInteger(s, i) || isNum; <span class="comment">//小数点前面后面都可以没有数字，但不能都没有</span></span><br><span class="line">            <span class="comment">// cout &lt;&lt; "2: i: " &lt;&lt; i &lt;&lt; " isNum: " &lt;&lt; isNum &lt;&lt; endl; </span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (s[i] == <span class="string">'e'</span> || s[i] == <span class="string">'E'</span>) &#123;</span><br><span class="line">            ++i;</span><br><span class="line">            isNum = scanInteger(s, i) &amp;&amp; isNum; <span class="comment">//e前面后面都要有数字</span></span><br><span class="line">            <span class="comment">// cout &lt;&lt; "3: i: " &lt;&lt; i &lt;&lt; " isNum: " &lt;&lt; isNum &lt;&lt; endl; </span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (s[i] == <span class="string">' '</span>) ++i; <span class="comment">//跳过结尾空格</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// cout &lt;&lt; "4: i: " &lt;&lt; i &lt;&lt; " isNum: " &lt;&lt; isNum &lt;&lt; endl; </span></span><br><span class="line">        <span class="keyword">return</span> isNum &amp;&amp; i == len;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1817,7 +1836,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

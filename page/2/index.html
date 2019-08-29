@@ -248,6 +248,172 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/65-valid-number/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/12/65-valid-number/" itemprop="url">Leetcode65-有效数字</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-12T11:39:51+08:00">
+                2019-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Validate if a given string can be interpreted as a decimal number.</p>
+<p>Some examples:<br><code>&quot;0&quot;</code> =&gt; <code>true</code><br><code>&quot; 0.1 &quot;</code> =&gt; <code>true</code><br><code>&quot;abc&quot;</code> =&gt; <code>false</code><br><code>&quot;1 a&quot;</code> =&gt; <code>false</code><br><code>&quot;2e10&quot;</code> =&gt; <code>true</code><br><code>&quot; -90e3   &quot;</code> =&gt; <code>true</code><br><code>&quot; 1e&quot;</code> =&gt; <code>false</code><br><code>&quot;e3&quot;</code> =&gt; <code>false</code><br><code>&quot; 6e-1&quot;</code> =&gt; <code>true</code><br><code>&quot; 99e2.5 &quot;</code> =&gt; <code>false</code><br><code>&quot;53.5e93&quot;</code> =&gt; <code>true</code><br><code>&quot; --6 &quot;</code> =&gt; <code>false</code><br><code>&quot;-+3&quot;</code> =&gt; <code>false</code><br><code>&quot;95a54e53&quot;</code> =&gt; <code>false</code></p>
+<p><strong>Note:</strong> It is intended for the problem statement to be ambiguous. You should gather all requirements up front before implementing one. However, here is a list of characters that can be in a valid decimal number:</p>
+<ul>
+<li>Numbers 0-9</li>
+<li>Exponent - “e”</li>
+<li>Positive/negative sign - “+”/“-“</li>
+<li>Decimal point - “.”</li>
+</ul>
+<p>Of course, the context of these characters also matters in the input.</p>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>这道题就是让判断输入的数字（字符串形式）是否合法，它还故意不把要求说清，要自己考虑，经过自己的分析和参考别人的内容，我总结出的要求有：</p>
+<ul>
+<li>整数部分可以带正负号</li>
+<li>小数部分不可以带正负号</li>
+<li>小数点前可以没有内容，如.123就代表0.123</li>
+<li>小数点后也可以没有内容，如123.e2就代表123.0e2</li>
+<li>小数点前后必须至少有一部分有内容，例如.e23是非法的</li>
+<li>指数部分必须有数字，如23e就是非法的</li>
+<li>指数前也必须有数字，如e3是非法的</li>
+<li>指数部分可以带正负号</li>
+<li>指数部分必须是整数即不能有小数点</li>
+<li>数字开始前结束后都能有空格，但是中间不能有空格</li>
+</ul>
+<p>以上，可以写出代码（C++）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">scanInteger</span><span class="params">(<span class="built_in">string</span> &amp;s, <span class="keyword">int</span> &amp;i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s[i] == <span class="string">'+'</span> || s[i] == <span class="string">'-'</span>)</span><br><span class="line">            ++i;</span><br><span class="line">        <span class="keyword">return</span> scanUnsignedInteger(s, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">scanUnsignedInteger</span><span class="params">(<span class="built_in">string</span> &amp;s, <span class="keyword">int</span> &amp;i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> start = i;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; s.size() &amp;&amp; s[i] &lt;= <span class="string">'9'</span> &amp;&amp; s[i] &gt;= <span class="string">'0'</span>) ++i;</span><br><span class="line">        <span class="keyword">return</span> i &gt; start; <span class="comment">//如果i=start就说明没有数字</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isNumber</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>, len = s.size();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> (s[i] == <span class="string">' '</span>) ++i; <span class="comment">//跳过开头空格</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">bool</span> isNum = scanInteger(s, i); </span><br><span class="line">        <span class="comment">// cout &lt;&lt; "1: i: " &lt;&lt; i &lt;&lt; " isNum: " &lt;&lt; isNum &lt;&lt; endl;       </span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (s[i] == <span class="string">'.'</span>) &#123;</span><br><span class="line">            ++i;</span><br><span class="line">            isNum = scanUnsignedInteger(s, i) || isNum; <span class="comment">//小数点前面后面都可以没有数字，但不能都没有</span></span><br><span class="line">            <span class="comment">// cout &lt;&lt; "2: i: " &lt;&lt; i &lt;&lt; " isNum: " &lt;&lt; isNum &lt;&lt; endl; </span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (s[i] == <span class="string">'e'</span> || s[i] == <span class="string">'E'</span>) &#123;</span><br><span class="line">            ++i;</span><br><span class="line">            isNum = scanInteger(s, i) &amp;&amp; isNum; <span class="comment">//e前面后面都要有数字</span></span><br><span class="line">            <span class="comment">// cout &lt;&lt; "3: i: " &lt;&lt; i &lt;&lt; " isNum: " &lt;&lt; isNum &lt;&lt; endl; </span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (s[i] == <span class="string">' '</span>) ++i; <span class="comment">//跳过结尾空格</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// cout &lt;&lt; "4: i: " &lt;&lt; i &lt;&lt; " isNum: " &lt;&lt; isNum &lt;&lt; endl; </span></span><br><span class="line">        <span class="keyword">return</span> isNum &amp;&amp; i == len;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/10-regular-expression-matching/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1653,150 +1819,6 @@ false          &      & {else}
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/05/215-kth-largest-element-in-an-array/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/05/215-kth-largest-element-in-an-array/" itemprop="url">Leetcode215-数组中的第K个最大元素</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-05T09:10:37+08:00">
-                2019-08-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Find the <strong>k</strong>th largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.</p>
-<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>题目要求找到数组中第k大的元素，如果把这个数组从大到小排列，那就是第$k-1$个元素。但是仔细一想会发现其实没有必要把整个数组都排好序，只需要求得这个有序数组的第$k-1$个元素就行了，其他的并不需要。这就想到了快速排序中选取轴点的概念，每一次选取的轴点所在的位置就是最终排好序的数组中它所在的位置，所以，当选取的轴点的秩为$k-1$的时候，就可以停止了。详见<a href="http://bit.ly/2YGAbYb" target="_blank" rel="noopener">快速排序</a>。所以该题的解法就是不断选取轴点直到选取的轴点的秩为$k-1$，然后返回该轴点的元素的值。代码为：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findKthLargest</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> lo =  <span class="number">0</span>, hi =  nums.size()<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = paration(nums, lo, hi);</span><br><span class="line">            <span class="keyword">if</span> (mid == k<span class="number">-1</span>) <span class="keyword">return</span> nums[mid];</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (mid &gt; k<span class="number">-1</span>) &#123; <span class="comment">//如果mid &gt; k - 1, 说明要找的值在mid的左边</span></span><br><span class="line">                hi = mid - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> lo = mid + <span class="number">1</span>; <span class="comment">//否则要找的值就在mid的右边，没必要两边都找</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// return nums[k-1];</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">paration</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> lo, <span class="keyword">int</span> hi)</span> </span>&#123;</span><br><span class="line">        swap(nums[lo], nums[lo + rand()%(hi-lo+<span class="number">1</span>)]);</span><br><span class="line">        <span class="keyword">int</span> pivot = nums[lo];</span><br><span class="line">        <span class="keyword">while</span> (lo &lt; hi) &#123;</span><br><span class="line">            <span class="keyword">while</span> (lo &lt; hi &amp;&amp; pivot &gt;= nums[hi]) &#123;</span><br><span class="line">                --hi;</span><br><span class="line">            &#125;</span><br><span class="line">            nums[lo] = nums[hi];</span><br><span class="line">            <span class="keyword">while</span> (lo &lt; hi &amp;&amp; pivot &lt;= nums[lo]) &#123;</span><br><span class="line">                ++lo;</span><br><span class="line">            &#125;</span><br><span class="line">            nums[hi] = nums[lo];</span><br><span class="line">        &#125;</span><br><span class="line">        nums[lo] = pivot;</span><br><span class="line">        <span class="keyword">return</span> lo;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1847,7 +1869,7 @@ false          &      & {else}
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
