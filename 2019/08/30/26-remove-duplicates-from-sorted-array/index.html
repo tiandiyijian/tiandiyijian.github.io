@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="torch.reshape和torch.view区别  view返回的是原tensor的一个view，它和原torch共享数据 为了确保新张量始终与原始张量共享其数据，torch.view对两个张量的形状施加了一些邻接约束（但是有时候即使形状兼容也会报错） reshape没有邻接约束，但是它页也不保证数据内存共享，有时候它返回的是原tensor的view，有时候是copy torch.resize">
+<meta name="description" content="题目描述Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length. Do not allocate extra space for another array, you must do this by modi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Pytorch-notes1">
-<meta property="og:url" content="http://yoursite.com/2019/04/11/Pytorch-notes1/index.html">
+<meta property="og:title" content="Leetcode26-删除排序数组中的重复项">
+<meta property="og:url" content="http://yoursite.com/2019/08/30/26-remove-duplicates-from-sorted-array/index.html">
 <meta property="og:site_name" content="天地一键">
-<meta property="og:description" content="torch.reshape和torch.view区别  view返回的是原tensor的一个view，它和原torch共享数据 为了确保新张量始终与原始张量共享其数据，torch.view对两个张量的形状施加了一些邻接约束（但是有时候即使形状兼容也会报错） reshape没有邻接约束，但是它页也不保证数据内存共享，有时候它返回的是原tensor的view，有时候是copy torch.resize">
+<meta property="og:description" content="题目描述Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length. Do not allocate extra space for another array, you must do this by modi">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-11T12:04:43.569Z">
+<meta property="og:updated_time" content="2019-08-30T15:03:38.145Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pytorch-notes1">
-<meta name="twitter:description" content="torch.reshape和torch.view区别  view返回的是原tensor的一个view，它和原torch共享数据 为了确保新张量始终与原始张量共享其数据，torch.view对两个张量的形状施加了一些邻接约束（但是有时候即使形状兼容也会报错） reshape没有邻接约束，但是它页也不保证数据内存共享，有时候它返回的是原tensor的view，有时候是copy torch.resize">
+<meta name="twitter:title" content="Leetcode26-删除排序数组中的重复项">
+<meta name="twitter:description" content="题目描述Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length. Do not allocate extra space for another array, you must do this by modi">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/11/Pytorch-notes1/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/30/26-remove-duplicates-from-sorted-array/">
 
 
 
 
 
-  <title>Pytorch-notes1 | 天地一键</title>
+  <title>Leetcode26-删除排序数组中的重复项 | 天地一键</title>
   
 
 
@@ -251,7 +251,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/Pytorch-notes1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/30/26-remove-duplicates-from-sorted-array/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="天地一键">
@@ -268,7 +268,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Pytorch-notes1</h1>
+          <h1 class="post-title" itemprop="name headline">Leetcode26-删除排序数组中的重复项</h1>
         
 
         <div class="post-meta">
@@ -280,8 +280,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-11T19:36:44+08:00">
-                2019-04-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-30T22:58:24+08:00">
+                2019-08-30
               </time>
             
 
@@ -303,8 +303,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Pytorch学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">Pytorch学习笔记</span>
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
                   </a>
                 </span>
 
@@ -340,14 +340,22 @@
       
 
       
-        <p>torch.reshape和torch.view区别</p>
-<ul>
-<li>view返回的是原tensor的一个view，它和原torch共享数据</li>
-<li>为了确保新张量始终与原始张量共享其数据，torch.view对两个张量的形状施加了一些邻接约束（但是有时候即使形状兼容也会报错）</li>
-<li>reshape没有邻接约束，但是它页也不保证数据内存共享，有时候它返回的是原tensor的view，有时候是copy</li>
-<li>torch.resize_()也用于改变形状，但是如果形状不兼容的话它并不会报错</li>
-</ul>
-<p>torch.from_numpy()用于把numpy数组转化为tensor，.numpy()返回numpy数组，numpy数组和tensor共享内存</p>
+        <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given a sorted array <em>nums</em>, remove the duplicates <a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank" rel="noopener"><strong>in-place</strong></a> such that each element appear only <em>once</em> and return the new length.</p>
+<p>Do not allocate extra space for another array, you must do this by <strong>modifying the input array in-place</strong>with O(1) extra memory.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Given nums = [1,1,2],</span><br><span class="line"></span><br><span class="line">Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively.</span><br><span class="line"></span><br><span class="line">It doesn&apos;t matter what you leave beyond the returned length.</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Given nums = [0,0,1,1,1,2,2,3,3,4],</span><br><span class="line"></span><br><span class="line">Your function should return length = 5, with the first five elements of nums being modified to 0, 1, 2, 3, and 4 respectively.</span><br><span class="line"></span><br><span class="line">It doesn&apos;t matter what values are set beyond the returned length.</span><br></pre></td></tr></table></figure>
+<p><strong>Clarification:</strong></p>
+<p>Confused why the returned value is an integer but your answer is an array?</p>
+<p>Note that the input array is passed in by <strong>reference</strong>, which means modification to the input array will be known to the caller as well.</p>
+<p>Internally you can think of this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// nums is passed in by reference. (i.e., without making a copy)</span><br><span class="line">int len = removeDuplicates(nums);</span><br><span class="line"></span><br><span class="line">// any modification to nums in your function would be known by the caller.</span><br><span class="line">// using the length returned by your function, it prints the first len elements.</span><br><span class="line">for (int i = 0; i &lt; len; i++) &#123;</span><br><span class="line">    print(nums[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>很简单，碰见和前面重复的删掉就行了。代码：</p>
+<p>C++：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">removeDuplicates</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator itor;</span><br><span class="line">        <span class="keyword">int</span> tem = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(itor = nums.begin() + <span class="number">1</span>; itor != nums.end(); ) &#123;</span><br><span class="line">            <span class="keyword">if</span>(*itor == tem)&#123;</span><br><span class="line">                itor = nums.erase(itor);</span><br><span class="line">                <span class="keyword">if</span>(itor == nums.end()) <span class="keyword">break</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                tem = *itor;</span><br><span class="line">                itor++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums.size();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Python：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">removeDuplicates</span><span class="params">(self, nums: list)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> len(nums) &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> len(nums)</span><br><span class="line">        i = <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> i &lt; len(nums):</span><br><span class="line">            <span class="keyword">if</span> nums[i] == nums[i<span class="number">-1</span>]:</span><br><span class="line">                nums.pop(i)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> len(nums)</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -372,8 +380,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/09/Why-Deep/" rel="next" title="Why Deep">
-                <i class="fa fa-chevron-left"></i> Why Deep
+              <a href="/2019/08/29/4-median-of-two-sorted-arrays/" rel="next" title="Leetcode4-寻找两个有序数组的中位数">
+                <i class="fa fa-chevron-left"></i> Leetcode4-寻找两个有序数组的中位数
               </a>
             
           </div>
@@ -381,10 +389,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/04/13/swsad-hw3/" rel="prev" title="系统分析作业3">
-                系统分析作业3 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -436,8 +440,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -488,6 +501,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#题目描述"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
