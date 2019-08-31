@@ -248,6 +248,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/07/23-merge-k-sorted-lists/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/07/23-merge-k-sorted-lists/" itemprop="url">Leetcode23-合并K个排序链表</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-07T09:29:55+08:00">
+                2019-08-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Merge <em>k</em> sorted linked lists and return it as one sorted list. Analyze and describe its complexity.</p>
+<p><strong>Example:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">[</span><br><span class="line">  1-&gt;4-&gt;5,</span><br><span class="line">  1-&gt;3-&gt;4,</span><br><span class="line">  2-&gt;6</span><br><span class="line">]</span><br><span class="line">Output: 1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>这题和合并两个有序链表很像，只不过两个链表的时候一次是从两个链表头里选一个最小的，而多个的时候要从多个链表头里选一个最小的。假如说有<em>k</em>个链表，那么每一次选择最小的节点就需要$O(k)$的时间，而一共需要选<em>N</em>（N是所有的节点总数）次，所以总共需要$O(Nk)$的时间，看起来好像还行。但是写起来有点麻烦，毕竟要从<em>k</em>个链表头里面选一个最小的。有没有办法利用之前写好的合并两个有序链表的答案呢？肯定是有，把所有的链表逐个合并起来就好了，比如说把第一个和第二个合并，然后再把这两个合并起来的结果和第三个合并，直到把所有的都合并完。这样如果一共有<em>k</em>个链表的话，一共需要合并<em>(k-1)</em>次，假设总共有<em>N</em>个节点，每个链表有$\frac{N}{k}$个节点，那么该算法的时间复杂度为：$O\left(\sum_{i=1}^{k-1}\left(i *\left(\frac{N}{k}\right)+\frac{N}{k}\right)\right)=O(k N)$，竟然和第一种方法一样。好像这样逐个合并有点费事，还有没有更好的方法呢？假如我们先两两合并，再把两两合并的结果两两合并，直到只剩一个链表，这样是不是合并的次数就更少了呢？如图所示：</p>
+<p><img src="https://i.loli.net/2019/08/07/eaCUTLAR67YKFPG.png" alt="UTOOLS1565143928796.png"></p>
+<p>假如总共有<em>k</em>个链表，<em>N</em>个节点，把所有链表两两合并称为一次循环，每一次循环之后的链表个数为之前的一半，那么一共需要合并$log(k)$次，每一循环都需要访问所有节点一次即每次循环都需要$O(N)$时间，所以一共耗费的时间为$O(Nlog(k))$，比前两种方法都要快。第三种方法的代码如下：</p>
+<p>C++：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeKLists</span><span class="params">(<span class="built_in">vector</span>&lt;ListNode*&gt;&amp; lists)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (lists.empty()) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">int</span> len = lists.size();</span><br><span class="line">        <span class="keyword">while</span> (len &gt; <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> halfLen = (len + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len / <span class="number">2</span>; ++i) &#123;</span><br><span class="line">                lists[i] = mergeTwoList(lists[i], lists[i+halfLen]);</span><br><span class="line">            &#125;</span><br><span class="line">            len = halfLen;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> lists[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeTwoList</span><span class="params">(ListNode* a, ListNode* b)</span> </span>&#123;</span><br><span class="line">        ListNode *dummy = <span class="keyword">new</span> ListNode(<span class="number">-1</span>);</span><br><span class="line">        ListNode *rhead = dummy;</span><br><span class="line">        <span class="keyword">while</span> (a <span class="keyword">and</span> b) &#123;</span><br><span class="line">            <span class="keyword">if</span> (a-&gt;val &lt;= b-&gt;val) &#123;</span><br><span class="line">                rhead-&gt;next = a;</span><br><span class="line">                a = a-&gt;next;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                rhead-&gt;next = b;</span><br><span class="line">                b = b-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            rhead = rhead-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        rhead-&gt;next = a ? a : b;</span><br><span class="line">        <span class="keyword">return</span> dummy-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Python：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">mergeKLists</span><span class="params">(self, lists: List[ListNode])</span> -&gt; ListNode:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">mergeList</span><span class="params">(a: ListNode, b: ListNode)</span>:</span></span><br><span class="line">            dummy = ListNode(<span class="number">-1</span>)</span><br><span class="line">            rhead = dummy</span><br><span class="line">            <span class="keyword">while</span> a <span class="keyword">and</span> b:</span><br><span class="line">                <span class="keyword">if</span> a.val &lt; b.val:</span><br><span class="line">                    rhead.next = a</span><br><span class="line">                    a = a.next</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    rhead.next = b</span><br><span class="line">                    b = b.next</span><br><span class="line">                rhead = rhead.next</span><br><span class="line">            rhead.next = a <span class="keyword">or</span> b</span><br><span class="line">            <span class="keyword">return</span> dummy.next</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> lists: <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">        n = len(lists)</span><br><span class="line">        <span class="keyword">while</span> (n &gt; <span class="number">1</span>):</span><br><span class="line">            halfLen = int((n + <span class="number">1</span>) / <span class="number">2</span>)</span><br><span class="line">            <span class="comment"># print(halfLen)</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(int(n/<span class="number">2</span>)):</span><br><span class="line">                <span class="comment"># print(i, i + halfLen)</span></span><br><span class="line">                lists[i] = mergeList(lists[i], lists[i + halfLen])</span><br><span class="line">            n = halfLen</span><br><span class="line">        <span class="keyword">return</span> lists[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>实际上我并没有把相邻的链表合并，而是把前半部分的和后半部分的合并，比如说一共有5个链表，我把第1个和第4个，第2个和第5个合并，这样做的好处是每一次循环过后不用考虑需要合并的链表它们的索引在向量中的间隔的变化。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/05/Quicksort/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1796,183 +1948,6 @@ p_{i}^{c}=\frac{\exp \left(s_{i}^{c}\right)}{\sum_{c^{\prime}=1}^{C} \exp \left(
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/21/swsad-deploy/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/21/swsad-deploy/" itemprop="url">后端部署文档</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-21T16:34:44+08:00">
-                2019-06-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/系统分析/" itemprop="url" rel="index">
-                    <span itemprop="name">系统分析</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="部署架构图"><a href="#部署架构图" class="headerlink" title="部署架构图"></a>部署架构图</h4><p><img src="https://i.loli.net/2019/06/21/5d0c9b1f2d1e297107.png" alt="UTOOLS1561107231340.png"></p>
-<h4 id="部署流程"><a href="#部署流程" class="headerlink" title="部署流程"></a>部署流程</h4><h5 id="服务器后台环境配置"><a href="#服务器后台环境配置" class="headerlink" title="服务器后台环境配置"></a>服务器后台环境配置</h5><h6 id="服务器系统环境"><a href="#服务器系统环境" class="headerlink" title="服务器系统环境"></a>服务器系统环境</h6><ul>
-<li>腾讯云 Ubuntu 16.04 LTS Server</li>
-</ul>
-<h6 id="Postgresql安装"><a href="#Postgresql安装" class="headerlink" title="Postgresql安装"></a>Postgresql安装</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python3-pip python3-dev libpq-dev postgresql postgresql-contrib</span><br><span class="line">sudo apt-get install python-psycopg2</span><br></pre></td></tr></table></figure>
-<p>然后键入以下内容登录到交互式Postgres会话：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres psql</span><br></pre></td></tr></table></figure>
-<p>然后创建数据库和用户（注意结尾的分号）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE myproject;</span><br><span class="line">CREATE USER myprojectuser WITH PASSWORD &apos;password&apos;;</span><br><span class="line">ALTER ROLE myprojectuser SET client_encoding TO &apos;utf8&apos;;</span><br><span class="line">ALTER ROLE myprojectuser SET default_transaction_isolation TO &apos;read committed&apos;;</span><br><span class="line">ALTER ROLE myprojectuser SET timezone TO &apos;UTC&apos;;</span><br><span class="line">GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;</span><br></pre></td></tr></table></figure>
-<p>退出SQL提示返回到<code>postgres</code>用户的shell会话：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\q</span><br></pre></td></tr></table></figure>
-<h6 id="卸载python2安装python3"><a href="#卸载python2安装python3" class="headerlink" title="卸载python2安装python3"></a>卸载python2安装python3</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python3.5 # 安装python</span><br><span class="line">sudo apt-get install python3-pip # 安装python 3-pip</span><br><span class="line">sudo rm /usr/bin/python # 删除python 2.7版本</span><br><span class="line">sudo ln -s /usr/bin/python3.5 /usr/bin/python  # 将python链接到最新3.5版的</span><br><span class="line">pip3 install upgrade -- pip # 升级pip</span><br></pre></td></tr></table></figure>
-<h6 id="Django安装"><a href="#Django安装" class="headerlink" title="Django安装"></a>Django安装</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install django #安装django</span><br></pre></td></tr></table></figure>
-<h6 id="uwsgi安装"><a href="#uwsgi安装" class="headerlink" title="uwsgi安装"></a>uwsgi安装</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install uwsgi</span><br><span class="line">uwsgi -- version # 查看版本</span><br></pre></td></tr></table></figure>
-<h6 id="nginx安装"><a href="#nginx安装" class="headerlink" title="nginx安装"></a>nginx安装</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure>
-<h5 id="服务器程序配置运行"><a href="#服务器程序配置运行" class="headerlink" title="服务器程序配置运行"></a>服务器程序配置运行</h5><h6 id="部署连接原理"><a href="#部署连接原理" class="headerlink" title="部署连接原理"></a>部署连接原理</h6><p>浏览器发起web请求&lt;——&gt;nginx接收请求&lt;——&gt;uwsgi处理请求&lt;—–&gt;django程序</p>
-<h6 id="获取源代码"><a href="#获取源代码" class="headerlink" title="获取源代码"></a>获取源代码</h6><p>通过Filezilla向服务器上传Django项目源代码</p>
-<p>然后更改settings.py中的DATABASES:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.postgresql_psycopg2'</span>,</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'myproject'</span>,</span><br><span class="line">        <span class="string">'USER'</span>: <span class="string">'myprojectuser'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'password'</span>,</span><br><span class="line">        <span class="string">'HOST'</span>: <span class="string">'localhost'</span>,</span><br><span class="line">        <span class="string">'PORT'</span>: <span class="string">''</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python manage.py makemigrations</span><br><span class="line">python manage.py migrate #生产数据表</span><br><span class="line">python manage.py collectstatic #搜集静态文件</span><br><span class="line">python manage.py runserver 0.0.0.0:8000 #测试程序能否正常运行</span><br></pre></td></tr></table></figure>
-<h6 id="配置UWSGI："><a href="#配置UWSGI：" class="headerlink" title="配置UWSGI："></a>配置UWSGI：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># server.ini file</span><br><span class="line">[uwsgi]</span><br><span class="line"># Django-related settings</span><br><span class="line">http = 0.0.0.0:8000</span><br><span class="line"># socket = 127.0.0.1:8001</span><br><span class="line"># the base directory (full path)</span><br><span class="line">chdir           = /home/ubuntu/myproject/server</span><br><span class="line"># Django s wsgi file</span><br><span class="line">module          = server.wsgi</span><br><span class="line">master          = true</span><br><span class="line">processes       = 2</span><br><span class="line"></span><br><span class="line">daemonize = /home/ubuntu/myproject/server/uwsgi.log</span><br></pre></td></tr></table></figure>
-<p>然后执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi --ini server.ini</span><br></pre></td></tr></table></figure>
-<p>此时应该已经可以通过服务器的公网IP加8000端口访问服务端了</p>
-<h6 id="配置Nginx："><a href="#配置Nginx：" class="headerlink" title="配置Nginx："></a>配置Nginx：</h6><p>执行以下命令创建并编辑项目的配置文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/nginx/sites-available/server.conf</span><br></pre></td></tr></table></figure>
-<p>并在其中输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"># mysite_nginx.conf</span><br><span class="line"></span><br><span class="line"># the upstream component nginx needs to connect to</span><br><span class="line">upstream django &#123;</span><br><span class="line">    # server unix:///path/to/your/mysite/mysite.sock; # for a file socket</span><br><span class="line">    server 127.0.0.1:8001; # for a web port socket (we&apos;ll use this first)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># configuration of the server</span><br><span class="line">server &#123;</span><br><span class="line">    # the port your site will be served on</span><br><span class="line">    listen      8000;</span><br><span class="line">    # the domain name it will serve for</span><br><span class="line">    server_name 129.28.40.31; # substitute your machine&apos;s IP address or FQDN</span><br><span class="line">    charset     utf-8;</span><br><span class="line"></span><br><span class="line">    # max upload size</span><br><span class="line">    client_max_body_size 75M;   # adjust to taste</span><br><span class="line"></span><br><span class="line">    # Django media</span><br><span class="line">    location /media  &#123;</span><br><span class="line">        alias /home/ubuntu/myproject/server/media;  # your Django project&apos;s media files - amend as required</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location /static &#123;</span><br><span class="line">        alias /home/ubuntu/myproject/server/static; # your Django project&apos;s static files - amend as required</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # Finally, send all non-media requests to the Django server.</span><br><span class="line">    location / &#123;</span><br><span class="line">        uwsgi_pass  django;</span><br><span class="line">        include     /home/ubuntu/myproject/server/uwsgi_params; # the uwsgi_params file you installed</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>此时把server.ini中的http行注释掉，并把sock行取消注释，然后重启uwsgi。</p>
-<p>然后输入以下命令重启nginx：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
-<p>至此完成了所有的部署流程。</p>
-<h6 id="补充："><a href="#补充：" class="headerlink" title="补充："></a>补充：</h6><p>众所周知，http协议很不安全，于是我就购买了域名并且申请了SSL证书，重新配置server.conf如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"># mysite_nginx.conf</span><br><span class="line"></span><br><span class="line"># the upstream component nginx needs to connect to</span><br><span class="line">upstream django &#123;</span><br><span class="line">    # server unix:///path/to/your/mysite/mysite.sock; # for a file socket</span><br><span class="line">    server 127.0.0.1:8001; # for a web port socket (we&apos;ll use this first)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># configuration of the server</span><br><span class="line">server &#123;</span><br><span class="line">    # the port your site will be served on</span><br><span class="line">    #listen      80;</span><br><span class="line">    listen      443;</span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate /usr/local/nginx/conf/1_tiandiyijian.club_bundle.crt;</span><br><span class="line">    ssl_certificate_key /usr/local/nginx/conf/2_tiandiyijian.club.key;</span><br><span class="line">    ssl_session_timeout 5m;</span><br><span class="line">    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line">    # the domain name it will serve for</span><br><span class="line">    #server_name 129.28.40.31; # substitute your machine&apos;s IP address or FQDN</span><br><span class="line">    server_name tiandiyijian.club;</span><br><span class="line">    charset     utf-8;</span><br><span class="line"></span><br><span class="line">    # max upload size</span><br><span class="line">    client_max_body_size 75M;   # adjust to taste</span><br><span class="line"></span><br><span class="line">    # Django media</span><br><span class="line">    location /media  &#123;</span><br><span class="line">        alias /home/ubuntu/myproject/server/media;  # your Django project&apos;s media files - amend as required</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location /static &#123;</span><br><span class="line">        alias /home/ubuntu/myproject/server/static; # your Django project&apos;s static files - amend as required</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # Finally, send all non-media requests to the Django server.</span><br><span class="line">    location / &#123;</span><br><span class="line">        uwsgi_pass  django;</span><br><span class="line">        include     /home/ubuntu/myproject/server/uwsgi_params; # the uwsgi_params file you installed</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后重启Nginx就可以通过https访问服务端了。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2023,7 +1998,7 @@ p_{i}^{c}=\frac{\exp \left(s_{i}^{c}\right)}{\sum_{c^{\prime}=1}^{C} \exp \left(
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
