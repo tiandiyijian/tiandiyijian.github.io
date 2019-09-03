@@ -248,6 +248,383 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/22/swsad-postgresql/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/22/swsad-postgresql/" itemprop="url">Ubuntu下PostgreSQL的安装使用及远程访问</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-22T15:52:02+08:00">
+                2019-06-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/系统分析/" itemprop="url" rel="index">
+                    <span itemprop="name">系统分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>我使用了Django做系分项目的后端，它自带的数据库是sqlite，这个开发阶段用一下还行，上线之后不会使用它的，Django还支持Mysql和PostgreSQL，我原本就是有点抗拒Mysql的，因为之前在win10上使用过，当时用完就卸载了，后来又需要使用的时候怎么安装都装不上，最后废了好大劲才给它装上，据说是因为卸载的时候很难卸载干净。从此以后我对Mysql就产生了不好的感觉，后来我又发现Django有两个filed即ArrayField和JSONField只有PostgreSQL才支持，我在设计数据库的时候就想到了如果有这两种字段就好了，没想到还真有，于是我就决定使用PostgreSQL了。Win10上安装没碰见一点问题，直接安装一路点下去就行了。不过部署到云服务器的时候还是有一点麻烦的，主要是第一次在Ubuntu上使用数据库，很不熟练。接下来我就详细说一下安装使用步骤。</p>
+<h5 id="安装使用"><a href="#安装使用" class="headerlink" title="安装使用"></a>安装使用</h5><p>环境：腾讯云服务器Ubuntu16.04 LTS Server</p>
+<h6 id="卸载python2安装python3"><a href="#卸载python2安装python3" class="headerlink" title="卸载python2安装python3"></a>卸载python2安装python3</h6><p>腾讯云默认的python是python2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python3.5 # 安装python</span><br><span class="line">sudo apt-get install python3-pip # 安装python 3-pip</span><br><span class="line">sudo rm /usr/bin/python # 删除python 2.7版本</span><br><span class="line">sudo ln -s /usr/bin/python3.5 /usr/bin/python  # 将python链接到最新3.5版的</span><br><span class="line">pip3 install upgrade -- pip # 升级pip</span><br></pre></td></tr></table></figure>
+<h6 id="PostgreSQL安装"><a href="#PostgreSQL安装" class="headerlink" title="PostgreSQL安装"></a>PostgreSQL安装</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python3-pip python3-dev libpq-dev postgresql postgresql-contrib</span><br><span class="line">sudo apt-get install python-psycopg2</span><br></pre></td></tr></table></figure>
+<h6 id="PostgreSQL使用"><a href="#PostgreSQL使用" class="headerlink" title="PostgreSQL使用"></a>PostgreSQL使用</h6><p>键入以下内容登录到交互式Postgres会话：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u postgres psql</span><br></pre></td></tr></table></figure>
+<p>此时界面会变成这样的：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0de6f48fb8284404.png" alt="UTOOLS1561192181220.png"></p>
+<p>其中，<code>sudo -u postgres</code> 是使用postgres用户登录的意思，因为在安装PostgreSQL的时候会自动创建这么一个用户，并且这个用户的密码是随机的，所以要使用数据库的话也就有了两种方法，一种是更改这个postgres用户的密码，另一种是创建一个新用户，我选第二种，因为对我来说postgres这个用户名太长了。具体做法是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER bob WITH PASSWORD &apos;yourPassword&apos;;</span><br></pre></td></tr></table></figure>
+<p>这样就行了（我创建了一个用户名为bob的用户），如果你喜欢第一种方法的话，也很简单：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER postgres WITH PASSWORD &apos;yourPassword&apos;;</span><br></pre></td></tr></table></figure>
+<p>注意每行指令后面都有分号。</p>
+<p>然后就可以创建数据库了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE db1;  #创建名为db1的数据库</span><br><span class="line">GRANT ALL PRIVILEGES ON DATABASE db1 TO bob;  #给数据库用户访问上面一行创建的数据库的权限</span><br></pre></td></tr></table></figure>
+<p>最后输入<code>\q</code>退出postgres：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0ded9cabd5894526.png" alt="UTOOLS1561193884873.png"></p>
+<p>这时候已经创建完了数据库及其用户。然后需要安装psycopg2，这是python与PostgreSQL交互用的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip3 install psycopg2  #Fail</span><br><span class="line">apt-get install python-psycopg2  #Success</span><br></pre></td></tr></table></figure>
+<p>这也是一个坑啊，我在WIn10上用第一行命令安装成功了，于是我在Ubuntu上还用它（网上有些教程也是用的它），结果一直失败，最后我一气之下重置了系统并且只是灵机一动地尝试了一下第二行命令，结果就成功了，唉。这时候就可以在Django里使用这个数据库了，修改Django的settings.py文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.postgresql_psycopg2'</span>,</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'db'</span>,</span><br><span class="line">        <span class="string">'USER'</span>: <span class="string">'user'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'123456'</span>,</span><br><span class="line">        <span class="string">'HOST'</span>: <span class="string">'localhost'</span>,</span><br><span class="line">        <span class="string">'PORT'</span>: <span class="string">''</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="远程访问"><a href="#远程访问" class="headerlink" title="远程访问"></a>远程访问</h5><p>在服务器上数据库里有什么内容我们很不方便查看，毕竟它没有图形界面，不像在Win10上可以直接用pgAdmin查看。开发的时候有时候看看数据库里有什么会让人更放心（反正我是这样的）。好消息是pgAdmin也可以访问远程地数据库。只需按如下步骤配置：</p>
+<p>首先进入<code>/etc/postgresql/9.5/main</code>这个目录</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0dee81c8e8142148.png" alt="UTOOLS1561194112603.png"></p>
+<p>可以看到里面有一些配置文件，我们需要做一些修改：</p>
+<h6 id="修改postgresql-conf"><a href="#修改postgresql-conf" class="headerlink" title="修改postgresql.conf"></a>修改postgresql.conf</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi postgresql.conf</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>第59行修改监听地址，去掉前面 # 号，并将 ‘localhost’ 改为 ‘*’</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0df04b30ea363479.png" alt="UTOOLS1561194571114.png"></p>
+</li>
+<li><p>第88行启用密码验证，将 <code>#password_encryption = on</code> 前面的 # 号去掉</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0df0ec537d040787.png" alt="UTOOLS1561194732808.png"></p>
+</li>
+</ul>
+<h6 id="修改pg-hba-conf"><a href="#修改pg-hba-conf" class="headerlink" title="修改pg_hba.conf"></a>修改pg_hba.conf</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi pg_hba.conf</span><br></pre></td></tr></table></figure>
+<p>文件末尾添加：<code>host all all 0.0.0.0 0.0.0.0 md5</code></p>
+<p><img src="https://i.loli.net/2019/06/22/5d0df1998491953045.png" alt="UTOOLS1561194906436.png"></p>
+<h6 id="重启服务"><a href="#重启服务" class="headerlink" title="重启服务"></a>重启服务</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/postgresql restart</span><br></pre></td></tr></table></figure>
+<h6 id="设置5432端口的防火墙"><a href="#设置5432端口的防火墙" class="headerlink" title="设置5432端口的防火墙"></a>设置5432端口的防火墙</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 5432 -j ACCEPT</span><br></pre></td></tr></table></figure>
+<h6 id="pgAdmin连接"><a href="#pgAdmin连接" class="headerlink" title="pgAdmin连接"></a>pgAdmin连接</h6><p><img src="https://i.loli.net/2019/06/22/5d0df3038dda498641.png" alt="UTOOLS1561195268310.png"></p>
+<p>先右键选择创建服务器连接</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0df343ee68654979.png" alt="UTOOLS1561195332546.png"></p>
+<p>name可以随便起</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0df3b62229f46864.png" alt="UTOOLS1561195446613.png"></p>
+<p>输入刚才创建的用户名和数据库名以及密码，Host输入服务器的公网ip地址，点击Save。</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0df4132821279263.png" alt="UTOOLS1561195540178.png"></p>
+<p>然后就可以看到我们的数据库db1已经现身了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/22/swsad-django-img/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/22/swsad-django-img/" itemprop="url">Django中图片的上传和访问问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-22T12:53:45+08:00">
+                2019-06-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/系统分析/" itemprop="url" rel="index">
+                    <span itemprop="name">系统分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近做系统分析项目的小程序的时候，需要一个上传和查看图片的功能，而我使用的后端框架是Django，所以就来说一下Django是如何处理图片的，还有这中间遇到了哪些坑。</p>
+<h5 id="上传图片"><a href="#上传图片" class="headerlink" title="上传图片"></a>上传图片</h5><p>上传图片比较简单，首先要在项目的settings.py文件里面加上下面两行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MEDIA_ROOT = os.path.join(BASE_DIR, <span class="string">'media'</span>) <span class="comment"># media即为图片上传的根路径</span></span><br><span class="line">MEDIA_URL = <span class="string">'/media/'</span></span><br></pre></td></tr></table></figure>
+<p>在models.py里使用Django自带的ImageField，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Img</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    img_url = models.ImageField(upload_to=<span class="string">'images/'</span>) <span class="comment"># upload_to指定图片上传的途径，如果不存在则自动创建</span></span><br></pre></td></tr></table></figure>
+<p>然后就可以编写views.py了，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">uploadImg</span><span class="params">(request)</span>:</span> <span class="comment"># 图片上传函数</span></span><br><span class="line">   <span class="keyword">if</span> request.method == <span class="string">'POST'</span>:</span><br><span class="line">       img = Img(img_url=request.FILES.get(<span class="string">'img'</span>))</span><br><span class="line">       img.save()</span><br><span class="line">   <span class="keyword">return</span> render(request, <span class="string">'imgupload.html'</span>)</span><br></pre></td></tr></table></figure>
+<p>看到这可能会有点困惑，为什么会把ImageField命名为img_url呢？答案很简单，因为这个字段存储的就是图片的路径啊。好的，既然是路径，那在views.py里为什么又出现<code>img_url=request.FILES.get(&#39;img&#39;)</code>了呢？等号右边明明是图片文件啊！？刚开始我也很困惑，不过后来我实验过之后发现这样做的结果就是Django会把<code>request.FILES.get(&#39;img&#39;)</code>上传到<code>/media/images</code>这个目录里去，然后<code>img_url</code>这个字段存储的是<code>images/图片名</code>。OK，实验一下看看</p>
+<p>在urls.py文件中添加url映射路径：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">'uploadImg/'</span>, views.uploadImg),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>在所建app的目录新建文件夹templates,并创建uploadImg.html添加以下内容：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">title</span>&gt;</span>uploadImg<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">		&#123;% csrf_token %&#125;</span><br><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"img"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"submit"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>此时运行服务器，访问<a href="http://localhost:8000/uploadImg/，可以看到：" target="_blank" rel="noopener">http://localhost:8000/uploadImg/，可以看到：</a></p>
+<p><img src="https://i.loli.net/2019/06/22/5d0db68898b3287841.png" alt="1561171432043.png"></p>
+<p>选择一张图片然后点击submit，然后就可以在数据库里看到这个图片了：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0d9620ea2ee34235.png" alt="UTOOLS1561171489919.png"></p>
+<p>而这张图片就保存在项目的根目录下的<code>media</code>文件夹下的<code>images</code>文件夹里：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0d96a5c71c757852.png" alt="UTOOLS1561171622558.png"></p>
+<p>不如我们来看一下这个<code>img_url</code>到底是什么吧：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0db6b75598184880.png" alt="1561172136735.png"></p>
+<p>打开Django的终端然后输入上图代码，可以看到这个<code>img_url</code>还有三个属性即url、path和name，url是就是从项目的根目录定位到图片的路径，而path是图片在本地的路径，name就是在数据库里存储的内容也就是我们在上上上张图里面看到的那行蓝色小字。</p>
+<p>至此我们已经完成了上传图片的功能，那我们接下来看看如何查看图片吧，先点一下上面提到的那行蓝色小字试试看：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0d9a072e83d20737.png" alt="UTOOLS1561172487964.png"></p>
+<p>结果就看到了这个，报错了啊，看看它说的什么，它说找不到<code>http://localhost:8000/media/images/0.jpg</code>这个路径，这么一看，的确，我们并没有在urls.py文件里面设置图片的路由信息。下面我就来说一下我遇到的坑，因为网上大部分都是说到怎么上传图片的，并没有说怎么查看，所以就只能自己摸索了。</p>
+<h5 id="查看图片"><a href="#查看图片" class="headerlink" title="查看图片"></a>查看图片</h5><p>首先，在项目的urls.py里加入如下内容：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf <span class="keyword">import</span> settings</span><br><span class="line"><span class="keyword">from</span> django.conf.urls.static <span class="keyword">import</span> static</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> settings.DEBUG: <span class="comment"># new</span></span><br><span class="line">    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)</span><br></pre></td></tr></table></figure>
+<p>Django服务器在代码有改动之后会自动重启，所以我们只需要刷新一下刚才的网页就可以看到：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0d9b923f0cd86691.png" alt="UTOOLS1561172882396.png"></p>
+<p>成功啦！但是注意一下刚才添加的代码，它只有在DEBUG模式为True的情况下才会执行，然后好奇的我就把DEBUG模式改为False了，而且再说了，项目如果真要上线的话也要把DEBUG模式关了啊。这能不试试!!？</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0d9d1dbdaf624902.png" alt="UTOOLS1561173278447.png"></p>
+<p>然而改了之后就变成这样的了……然后我就从网上查资料，得到的结果大概意思就是这种静态文件和媒体文件在上线后应该是服务器（比如Nginx）处理的事而不是Django处理的事，啊啊啊我不管我就要看（当时还不知道Nginx怎么搞），然后我又上网找，最终找到了这种办法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path, include</span><br><span class="line"></span><br><span class="line"><span class="comment"># from django.conf import settings</span></span><br><span class="line"><span class="comment"># from django.conf.urls.static import static</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"><span class="keyword">from</span> django.views <span class="keyword">import</span> static</span><br><span class="line"><span class="keyword">from</span> django.conf <span class="keyword">import</span> settings</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">'admin/'</span>, admin.site.urls),</span><br><span class="line">    path(<span class="string">''</span>, include(<span class="string">'Img.urls'</span>)),</span><br><span class="line">    url(<span class="string">r'^media/(?P&lt;path&gt;.*)$'</span>, static.serve,&#123;<span class="string">'document_root'</span>: settings.MEDIA_ROOT&#125;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>在urlpatterns里加入一个新的路由模式，大概就是说，如果碰到’media/‘开头的路由信息，就用静态文件来给它提供内容吧（我猜的）。OK，再刷新一下看看：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0d9f36654b920212.png" alt="UTOOLS1561173814501.png"></p>
+<p>又能看到啦！</p>
+<p>OK，现在我们只是能直接通过url来查看图片了，那么如何在网页中显示呢？改一下views.py文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> Img</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your views here.</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">uploadImg</span><span class="params">(request)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">'POST'</span>:</span><br><span class="line">        img = Img(img_url=request.FILES.get(<span class="string">'img'</span>))</span><br><span class="line">        img.save()</span><br><span class="line">        context = &#123;<span class="string">'img'</span>: img&#125;</span><br><span class="line">        <span class="keyword">return</span> render(request, <span class="string">'result.html'</span>, context=context)</span><br><span class="line">    <span class="keyword">return</span> render(request, <span class="string">'uploadImg.html'</span>)</span><br></pre></td></tr></table></figure>
+<p>再在app目录下的templates文件夹中添加<code>result.html</code>文件：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>result<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"/media/&#123;&#123;img.img_url&#125;&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"&#123;&#123;img.img_url.url&#125;&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"/media/&#123;&#123;img.img_url.name&#125;&#125;"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意我在里面加了三个图片标签，然后我上传一张图片：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0da3f4ddfb479752.png" alt="UTOOLS1561175029577.png"></p>
+<p>可以看到显示了三张图片，说明那三种查看图片的方式都可以使用，为什么是这样呢？我来分析一下，其实很简单，正如前面那张shell的截图：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">img.img_url = <span class="string">'images/0.jpg'</span></span><br><span class="line">img.img_url.url = <span class="string">'/media/images/0.jpg'</span></span><br><span class="line">img.img_url.name = <span class="string">'images/0.jpg'</span></span><br></pre></td></tr></table></figure>
+<p>这里假设图片名还是<code>0.jpg</code>，只要能搞懂上面这三行就能明白为什么可以这样访问图片了。刚开始我就是不知道这个东西而花了好多功夫才弄明白。</p>
+<p>但其实<code>img.img_url</code>并不是字符串对象，只不过你call它的时候他会返回给它的<code>name</code>给你看：</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0da5f6791a029788.png" alt="UTOOLS1561175542090.png"></p>
+<p>这下子基本就把Django中图片的上传与访问全弄清楚了，后来在部署Nginx的时候发现，关于图片的访问，只需要在它的配置文件里写三行代码就够了，不需要在urlpatterns里加新的路由信息，而且图片的请求本来就应该是Nginx负责处理的，详见<a href="http://tiandiyijian.top/2019/06/21/swsad-deploy/" target="_blank" rel="noopener">后端部署文档</a>。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/21/swsad-deploy/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -3057,432 +3434,6 @@ J\left(W, b, a^{L}, y\right)=-\sum_{k} y_{k} \ln a_{k}^{L}</script><p>其中$ a_
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/13/swsad-hw3/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/13/swsad-hw3/" itemprop="url">系统分析作业3</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-13T14:35:32+08:00">
-                2019-04-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/系统分析/" itemprop="url" rel="index">
-                    <span itemprop="name">系统分析</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="简答题"><a href="#简答题" class="headerlink" title="简答题"></a>简答题</h3><h4 id="简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点"><a href="#简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点" class="headerlink" title="简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点"></a>简述瀑布模型、增量模型、螺旋模型（含原型方法），并分析优缺点</h4><h5 id="瀑布模型"><a href="#瀑布模型" class="headerlink" title="瀑布模型"></a>瀑布模型</h5><p>瀑布模型是将软件生命周期的各项活动规定为按固定顺序而连接的若干阶段工作，形如瀑布流水，最终得到软件产品。各软件生命周期如下图：</p>
-<p><a href="https://imgchr.com/i/AL3sED" target="_blank" rel="noopener"><img src="https://s2.ax1x.com/2019/04/13/AL3sED.md.png" alt="AL3sED.md.png"></a></p>
-<p>瀑布模型中的每一个开发活动具有下列特征：</p>
-<ul>
-<li>本阶段活动的工作对象来自于上一项活动的输出，这些输出一般是代表本阶段活动结束的里程碑式的文档。</li>
-<li>根据本阶段的活动规程执行相应的任务。</li>
-<li>本阶段活动产出相关的软件工件，作为下一阶段活动的输入。</li>
-<li>对本阶段活动执行情况进行评审。</li>
-</ul>
-<p>瀑布模型的优点：</p>
-<ul>
-<li>降低软件开发的复杂程度，提高软件开发过程的透明性，提高软件开发过程的可管理性；</li>
-<li>推迟软件实现，强调在软件实现前必须进行分析和设计工作；</li>
-<li>以项目的阶段评审和文档控制为手段有效地对整个开发过程进行指导，保证了阶段之间的正确衔接，能够及时发现并纠正开发过程中存在的缺陷，使产品达到预期的质量要求。</li>
-</ul>
-<p>瀑布模型的缺点：</p>
-<ul>
-<li>强调过程活动的线性顺序；</li>
-<li>缺乏灵活性，尤其无法解决软件需求不明确或不准确的问题；</li>
-<li>风险控制能力较弱；</li>
-<li>瀑布模型中的软件活动是文档驱动的，当阶段之间规定过多的文档时，会极大地增加系统的工作量；</li>
-<li>管理人员如果仅仅以文档的完成情况来评估项目完成进度，往往会产生错误的结论。</li>
-</ul>
-<h5 id="增量模型"><a href="#增量模型" class="headerlink" title="增量模型"></a>增量模型</h5><p>增量模型首先对系统最核心或最清晰的需求进行分析、设计、实现、测试并集成到系统中，再按优先级逐步实现后续需求。运用增量模型的软件开发过程是递增式的过程。</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb199604bf01.png" alt="UTOOLS1555143007815.png"></p>
-<p>增量模型的优点：</p>
-<ul>
-<li>增强客户对系统的信心；</li>
-<li>降低系统失败风险；</li>
-<li>提高系统可靠性；</li>
-<li>人员分配灵活，刚开始不用投入大量人力资源；</li>
-<li>提高系统的稳定性和可维护性。</li>
-</ul>
-<p>增量模型的缺点</p>
-<ul>
-<li>建立初始模型时，作为增量基础的基本业务服务的确定有一定难度；</li>
-<li>由于各个构件是逐渐并入已有的软件体系结构中的，所以加入构件必须不破坏已构造好的系统部分，这需要软件具备开放式的体系结构；</li>
-<li>在开发过程中，需求的变化是不可避免的。增量模型的灵活性可以使其适应这种变化的能力大大优于瀑布模型和快速原型模型，但也很容易退化为边做边改模型，从而使软件过程的控制失去整体性；</li>
-<li>如果增量包之间存在相交的情况且未很好处理，则必须做全盘系统分析；</li>
-<li>增量粒度难以选择。</li>
-</ul>
-<h5 id="螺旋模型（含原型方法）"><a href="#螺旋模型（含原型方法）" class="headerlink" title="螺旋模型（含原型方法）"></a>螺旋模型（含原型方法）</h5><p>螺旋模型是一种演化软件开发过程模型，它兼顾了快速原型的迭代的特征以及瀑布模型的系统化与严格监控。螺旋模型最大的特点在于引入了其他模型不具备的风险分析，使软件在无法排除重大风险时有机会停止，以减小损失。同时，在每个迭代阶段构建原型是螺旋模型用以减小风险的途径。螺旋模型更适合大型的昂贵的系统级的软件应用。</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb199920472b.png" alt="UTOOLS1555143058049.png"></p>
-<p>螺旋模型的四个象限：</p>
-<ul>
-<li>确定目标：确定软件项目目标；明确对软件开发过程和软件产品的约束；制定详细的项目管理计划；根据当前的需求和风险因素，制定实施方案，并进行可行性分析，选定一个实施方案，并对其进行规划。</li>
-<li>识别和解决风险：明确每一个项目风险，估计风险发生的可能性、频率、损害程度，并制定风险管理措施规避这些风险。</li>
-<li>工程实现：针对每一个阶段的任务要求执行开发和测试活动。</li>
-<li>准备下一轮迭代：客户使用原型，反馈修改意见；根据客户的反馈，对产品及其开发过程进行评审，决定是否进入螺旋线的下一个回路。</li>
-</ul>
-<p>优点：</p>
-<ul>
-<li>通过原型建立，使得软件开发在每个迭代有最初明确的方向；</li>
-<li>通过风险分析，最大程度地降低软件彻底失败造成损失的可能性；</li>
-<li>在每个迭代阶段植入软件测试，使每个阶段的质量得到保证；</li>
-<li>整体过程具备很高的灵活性，在开发过程的任何阶段自由应对变化；</li>
-<li>每个迭代阶段累计开发成本，使支出状况容易掌握；</li>
-<li>通过对用户反馈的采集，与用户沟通，以保证用户需求的最大实现。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>过度依赖风险分析经验与技术，一旦风险分析过程出现偏差将导致重大损失；</li>
-<li>过于灵活的开发过程不利于已经签署合同的客户与开发者之间的协调；</li>
-<li>只适用于大型软件，过多的风险管理支出将会影响客户的最终收益。</li>
-</ul>
-<h4 id="简述统一过程三大特点，与面向对象的方法有什么关系？"><a href="#简述统一过程三大特点，与面向对象的方法有什么关系？" class="headerlink" title="简述统一过程三大特点，与面向对象的方法有什么关系？"></a>简述统一过程三大特点，与面向对象的方法有什么关系？</h4><p>三大特点：</p>
-<ul>
-<li>用例驱动</li>
-<li>以体系结构为中心</li>
-<li>迭代和增量</li>
-</ul>
-<p>统一过程将软件开发过程要素和软件工件要素整合在统一的软件工程框架中，是一个面向对象的程序开发方法论。</p>
-<h4 id="简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？"><a href="#简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？" class="headerlink" title="简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？"></a>简述统一过程四个阶段的划分准则是什么？每个阶段关键的里程碑是什么？</h4><p>统一过程中的软件生命周期在时间维度上被分解为四个顺序的阶段：初始阶段、精化阶段、构建阶段和产品交付阶段。</p>
-<p>里程碑：</p>
-<ul>
-<li>初始阶段：生命周期目标里程碑，包括一些重要的文档，如：项目构想 (Vision)、原始用例模型、原始业务风险评估、一个或者多个原型、原始业务案例等。通过对文档的评审确定用例需求理解正确、项目风险评估合理、阶段计划可行等。</li>
-<li>精化阶段：生命周期体系结构里程碑，包括风险分析文档、软件体系结构基线、项目计划、可执行的进化原型、初始版本的用户手册等。通过评审确定软件体系结构已经稳定、高风险的业务需求和技术机制已经解决、修订的项目计划可行等。</li>
-<li>构建阶段：初始运行能力里程碑，包括可以运行的软件产品、用户手册等，它决定了产品是否可以在测试环境中进行部署。此刻，要确定软件、环境、用户是否可以开始系统的运行。</li>
-<li>产品交付阶段：产品发布里程碑，确定最终目标是否实现，是否应该开始产品下一个版本的另一个开发周期。在一些情况下这个里程碑可能与下一个周期的初始阶段相重合。</li>
-</ul>
-<h4 id="软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？"><a href="#软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？" class="headerlink" title="软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？"></a>软件企业为什么能按固定节奏生产、固定周期发布软件产品？它给企业项目管理带来哪些好处？</h4><p>因为统一过程将软件生命周期划分为4个固定的阶段即初始阶段、精化阶段、构建阶段和产品交付阶段，并且按照迭代的方式来运行，每轮迭代具有固定的周期和明确的里程碑目标；利用软件产品范围的弹性，合理规划范围（20%业务决定80%满意度），使得软件生产按固定节奏运行，固定迭代周期、固定开发周期、固定升级周期。</p>
-<p>好处：</p>
-<ul>
-<li>建立团队的节奏感：有预期的节奏，容易让团队形成习惯，团队生产效率更规律；</li>
-<li>降低协同成本：能够并行的去安排多个迭代的规划，评审等活动。因为每个人都知道这些活动什么时候进行，减低沟通和协同成本；</li>
-<li>简化规划活动：如果固定的迭代长度，当团队人力固定的时候，团队的生产率理论上也是固定的，有利于规划的合理性；</li>
-<li>便于量化生产过程、个人贡献度、人力资源利用率等数据，有利于更好地监督、控制、调整、评价整个生产。</li>
-</ul>
-<h3 id="实践题"><a href="#实践题" class="headerlink" title="实践题"></a>实践题</h3><h4 id="下载腾讯微信企业版PC端，安装腾讯敏捷产品研发平台（TAPD），了解使用-TAPD-的最佳实践"><a href="#下载腾讯微信企业版PC端，安装腾讯敏捷产品研发平台（TAPD），了解使用-TAPD-的最佳实践" class="headerlink" title="下载腾讯微信企业版PC端，安装腾讯敏捷产品研发平台（TAPD），了解使用 TAPD 的最佳实践"></a>下载腾讯微信企业版PC端，安装腾讯敏捷产品研发平台（TAPD），了解使用 TAPD 的最佳实践</h4><p>下载安装好微信企业版PC端之后，在TAPD的官网点击通过企业微信注册专业版使用就可以了，目前专业版好像并没有收费，刚开始我以为会收费所以试用了标准版，后来才发现标准版并没有需求、迭代、缺陷的功能，升级之后才可以使用。</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1ca6fe20cd.png" alt="UTOOLS1555155568039.png"></p>
-<p>TAPD给出的的项目流程为：</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1c64ac98d4.png" alt="UTOOLS1555154506836.png"></p>
-<h5 id="比较完善-backlog-支持（树结构）"><a href="#比较完善-backlog-支持（树结构）" class="headerlink" title="比较完善 backlog 支持（树结构）"></a>比较完善 backlog 支持（树结构）</h5><p>初次使用的时候，网页下面会跳出如下图所示的指引：</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1c6c54e8a6.png" alt="UTOOLS1555154629706.png"></p>
-<p>我按照这个指引创建了一个需求，然后又为这个需求创建了两个子需求，然后又为其中的一个子需求创建了一个子需求：</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1ccf1807b0.png" alt="UTOOLS1555156208618.png"></p>
-<p>可以看出这些需求是自动按父子关系以树结构排列的，而且每个需求都有自己的ID、标题、优先级、迭代、状态、处理人、预计开始和结束时间信息。</p>
-<h5 id="迭代（sprint）安排"><a href="#迭代（sprint）安排" class="headerlink" title="迭代（sprint）安排"></a>迭代（sprint）安排</h5><p>初次使用迭代的指引为：</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1cef885edb.png" alt="UTOOLS1555156729086.png"></p>
-<p>首先创建迭代，我创建了一个名为Test迭代的迭代</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1d2ec77b81.png" alt="UTOOLS1555157740776.png"></p>
-<p>创建的时候需要设置迭代的开始时间和结束时间</p>
-<p>然后开始规划迭代：</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1d33a42960.png" alt="UTOOLS1555157818859.png"></p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1d3c34587d.png" alt="UTOOLS1555157955500.png"></p>
-<p>可以把迭代1中的需求规划到迭代2，后来发现可以在左上角的页面设置过滤规则来选择需求，对于实际中的操作还是很方便的。</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb202126c570.png" alt="1555158185549.png"></p>
-<p>这个时候可以看到刚才Test迭代的这个迭代已经有了刚才我拖过去的需求，并且迭代1显示已经完成67%了，因为它的部分需求已经被移到3当前这个Test迭代了。</p>
-<p>然后就可以分配工作到处理人了：</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1d5fcbfc78.png" alt="UTOOLS1555158524310.png"></p>
-<p>在迭代的管理界面可以很清晰的看到当前的进度：</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb201d4d5042.png" alt="1555158788883.png"></p>
-<p>另外我还发现一个细节，需求不可以从规划中的状态之间改变为已实现，要先改为实现中然后才能改为已实现，很符合实际情况。</p>
-<h5 id="较好的缺陷管理"><a href="#较好的缺陷管理" class="headerlink" title="较好的缺陷管理"></a>较好的缺陷管理</h5><p>创建了两个缺陷：</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1ec6b95e0c.png" alt="UTOOLS1555164266778.png"></p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1f3de88b40.png" alt="UTOOLS1555166173627.png"></p>
-<p>我创建了一个视图：</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1f38733ce8.png" alt="UTOOLS1555166085292.png"></p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1f413cc5e5.png" alt="UTOOLS1555166227806.png"></p>
-<p>可以看到这里面的缺陷的创建人都是我，还有其他很多过滤条件和规则可以使用，非常方便</p>
-<p>和需求完成过程差不多，缺陷的状态也要先从新变为接受/处理最后才能变为已解决</p>
-<p>缺陷统计中自动生成了关于缺陷的各种各样的图表：</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1f5d275f87.png" alt="UTOOLS1555166673050.png"></p>
-<h5 id="Kanban"><a href="#Kanban" class="headerlink" title="Kanban"></a>Kanban</h5><p><img src="https://i.loli.net/2019/04/13/5cb1fdb3bd2c1.png" alt="UTOOLS1555168690442.png"></p>
-<p>看板是由各个状态栏组成的，每个状态栏又是由工作项组成的，工作项也支持从一个状态栏拖动到另一个状态栏</p>
-<p><img src="http://yanxuan.nosdn.127.net/a1e2110530915ba3521ff2713ced3f8a.png" alt="UTOOLS1555168338681.png"></p>
-<p>每一个工作项可以设置负责人、参与人、开始截止时间以及标签评论等，并且能看到详细的变更历史，这些功能算是比较丰富了，但是我好像没有找到看板显示总体进度的功能。</p>
-<h5 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h5><p>在报表一栏，可以看到缺陷统计、需求分布统计、需求关联统计这三个大的统计信息类</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1f739dee4d.png" alt="UTOOLS1555167031082.png"></p>
-<p>缺陷统计如在上面缺陷那一节介绍的那样，下图是一个缺陷状态分布图的例子：</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb1f7dc8198b.png" alt="UTOOLS1555167195572.png"></p>
-<p>需求分布统计中需要自己选择水平轴的参数（必选），纵轴也是可选的，选择内容和水平轴可选内容一样，我创建了一个以状态为水平轴，优先级为纵轴的需求分布统计图：</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb2018c4ffb6.png" alt="1555167538372.png"></p>
-<p>需求关联统计正如其名一样可以生成需求关联信息的表格：</p>
-<p><img src="https://i.loli.net/2019/04/13/5cb2017171eae.png" alt="1555167640435.png"></p>
-<h5 id="一些体会"><a href="#一些体会" class="headerlink" title="一些体会"></a>一些体会</h5><p>本来只是抱着玩一玩了解一下的心态来尝试使用TPAD的，但是在使用的过程中感受到了良好的工具对于同队协同工作的重要性，同时，在实践的过程中也加深了对敏捷开发过程的理解和认识。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/Pytorch-notes1/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/11/Pytorch-notes1/" itemprop="url">Pytorch-notes1</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-11T19:36:44+08:00">
-                2019-04-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Pytorch学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">Pytorch学习笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>torch.reshape和torch.view区别</p>
-<ul>
-<li>view返回的是原tensor的一个view，它和原torch共享数据</li>
-<li>为了确保新张量始终与原始张量共享其数据，torch.view对两个张量的形状施加了一些邻接约束（但是有时候即使形状兼容也会报错）</li>
-<li>reshape没有邻接约束，但是它页也不保证数据内存共享，有时候它返回的是原tensor的view，有时候是copy</li>
-<li>torch.resize_()也用于改变形状，但是如果形状不兼容的话它并不会报错</li>
-</ul>
-<p>torch.from_numpy()用于把numpy数组转化为tensor，.numpy()返回numpy数组，numpy数组和tensor共享内存</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3533,7 +3484,7 @@ J\left(W, b, a^{L}, y\right)=-\sum_{k} y_{k} \ln a_{k}^{L}</script><p>其中$ a_
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
