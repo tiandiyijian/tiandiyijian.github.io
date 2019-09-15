@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="题目描述Given a binary tree, find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node. Note: A leaf is a node with no child">
+<meta name="description" content="题目描述Given a positive integer n, generate a square matrix filled with elements from 1 to n2 in spiral order. Example: 1234567Input: 3Output:[ [ 1, 2, 3 ], [ 8, 9, 4 ], [ 7, 6, 5 ]] 分析和螺旋矩阵思路差不多，一层一层地填进">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Leetcode104-二叉树的最大深度">
-<meta property="og:url" content="http://yoursite.com/2019/08/13/104-maximum-depth-of-binary-tree/index.html">
+<meta property="og:title" content="Leetcode59-螺旋矩阵II">
+<meta property="og:url" content="http://yoursite.com/2019/09/15/59-spiral-matrix-ii/index.html">
 <meta property="og:site_name" content="天地一键">
-<meta property="og:description" content="题目描述Given a binary tree, find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node. Note: A leaf is a node with no child">
+<meta property="og:description" content="题目描述Given a positive integer n, generate a square matrix filled with elements from 1 to n2 in spiral order. Example: 1234567Input: 3Output:[ [ 1, 2, 3 ], [ 8, 9, 4 ], [ 7, 6, 5 ]] 分析和螺旋矩阵思路差不多，一层一层地填进">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-15T07:15:11.198Z">
+<meta property="og:updated_time" content="2019-09-15T04:00:44.870Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Leetcode104-二叉树的最大深度">
-<meta name="twitter:description" content="题目描述Given a binary tree, find its maximum depth. The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node. Note: A leaf is a node with no child">
+<meta name="twitter:title" content="Leetcode59-螺旋矩阵II">
+<meta name="twitter:description" content="题目描述Given a positive integer n, generate a square matrix filled with elements from 1 to n2 in spiral order. Example: 1234567Input: 3Output:[ [ 1, 2, 3 ], [ 8, 9, 4 ], [ 7, 6, 5 ]] 分析和螺旋矩阵思路差不多，一层一层地填进">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/08/13/104-maximum-depth-of-binary-tree/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/15/59-spiral-matrix-ii/">
 
 
 
 
 
-  <title>Leetcode104-二叉树的最大深度 | 天地一键</title>
+  <title>Leetcode59-螺旋矩阵II | 天地一键</title>
   
 
 
@@ -251,7 +251,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/13/104-maximum-depth-of-binary-tree/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/15/59-spiral-matrix-ii/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="天地一键">
@@ -268,7 +268,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Leetcode104-二叉树的最大深度</h1>
+          <h1 class="post-title" itemprop="name headline">Leetcode59-螺旋矩阵II</h1>
         
 
         <div class="post-meta">
@@ -280,8 +280,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-13T21:52:27+08:00">
-                2019-08-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-15T11:48:36+08:00">
+                2019-09-15
               </time>
             
 
@@ -340,18 +340,12 @@
       
 
       
-        <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given a binary tree, find its maximum depth.</p>
-<p>The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.</p>
-<p><strong>Note:</strong> A leaf is a node with no children.</p>
+        <h6 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h6><p>Given a positive integer <em>n</em>, generate a square matrix filled with elements from 1 to <em>n</em>2 in spiral order.</p>
 <p><strong>Example:</strong></p>
-<p>Given binary tree <code>[3,9,20,null,null,15,7]</code>,</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  3</span><br><span class="line"> / \</span><br><span class="line">9  20</span><br><span class="line">  /  \</span><br><span class="line"> 15   7</span><br></pre></td></tr></table></figure>
-<p>return its depth = 3.</p>
-<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>我的思路是根节点的深度为1，然后遍历它的左右子树，每一次遍历到它的子树就给深度增加1，代码如下（C++）：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> depth = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">helper</span><span class="params">(TreeNode *node, <span class="keyword">int</span> currentDepth)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (node) &#123;</span><br><span class="line">            <span class="keyword">if</span> (currentDepth &gt; depth) depth = currentDepth;</span><br><span class="line">            helper(node-&gt;left, currentDepth+<span class="number">1</span>);</span><br><span class="line">            helper(node-&gt;right, currentDepth+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        helper(root, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> depth;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>然而，还有更简单的写法（C++）：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">            max(maxDepth(root-&gt;left), maxDepth(root-&gt;right)) + <span class="number">1</span>;        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>这种写法的思路和我正好相反，我的可以看作是自顶向下，把根节点的深度当作1，然后逐渐向下加；这种写法的思路是把叶子节点的深度当作1，逐渐向上加。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: 3</span><br><span class="line">Output:</span><br><span class="line">[</span><br><span class="line"> [ 1, 2, 3 ],</span><br><span class="line"> [ 8, 9, 4 ],</span><br><span class="line"> [ 7, 6, 5 ]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>和<a href="http://tiandiyijian.top/2019/09/15/54-spiral-matrix/" target="_blank" rel="noopener">螺旋矩阵</a>思路差不多，一层一层地填进去就行了。但是稍微有点不同的是因为这个矩阵是正方形的，所以它的最里面一层要么是一个$2 \times 2$的矩阵，要么是一个单个的数，这种情况就是只剩一行的最简情况了，所以就不用判断只剩一列的情况了，可以稍微省一点时间。代码如下：</p>
+<p>Python：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">generateMatrix</span><span class="params">(self, n: int)</span> -&gt; List[List[int]]:</span></span><br><span class="line">        ans = [[<span class="number">0</span>] * n <span class="keyword">for</span> _ <span class="keyword">in</span> range(n)]</span><br><span class="line">        layer = n // <span class="number">2</span> + n % <span class="number">2</span></span><br><span class="line">        num = <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(layer):</span><br><span class="line">            ans[i][i : n - i] = list(range(num, num + n - <span class="number">2</span>*i))</span><br><span class="line">            num += n - <span class="number">2</span>*i</span><br><span class="line">            <span class="comment"># print(ans, num)</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i + <span class="number">1</span>, n - i):</span><br><span class="line">                ans[j][n - i - <span class="number">1</span>] = num</span><br><span class="line">                num += <span class="number">1</span></span><br><span class="line">            <span class="comment"># print(ans, num)</span></span><br><span class="line">            <span class="keyword">if</span> n - <span class="number">1</span> - i == i: <span class="keyword">break</span></span><br><span class="line">            ans[n - <span class="number">1</span> - i][n - i - <span class="number">2</span> : i : <span class="number">-1</span>] = list(range(num, num + n - <span class="number">2</span>*i - <span class="number">2</span> ))</span><br><span class="line">            num += n - <span class="number">2</span>*i - <span class="number">2</span></span><br><span class="line">            <span class="comment"># print(ans, num)</span></span><br><span class="line">            <span class="comment"># if i == n - i - 1: break</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(n - i - <span class="number">1</span>, i, <span class="number">-1</span>):</span><br><span class="line">                ans[j][i] = num</span><br><span class="line">                num += <span class="number">1</span></span><br><span class="line">            <span class="comment"># print(ans, num)</span></span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -376,8 +370,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/13/231-power-of-two/" rel="next" title="Leetcode231-2的幂">
-                <i class="fa fa-chevron-left"></i> Leetcode231-2的幂
+              <a href="/2019/09/15/54-spiral-matrix/" rel="next" title="Leetcode54-螺旋矩阵">
+                <i class="fa fa-chevron-left"></i> Leetcode54-螺旋矩阵
               </a>
             
           </div>
@@ -385,10 +379,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/08/14/124-binary-tree-maximum-path-sum/" rel="prev" title="Leetcode124-二叉树的最大路径和">
-                Leetcode124-二叉树的最大路径和 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -511,7 +501,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#题目描述"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-6"><a class="nav-link" href="#题目描述"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li></ol><li class="nav-item nav-level-5"><a class="nav-link" href="#分析"><span class="nav-number"></span> <span class="nav-text">分析</span></a></li></div>
             
 
           </div>
@@ -711,6 +701,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
