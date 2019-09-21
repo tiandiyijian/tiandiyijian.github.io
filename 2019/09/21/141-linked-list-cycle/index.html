@@ -79,17 +79,21 @@
 
 
 
-<meta name="description" content="深层的网络架构是更结构化的，每一层可以看作是不同的函数，高层的网络调用底层的，好处是参数更少、不容易overfitting、需要的training data更少。Deep learning并不是用很多的数据，相反，它是用比较少的数据做到同样的事情。 也可以用逻辑电路来类比DNN，两层的逻辑电路就可以实现任意的电路，但是我们也可以用更多层电路以更少的gate来完成；理论上两层的神经网络就可以做到任何">
+<meta name="description" content="题目描述Given a linked list, determine if it has a cycle in it. To represent a cycle in the given linked list, we use an integer pos which represents the position (0-indexed) in the linked list where tail">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Why Deep">
-<meta property="og:url" content="http://yoursite.com/2019/04/09/Why-Deep/index.html">
+<meta property="og:title" content="Leetcode141-环形链表">
+<meta property="og:url" content="http://yoursite.com/2019/09/21/141-linked-list-cycle/index.html">
 <meta property="og:site_name" content="天地一键">
-<meta property="og:description" content="深层的网络架构是更结构化的，每一层可以看作是不同的函数，高层的网络调用底层的，好处是参数更少、不容易overfitting、需要的training data更少。Deep learning并不是用很多的数据，相反，它是用比较少的数据做到同样的事情。 也可以用逻辑电路来类比DNN，两层的逻辑电路就可以实现任意的电路，但是我们也可以用更多层电路以更少的gate来完成；理论上两层的神经网络就可以做到任何">
+<meta property="og:description" content="题目描述Given a linked list, determine if it has a cycle in it. To represent a cycle in the given linked list, we use an integer pos which represents the position (0-indexed) in the linked list where tail">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-09T10:25:11.540Z">
+<meta property="og:image" content="https://i.loli.net/2019/09/21/Zafil16hUuWcxHY.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/21/EJN4R1PIDWyk9d7.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/21/JV8lfLhFZ5MpwjA.png">
+<meta property="og:updated_time" content="2019-09-21T14:20:34.705Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Why Deep">
-<meta name="twitter:description" content="深层的网络架构是更结构化的，每一层可以看作是不同的函数，高层的网络调用底层的，好处是参数更少、不容易overfitting、需要的training data更少。Deep learning并不是用很多的数据，相反，它是用比较少的数据做到同样的事情。 也可以用逻辑电路来类比DNN，两层的逻辑电路就可以实现任意的电路，但是我们也可以用更多层电路以更少的gate来完成；理论上两层的神经网络就可以做到任何">
+<meta name="twitter:title" content="Leetcode141-环形链表">
+<meta name="twitter:description" content="题目描述Given a linked list, determine if it has a cycle in it. To represent a cycle in the given linked list, we use an integer pos which represents the position (0-indexed) in the linked list where tail">
+<meta name="twitter:image" content="https://i.loli.net/2019/09/21/Zafil16hUuWcxHY.png">
 
 
 
@@ -119,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/09/Why-Deep/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/21/141-linked-list-cycle/">
 
 
 
 
 
-  <title>Why Deep | 天地一键</title>
+  <title>Leetcode141-环形链表 | 天地一键</title>
   
 
 
@@ -251,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/09/Why-Deep/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/21/141-linked-list-cycle/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="天地一键">
@@ -268,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Why Deep</h1>
+          <h1 class="post-title" itemprop="name headline">Leetcode141-环形链表</h1>
         
 
         <div class="post-meta">
@@ -280,8 +284,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-09T16:59:06+08:00">
-                2019-04-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-21T22:03:29+08:00">
+                2019-09-21
               </time>
             
 
@@ -303,8 +307,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/李宏毅机器学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">李宏毅机器学习笔记</span>
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
                   </a>
                 </span>
 
@@ -340,9 +344,22 @@
       
 
       
-        <p>深层的网络架构是更结构化的，每一层可以看作是不同的函数，高层的网络调用底层的，好处是参数更少、不容易overfitting、需要的training data更少。Deep learning并不是用很多的数据，相反，它是用比较少的数据做到同样的事情。</p>
-<p>也可以用逻辑电路来类比DNN，两层的逻辑电路就可以实现任意的电路，但是我们也可以用更多层电路以更少的gate来完成；理论上两层的神经网络就可以做到任何事情，但是我们也可以用更多层网络来完成相同的事情，它的参数会比两层的网络更少。</p>
-<p>深度学习可以把看起来很像但实际不一样的东西区分开，把看起来很不像但实际上一样的东西正确归类。原理应该是深度学习把这些点映射到其他维度或者坐标系。</p>
+        <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given a linked list, determine if it has a cycle in it.</p>
+<p>To represent a cycle in the given linked list, we use an integer <code>pos</code> which represents the position (0-indexed) in the linked list where tail connects to. If <code>pos</code> is <code>-1</code>, then there is no cycle in the linked list.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: head = [3,2,0,-4], pos = 1</span><br><span class="line">Output: true</span><br><span class="line">Explanation: There is a cycle in the linked list, where tail connects to the second node.</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/09/21/Zafil16hUuWcxHY.png" alt="img"></p>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: head = [1,2], pos = 0</span><br><span class="line">Output: true</span><br><span class="line">Explanation: There is a cycle in the linked list, where tail connects to the first node.</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/09/21/EJN4R1PIDWyk9d7.png" alt="image.png"></p>
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: head = [1], pos = -1</span><br><span class="line">Output: false</span><br><span class="line">Explanation: There is no cycle in the linked list.</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/09/21/JV8lfLhFZ5MpwjA.png" alt="image.png"></p>
+<p><strong>Follow up:</strong></p>
+<p>Can you solve it using <em>O(1)</em> (i.e. constant) memory?</p>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>最容易想到的办法就是从头遍历链表并记录出现过的每一个元素，如果出现过的元素又一次出现，那么就说明有环存在。但是很明显这种方法的空间复杂度不是常数的，而题目进阶要求就是用常数空间。那怎么办呢？这就可以用快慢指针了，让一个指针一次向前移动两个，另一个一次向前移动一个，如果没有环那么快指针最终就会走到链表尾部，如果有环的话那么快指针就会赶上慢指针，就好像两个人在操场跑步一样，快的那个人肯定会碰见慢的那个人，因为操场是环形的。</p>
+<p>Python：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">hasCycle</span><span class="params">(self, head: ListNode)</span> -&gt; bool:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head <span class="keyword">or</span> <span class="keyword">not</span> head.next: <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        slow, fast = head, head.next</span><br><span class="line">        <span class="keyword">while</span> slow <span class="keyword">is</span> <span class="keyword">not</span> fast:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> fast <span class="keyword">or</span> <span class="keyword">not</span> fast.next: <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">            slow = slow.next</span><br><span class="line">            fast = fast.next.next</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -367,8 +384,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/04/8/" rel="next" title="CNN">
-                <i class="fa fa-chevron-left"></i> CNN
+              <a href="/2019/09/20/61-rotate-list/" rel="next" title="Leetcode61-旋转链表">
+                <i class="fa fa-chevron-left"></i> Leetcode61-旋转链表
               </a>
             
           </div>
@@ -376,10 +393,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/04/11/Pytorch-notes1/" rel="prev" title="Pytorch-notes1">
-                Pytorch-notes1 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -431,8 +444,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -483,6 +505,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#题目描述"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

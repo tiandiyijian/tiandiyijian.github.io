@@ -248,6 +248,163 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/21/141-linked-list-cycle/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/21/141-linked-list-cycle/" itemprop="url">Leetcode141-环形链表</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-21T22:03:29+08:00">
+                2019-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given a linked list, determine if it has a cycle in it.</p>
+<p>To represent a cycle in the given linked list, we use an integer <code>pos</code> which represents the position (0-indexed) in the linked list where tail connects to. If <code>pos</code> is <code>-1</code>, then there is no cycle in the linked list.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: head = [3,2,0,-4], pos = 1</span><br><span class="line">Output: true</span><br><span class="line">Explanation: There is a cycle in the linked list, where tail connects to the second node.</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/09/21/Zafil16hUuWcxHY.png" alt="img"></p>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: head = [1,2], pos = 0</span><br><span class="line">Output: true</span><br><span class="line">Explanation: There is a cycle in the linked list, where tail connects to the first node.</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/09/21/EJN4R1PIDWyk9d7.png" alt="image.png"></p>
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: head = [1], pos = -1</span><br><span class="line">Output: false</span><br><span class="line">Explanation: There is no cycle in the linked list.</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/09/21/JV8lfLhFZ5MpwjA.png" alt="image.png"></p>
+<p><strong>Follow up:</strong></p>
+<p>Can you solve it using <em>O(1)</em> (i.e. constant) memory?</p>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>最容易想到的办法就是从头遍历链表并记录出现过的每一个元素，如果出现过的元素又一次出现，那么就说明有环存在。但是很明显这种方法的空间复杂度不是常数的，而题目进阶要求就是用常数空间。那怎么办呢？这就可以用快慢指针了，让一个指针一次向前移动两个，另一个一次向前移动一个，如果没有环那么快指针最终就会走到链表尾部，如果有环的话那么快指针就会赶上慢指针，就好像两个人在操场跑步一样，快的那个人肯定会碰见慢的那个人，因为操场是环形的。</p>
+<p>Python：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">hasCycle</span><span class="params">(self, head: ListNode)</span> -&gt; bool:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head <span class="keyword">or</span> <span class="keyword">not</span> head.next: <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        slow, fast = head, head.next</span><br><span class="line">        <span class="keyword">while</span> slow <span class="keyword">is</span> <span class="keyword">not</span> fast:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> fast <span class="keyword">or</span> <span class="keyword">not</span> fast.next: <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">            slow = slow.next</span><br><span class="line">            fast = fast.next.next</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/20/61-rotate-list/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1581,159 +1738,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/15/33-search-in-rotated-sorted-array/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/15/33-search-in-rotated-sorted-array/" itemprop="url">Leetcode33-搜索旋转排序数组</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-15T11:19:52+08:00">
-                2019-09-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.</p>
-<p>(i.e., <code>[0,1,2,4,5,6,7]</code> might become <code>[4,5,6,7,0,1,2]</code>).</p>
-<p>You are given a target value to search. If found in the array return its index, otherwise return <code>-1</code>.</p>
-<p>You may assume no duplicate exists in the array.</p>
-<p>Your algorithm’s runtime complexity must be in the order of <em>O</em>(log <em>n</em>).</p>
-<p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [4,5,6,7,0,1,2], target = 0</span><br><span class="line">Output: 4</span><br></pre></td></tr></table></figure>
-<p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [4,5,6,7,0,1,2], target = 3</span><br><span class="line">Output: -1</span><br></pre></td></tr></table></figure>
-<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>这个旋转排序数组就是把排序好的数组的后面一部分拿到前面去，从而变成了两个一前一后两个排好序的数组，且前面的那个数组中的元素都比后面一部分的大。题目要求要在$O(log(n))$时间内查找一个元素，这就想到了二分查找。那么如何进行呢？基本想法是，先判断中间那个元素是在前面那个数组中还是在后面那个数组中，再根据这个元素与目标元素的大小来确定目标元素所在的区间。代码如下：</p>
-<p>Python：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">(self, nums: list, target: int)</span> -&gt; int:</span></span><br><span class="line">        size = len(nums)</span><br><span class="line">        i, j = <span class="number">0</span>, size - <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> j &gt;= i:</span><br><span class="line">            mid = (i + j) // <span class="number">2</span></span><br><span class="line">            <span class="keyword">if</span> nums[mid] == target:</span><br><span class="line">                <span class="keyword">return</span> mid</span><br><span class="line">            <span class="keyword">elif</span> nums[mid] &gt;= nums[i]:</span><br><span class="line">                <span class="keyword">if</span> nums[mid] &gt; target &gt;= nums[i]:</span><br><span class="line">                    j = mid - <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    i = mid + <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> nums[mid] &lt; target &lt;= nums[j]:</span><br><span class="line">                    i = mid + <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    j = mid - <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1784,7 +1788,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-count">62</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
