@@ -79,17 +79,19 @@
 
 
 
-<meta name="description" content="题目描述Given an array of integers, find if the array contains any duplicates. Your function should return true if any value appears at least twice in the array, and it should return false if every elemen">
+<meta name="description" content="题目描述Write a function to delete a node (except the tail) in a singly linked list, given only access to that node. Given linked list — head = [4,5,1,9], which looks like following:  Example 1: 123Input:">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Leetcode217-存在重复元素">
-<meta property="og:url" content="http://yoursite.com/2019/09/16/217-contains-duplicate/index.html">
+<meta property="og:title" content="Leetcode237-删除链表中的节点">
+<meta property="og:url" content="http://yoursite.com/2019/09/26/237-delete-node-in-a-linked-list/index.html">
 <meta property="og:site_name" content="天地一键">
-<meta property="og:description" content="题目描述Given an array of integers, find if the array contains any duplicates. Your function should return true if any value appears at least twice in the array, and it should return false if every elemen">
+<meta property="og:description" content="题目描述Write a function to delete a node (except the tail) in a singly linked list, given only access to that node. Given linked list — head = [4,5,1,9], which looks like following:  Example 1: 123Input:">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-16T11:47:11.856Z">
+<meta property="og:image" content="https://i.loli.net/2019/09/26/nsaxWcAPfI6XROH.png">
+<meta property="og:updated_time" content="2019-09-26T07:37:25.951Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Leetcode217-存在重复元素">
-<meta name="twitter:description" content="题目描述Given an array of integers, find if the array contains any duplicates. Your function should return true if any value appears at least twice in the array, and it should return false if every elemen">
+<meta name="twitter:title" content="Leetcode237-删除链表中的节点">
+<meta name="twitter:description" content="题目描述Write a function to delete a node (except the tail) in a singly linked list, given only access to that node. Given linked list — head = [4,5,1,9], which looks like following:  Example 1: 123Input:">
+<meta name="twitter:image" content="https://i.loli.net/2019/09/26/nsaxWcAPfI6XROH.png">
 
 
 
@@ -119,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/16/217-contains-duplicate/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/26/237-delete-node-in-a-linked-list/">
 
 
 
 
 
-  <title>Leetcode217-存在重复元素 | 天地一键</title>
+  <title>Leetcode237-删除链表中的节点 | 天地一键</title>
   
 
 
@@ -251,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/16/217-contains-duplicate/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/26/237-delete-node-in-a-linked-list/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="天地一键">
@@ -268,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Leetcode217-存在重复元素</h1>
+          <h1 class="post-title" itemprop="name headline">Leetcode237-删除链表中的节点</h1>
         
 
         <div class="post-meta">
@@ -280,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-16T19:42:04+08:00">
-                2019-09-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-26T15:29:48+08:00">
+                2019-09-26
               </time>
             
 
@@ -340,18 +342,23 @@
       
 
       
-        <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given an array of integers, find if the array contains any duplicates.</p>
-<p>Your function should return true if any value appears at least twice in the array, and it should return false if every element is distinct.</p>
+        <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Write a function to delete a node (except the tail) in a singly linked list, given only access to that node.</p>
+<p>Given linked list — head = [4,5,1,9], which looks like following:</p>
+<p><img src="https://i.loli.net/2019/09/26/nsaxWcAPfI6XROH.png" alt="UTOOLS1569483105568.png"></p>
 <p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,2,3,1]</span><br><span class="line">Output: true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: head = [4,5,1,9], node = 5</span><br><span class="line">Output: [4,1,9]</span><br><span class="line">Explanation: You are given the second node with value 5, the linked list should become 4 -&gt; 1 -&gt; 9 after calling your function.</span><br></pre></td></tr></table></figure>
 <p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,2,3,4]</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
-<p><strong>Example 3:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,1,1,3,3,4,3,2,4,2]</span><br><span class="line">Output: true</span><br></pre></td></tr></table></figure>
-<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>如果数组中含有重复的元素就返回真。有两种方法，一种是先排序再看看有没有相同的元素，但是排序的时间复杂度最少为$O(nlog(n))$，另一种方法是用哈希表记录已经出现的元素，时间复杂度为$O(n)$但是需要额外的空间，和TwoSum那题有点像。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: head = [4,5,1,9], node = 1</span><br><span class="line">Output: [4,5,9]</span><br><span class="line">Explanation: You are given the third node with value 1, the linked list should become 4 -&gt; 5 -&gt; 9 after calling your function.</span><br></pre></td></tr></table></figure>
+<p><strong>Note:</strong></p>
+<ul>
+<li>The linked list will have at least two elements.</li>
+<li>All of the nodes’ values will be unique.</li>
+<li>The given node will not be the tail and it will always be a valid node of the linked list.</li>
+<li>Do not return anything from your function.</li>
+</ul>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>常规思路是从头开始扫描找到这个节点的前一个节点，但是这道题并没有给出要删除链表的头结点，只给出了要删除的那个节点，刚开始想这不就没办法找到要删除的节点的前一个节点了吗。但是其实没有这样做的必要（也没办法这样做了哈哈），就比如说例1，要删除第二个节点5，我们可以让那个节点的值等于它后面的那一个节点的值1，然后再把它指向它的下一个节点的下一个节点9，这不就相当于删除了节点5吗。</p>
 <p>Python：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">containsDuplicate</span><span class="params">(self, nums: List[int])</span> -&gt; bool:</span></span><br><span class="line">        s = set()</span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="keyword">if</span> num <span class="keyword">in</span> s:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">else</span>: s.add(num)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
-<p>因为只需要记录之前出现的元素所以使用set就可以了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"># class ListNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.next = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deleteNode</span><span class="params">(self, node)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type node: ListNode</span></span><br><span class="line"><span class="string">        :rtype: void Do not return anything, modify node in-place instead.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        node.val = node.next.val</span><br><span class="line">        node.next = node.next.next</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -376,8 +383,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/15/88-merge-sorted-array/" rel="next" title="Leetcode88-合并两个有序数组">
-                <i class="fa fa-chevron-left"></i> Leetcode88-合并两个有序数组
+              <a href="/2019/09/26/160-intersection-of-two-linked-lists/" rel="next" title="Leetcode160-相交链表">
+                <i class="fa fa-chevron-left"></i> Leetcode160-相交链表
               </a>
             
           </div>
@@ -385,10 +392,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09/16/238-product-of-array-except-self/" rel="prev" title="Leetcode238-除自身以外数组的乘积">
-                Leetcode238-除自身以外数组的乘积 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -711,26 +714,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

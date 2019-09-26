@@ -248,6 +248,1337 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/19/swsad-api/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/19/swsad-api/" itemprop="url">Interface API design 接口 API 设计</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-19T22:58:30+08:00">
+                2019-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/系统分析/" itemprop="url" rel="index">
+                    <span itemprop="name">系统分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="提交问卷"><a href="#提交问卷" class="headerlink" title="提交问卷"></a>提交问卷</h2><p><a id="提交问卷"> </a></p>
+<h3 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /submitSurvey</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>用户提交填写的问卷</p>
+
+
+<h3 id="请求参数"><a href="#请求参数" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Query</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>answer</td>
+<td>是</td>
+<td></td>
+<td>用户回答的问卷及答案</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>openid</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>用户的openid</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据"><a href="#返回数据" class="headerlink" title="返回数据"></a>返回数据</h3><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> </span></td><td key="1"><span>string</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap"></span></td><td key="5"></td></tr>
+               </tbody>
+              </table>
+
+<h2 id="余额"><a href="#余额" class="headerlink" title="余额"></a>余额</h2><p><a id="余额"> </a></p>
+<h3 id="基本信息-1"><a href="#基本信息-1" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /money</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>获取用户余额</p>
+
+
+<h3 id="请求参数-1"><a href="#请求参数-1" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>openid</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>用户的id</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据-1"><a href="#返回数据-1" class="headerlink" title="返回数据"></a>返回数据</h3><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> </span></td><td key="1"><span>number</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">用户余额</span></td><td key="5"></td></tr>
+               </tbody>
+              </table>
+
+<h2 id="停止问卷"><a href="#停止问卷" class="headerlink" title="停止问卷"></a>停止问卷</h2><p><a id="停止问卷"> </a></p>
+<h3 id="基本信息-2"><a href="#基本信息-2" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /stopSurvey</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>使某个问卷不再收到回答</p>
+
+
+<h3 id="请求参数-2"><a href="#请求参数-2" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>idOfSurvey</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>问卷id</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据-2"><a href="#返回数据-2" class="headerlink" title="返回数据"></a>返回数据</h3><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> </span></td><td key="1"><span>string</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap"></span></td><td key="5"></td></tr>
+               </tbody>
+              </table>
+
+<h2 id="发布简历"><a href="#发布简历" class="headerlink" title="发布简历"></a>发布简历</h2><p><a id="发布简历"> </a></p>
+<h3 id="基本信息-3"><a href="#基本信息-3" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /releaseResume</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>用户发布自己创建的简历</p>
+
+
+<h3 id="请求参数-3"><a href="#请求参数-3" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>resume</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>用户创建的简历</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据-3"><a href="#返回数据-3" class="headerlink" title="返回数据"></a>返回数据</h3><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> </span></td><td key="1"><span>string</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap"></span></td><td key="5"></td></tr>
+               </tbody>
+              </table>
+
+<h2 id="发布问卷"><a href="#发布问卷" class="headerlink" title="发布问卷"></a>发布问卷</h2><p><a id="发布问卷"> </a></p>
+<h3 id="基本信息-4"><a href="#基本信息-4" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /releaseSurvey</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>用户发布自己创建的问卷</p>
+
+
+<h3 id="请求参数-4"><a href="#请求参数-4" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>survey</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>用户创建的问卷</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据-4"><a href="#返回数据-4" class="headerlink" title="返回数据"></a>返回数据</h3><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> </span></td><td key="1"><span>string</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap"></span></td><td key="5"></td></tr>
+               </tbody>
+              </table>
+
+<h2 id="我的简历"><a href="#我的简历" class="headerlink" title="我的简历"></a>我的简历</h2><p><a id="我的简历"> </a></p>
+<h3 id="基本信息-5"><a href="#基本信息-5" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /myResume</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>获取用户发布的简历的列表</p>
+
+
+<h3 id="请求参数-5"><a href="#请求参数-5" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>openid</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>用户的openid</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据-5"><a href="#返回数据-5" class="headerlink" title="返回数据"></a>返回数据</h3><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> </span></td><td key="1"><span>object []</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">我发布的简历的数组</span></td><td key="5"><p key="3"><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key="0-0"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> id</span></td><td key="1"><span>string</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">简历的id</span></td><td key="5"></td></tr><tr key="0-1"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> title</span></td><td key="1"><span>string</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">简历名</span></td><td key="5"></td></tr><tr key="0-2"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> description</span></td><td key="1"><span>string</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">简历描述</span></td><td key="5"></td></tr>
+               </tbody>
+              </table>
+
+<h2 id="我的问卷"><a href="#我的问卷" class="headerlink" title="我的问卷"></a>我的问卷</h2><p><a id="我的问卷"> </a></p>
+<h3 id="基本信息-6"><a href="#基本信息-6" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /mySurvey</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>获取用户发布的问卷的列表</p>
+
+
+<h3 id="请求参数-6"><a href="#请求参数-6" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>openid</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>用户的openid</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据-6"><a href="#返回数据-6" class="headerlink" title="返回数据"></a>返回数据</h3><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> </span></td><td key="1"><span>object []</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">我发布的问卷的数组</span></td><td key="5"><p key="3"><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key="0-0"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> id</span></td><td key="1"><span>string</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷的id</span></td><td key="5"></td></tr><tr key="0-1"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> title</span></td><td key="1"><span>string</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷名</span></td><td key="5"></td></tr><tr key="0-2"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> description</span></td><td key="1"><span>string</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷描述</span></td><td key="5"></td></tr>
+               </tbody>
+              </table>
+
+<h2 id="提交简历"><a href="#提交简历" class="headerlink" title="提交简历"></a>提交简历</h2><p><a id="提交简历"> </a></p>
+<h3 id="基本信息-7"><a href="#基本信息-7" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /submitResume</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>用户提交填写的简历</p>
+
+
+<h3 id="请求参数-7"><a href="#请求参数-7" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Query</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>answer</td>
+<td>是</td>
+<td></td>
+<td>用户回答的简历及答案</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>openid</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>用户的openid</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据-7"><a href="#返回数据-7" class="headerlink" title="返回数据"></a>返回数据</h3><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> </span></td><td key="1"><span>string</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap"></span></td><td key="5"></td></tr>
+               </tbody>
+              </table>
+
+<h2 id="停止简历"><a href="#停止简历" class="headerlink" title="停止简历"></a>停止简历</h2><p><a id="停止简历"> </a></p>
+<h3 id="基本信息-8"><a href="#基本信息-8" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /stopResume</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>使某个简历不再收到回答</p>
+
+
+<h3 id="请求参数-8"><a href="#请求参数-8" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>idOfResume</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>简历id</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据-8"><a href="#返回数据-8" class="headerlink" title="返回数据"></a>返回数据</h3><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> </span></td><td key="1"><span>string</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap"></span></td><td key="5"></td></tr>
+               </tbody>
+              </table>
+
+<h2 id="搜索简历"><a href="#搜索简历" class="headerlink" title="搜索简历"></a>搜索简历</h2><p><a id="搜索简历"> </a></p>
+<h3 id="基本信息-9"><a href="#基本信息-9" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /searchResume</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>根据用户的输入搜索简历</p>
+
+
+<h3 id="请求参数-9"><a href="#请求参数-9" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>openid</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>用户的openid</td>
+</tr>
+<tr>
+<td>value</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>用户在搜索框的输入</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据-9"><a href="#返回数据-9" class="headerlink" title="返回数据"></a>返回数据</h3><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> </span></td><td key="1"><span>object []</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap"></span></td><td key="5"><p key="3"><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key="0-0"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> id</span></td><td key="1"><span>number</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">简历id</span></td><td key="5"></td></tr><tr key="0-1"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> title</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">简历名</span></td><td key="5"></td></tr><tr key="0-2"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> description</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">简历描述</span></td><td key="5"></td></tr><tr key="0-3"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> idOfReleaser</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">简历发布者的openid</span></td><td key="5"></td></tr><tr key="0-4"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> reward</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">回答简历可以获得的奖励</span></td><td key="5"></td></tr><tr key="0-5"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> questions</span></td><td key="1"><span>object []</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">简历的问题</span></td><td key="5"><p key="3"><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key="0-5-0"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> title</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问题名</span></td><td key="5"></td></tr><tr key="0-5-1"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> answer</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问题的回答，初始为null</span></td><td key="5"></td></tr>
+               </tbody>
+              </table>
+
+<h2 id="搜索问卷"><a href="#搜索问卷" class="headerlink" title="搜索问卷"></a>搜索问卷</h2><p><a id="搜索问卷"> </a></p>
+<h3 id="基本信息-10"><a href="#基本信息-10" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /searchSurvey</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>根据用户的输入搜索问卷</p>
+
+
+<h3 id="请求参数-10"><a href="#请求参数-10" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>openid</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>用户的openid</td>
+</tr>
+<tr>
+<td>value</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>用户在搜索框的输入</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据-10"><a href="#返回数据-10" class="headerlink" title="返回数据"></a>返回数据</h3><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> </span></td><td key="1"><span>object []</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap"></span></td><td key="5"><p key="3"><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key="0-0"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> id</span></td><td key="1"><span>number</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷id</span></td><td key="5"></td></tr><tr key="0-1"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> title</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷名</span></td><td key="5"></td></tr><tr key="0-2"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> description</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷描述</span></td><td key="5"></td></tr><tr key="0-3"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> numOfQuestions</span></td><td key="1"><span>number</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷问题数</span></td><td key="5"></td></tr><tr key="0-4"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> idOfReleaser</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷发布者的openid</span></td><td key="5"></td></tr><tr key="0-5"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> reward</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">回答问卷可以获得的奖励</span></td><td key="5"></td></tr><tr key="0-6"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> questions</span></td><td key="1"><span>object []</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷的问题</span></td><td key="5"><p key="3"><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key="0-6-0"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> radio</span></td><td key="1"><span>boolean</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">是否单选</span></td><td key="5"></td></tr><tr key="0-6-1"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> title</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问题名</span></td><td key="5"></td></tr><tr key="0-6-2"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> choices</span></td><td key="1"><span>string []</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问题选项</span></td><td key="5"><p key="3"><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key="array-6485"><td key="0"><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> </span></td><td key="1"><span></span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">A、B、C、D四个选项</span></td><td key="5"></td></tr><tr key="0-6-3"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> current</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">已选选项，初始为null</span></td><td key="5"></td></tr>
+               </tbody>
+              </table>
+
+<h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><p><a id="登录"> </a></p>
+<h3 id="基本信息-11"><a href="#基本信息-11" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /login</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>小程序端向微信服务器请求code发送给服务端，然后服务端向微信服务器获取该用户的openid，并在数据库为初次使用的用户添加信息，最后把openid返回给小程序</p>
+
+
+<h3 id="请求参数-11"><a href="#请求参数-11" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>code</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>小程序wx.login()返回的code</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据-11"><a href="#返回数据-11" class="headerlink" title="返回数据"></a>返回数据</h3><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0-0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> openid</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">用户的openid</span></td><td key="5"></td></tr>
+               </tbody>
+              </table>
+
+<h2 id="简历的答案列表"><a href="#简历的答案列表" class="headerlink" title="简历的答案列表"></a>简历的答案列表</h2><p><a id="简历的答案列表"> </a></p>
+<h3 id="基本信息-12"><a href="#基本信息-12" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /resumeAnswerList</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>获取某个简历收到的答案的列表</p>
+
+
+<h3 id="请求参数-12"><a href="#请求参数-12" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>idOfResume</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>某一简历的id</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据-12"><a href="#返回数据-12" class="headerlink" title="返回数据"></a>返回数据</h3><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> </span></td><td key="1"><span>object []</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">简历的答案详情列表</span></td><td key="5"><p key="3"><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key="0-0"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> nameOfUser</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">填写简历的用户名</span></td><td key="5"></td></tr><tr key="0-1"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> title</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">简历名</span></td><td key="5"></td></tr><tr key="0-2"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> questions</span></td><td key="1"><span>object</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问题列表</span></td><td key="5"></td></tr><tr key="0-2-0"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> title</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问题名</span></td><td key="5"></td></tr><tr key="0-2-1"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> answer</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问题答案</span></td><td key="5"></td></tr><tr key="0-3"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> id</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">该答案的id</span></td><td key="5"></td></tr><tr key="0-4"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> imgSrc</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">用户回答简历时上传的图片URL</span></td><td key="5"></td></tr>
+               </tbody>
+              </table>
+
+<h2 id="获取主页问卷列表"><a href="#获取主页问卷列表" class="headerlink" title="获取主页问卷列表"></a>获取主页问卷列表</h2><p><a id="获取主页问卷列表"> </a></p>
+<h3 id="基本信息-13"><a href="#基本信息-13" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /home</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>获取主页的问卷的列表</p>
+
+
+<h3 id="请求参数-13"><a href="#请求参数-13" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>openid</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>用户的openid</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据-13"><a href="#返回数据-13" class="headerlink" title="返回数据"></a>返回数据</h3><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> </span></td><td key="1"><span>object []</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap"></span></td><td key="5"><p key="3"><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key="0-0"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> id</span></td><td key="1"><span>number</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷id</span></td><td key="5"></td></tr><tr key="0-1"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> title</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷名</span></td><td key="5"></td></tr><tr key="0-2"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> description</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷描述</span></td><td key="5"></td></tr><tr key="0-3"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> numOfQuestions</span></td><td key="1"><span>number</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷问题数</span></td><td key="5"></td></tr><tr key="0-4"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> idOfReleaser</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷发布者的openid</span></td><td key="5"></td></tr><tr key="0-5"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> reward</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">回答问卷可以获得的奖励</span></td><td key="5"></td></tr><tr key="0-6"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> questions</span></td><td key="1"><span>object []</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷的问题</span></td><td key="5"><p key="3"><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key="0-6-0"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> radio</span></td><td key="1"><span>boolean</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">是否单选</span></td><td key="5"></td></tr><tr key="0-6-1"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> title</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问题名</span></td><td key="5"></td></tr><tr key="0-6-2"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> choices</span></td><td key="1"><span>string []</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问题选项</span></td><td key="5"><p key="3"><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key="array-6486"><td key="0"><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> </span></td><td key="1"><span></span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问题1、2、3、4</span></td><td key="5"></td></tr><tr key="0-6-3"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> current</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">已选选项，初始为null</span></td><td key="5"></td></tr>
+               </tbody>
+              </table>
+
+<h2 id="获取简历列表"><a href="#获取简历列表" class="headerlink" title="获取简历列表"></a>获取简历列表</h2><p><a id="获取简历列表"> </a></p>
+<h3 id="基本信息-14"><a href="#基本信息-14" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /resume</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>获取简历的列表</p>
+
+
+<h3 id="请求参数-14"><a href="#请求参数-14" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>openid</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>用户的openid</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据-14"><a href="#返回数据-14" class="headerlink" title="返回数据"></a>返回数据</h3><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> </span></td><td key="1"><span>object []</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap"></span></td><td key="5"><p key="3"><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key="0-0"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> id</span></td><td key="1"><span>number</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">简历id</span></td><td key="5"></td></tr><tr key="0-1"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> title</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">简历名</span></td><td key="5"></td></tr><tr key="0-2"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> description</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">简历描述</span></td><td key="5"></td></tr><tr key="0-3"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> idOfReleaser</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">简历发布者的openid</span></td><td key="5"></td></tr><tr key="0-4"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> reward</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">回答简历可以获得的奖励</span></td><td key="5"></td></tr><tr key="0-5"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> questions</span></td><td key="1"><span>object []</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">简历的问题</span></td><td key="5"><p key="3"><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key="0-5-0"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> title</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问题名</span></td><td key="5"></td></tr><tr key="0-5-1"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> answer</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问题的回答，初始为null</span></td><td key="5"></td></tr>
+               </tbody>
+              </table>
+
+<h2 id="问卷的答案列表"><a href="#问卷的答案列表" class="headerlink" title="问卷的答案列表"></a>问卷的答案列表</h2><p><a id="问卷的答案列表"> </a></p>
+<h3 id="基本信息-15"><a href="#基本信息-15" class="headerlink" title="基本信息"></a>基本信息</h3><p><strong>Path：</strong> /surveyAnswerList</p>
+<p><strong>Method：</strong> POST</p>
+<p><strong>接口描述：</strong></p>
+<p>获取某个问卷收到的答案的列表</p>
+
+
+<h3 id="请求参数-15"><a href="#请求参数-15" class="headerlink" title="请求参数"></a>请求参数</h3><p><strong>Headers</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数值</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td>application/x-www-form-urlencoded</td>
+<td>是</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Body</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>参数类型</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>idOfSurvey</td>
+<td>text</td>
+<td>是</td>
+<td></td>
+<td>某一问卷的id</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="返回数据-15"><a href="#返回数据-15" class="headerlink" title="返回数据"></a>返回数据</h3><p><table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key="name">名称</th><th key="type">类型</th><th key="required">是否必须</th><th key="default">默认值</th><th key="desc">备注</th><th key="sub">其他信息</th>
+    </tr>
+  </thead><tbody classname="ant-table-tbody"><tr key="0"><td key="0"><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> </span></td><td key="1"><span>object []</span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷的答案详情列表</span></td><td key="5"><p key="3"><span style="font-weight: '700'">item 类型: </span><span>object</span></p></td></tr><tr key="0-0"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> nameOfUser</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">填写问卷的用户名</span></td><td key="5"></td></tr><tr key="0-1"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> title</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问卷名</span></td><td key="5"></td></tr><tr key="0-2"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> questions</span></td><td key="1"><span>object</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">问题</span></td><td key="5"></td></tr><tr key="0-2-0"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> choices</span></td><td key="1"><span>string []</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">选项列表</span></td><td key="5"><p key="3"><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key="array-6487"><td key="0"><span style="padding-left: 60px"><span style="color: #8c8a8a">├─</span> </span></td><td key="1"><span></span></td><td key="2">非必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">A、B、C、D四个选项</span></td><td key="5"></td></tr><tr key="0-2-1"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> current</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">已选选项</span></td><td key="5"></td></tr><tr key="0-2-2"><td key="0"><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> radio</span></td><td key="1"><span>boolean</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">是否单选</span></td><td key="5"></td></tr><tr key="0-3"><td key="0"><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> id</span></td><td key="1"><span>string</span></td><td key="2">必须</td><td key="3"></td><td key="4"><span style="white-space: pre-wrap">该答案的id</span></td><td key="5"></td></tr>
+               </tbody>
+              </table><br>​            </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/18/swsad-hw9/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/18/swsad-hw9/" itemprop="url">系统分析作业9</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-18T17:17:20+08:00">
+                2019-06-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/系统分析/" itemprop="url" rel="index">
+                    <span itemprop="name">系统分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="使用类图，分别对Asg-RH文档中-Make-Reservation-用例以及-Payment-用例开展领域建模。然后，根据上述模型，给出建议的数据表以及主要字段，特别是主键和外键"><a href="#使用类图，分别对Asg-RH文档中-Make-Reservation-用例以及-Payment-用例开展领域建模。然后，根据上述模型，给出建议的数据表以及主要字段，特别是主键和外键" class="headerlink" title="使用类图，分别对Asg-RH文档中 Make Reservation 用例以及 Payment 用例开展领域建模。然后，根据上述模型，给出建议的数据表以及主要字段，特别是主键和外键"></a>使用类图，分别对<a href="https://sysu-swsad.github.io/swad-guide/material/Asg_RH.pdf" target="_blank" rel="noopener">Asg-RH</a>文档中 Make Reservation 用例以及 Payment 用例开展领域建模。然后，根据上述模型，给出建议的数据表以及主要字段，特别是主键和外键</h5><p>Make Reservation：</p>
+<p><img src="https://i.loli.net/2019/06/18/5d08ca94b07e056660.png" alt="UTOOLS1560857235381.png"></p>
+<p>数据建模：</p>
+<p>Customer(ID/key, Name, EmailAddress)</p>
+<p>Room(ID/key, Type, Price, IsAvaliable)</p>
+<p>Hotel(ID/key, Name, Address, Telephone, Price, StarRating)</p>
+<p>Location(ID/key, Name)</p>
+<p>Reservation(ID/key, CheckinDate, numberOfNights, numberOfAdults, numberOfChildren)</p>
+<p>Payment：</p>
+<p><img src="https://i.loli.net/2019/06/18/5d08d2a7571e685082.png" alt="UTOOLS1560859298085.png"></p>
+<p>数据建模：</p>
+<p>Customer(ID/key, Name, EmailAddress)</p>
+<p>CreditCard(CardNumber/key, Type, CardSecurityCode)</p>
+<p>Payment(ID/key, TotalCost, CardType)</p>
+<p>PaymentItem(ID/key, Total, Name)</p>
+<p>CardholdersAddress(ID/key, Title, FirstName, LastName, Address1, Address2, City, CountryState, Country, Postcode, DaytimeTelephone, EveningTelephone)</p>
+<p>CreditCardDetail(CardNumber, CardSecurityCode, ExpiryCode)</p>
+<h5 id="使用-UML-State-Model，对每个订单对象生命周期建模"><a href="#使用-UML-State-Model，对每个订单对象生命周期建模" class="headerlink" title="使用 UML State Model，对每个订单对象生命周期建模"></a>使用 UML State Model，对每个订单对象生命周期建模</h5><p><img src="https://i.loli.net/2019/06/18/5d09080b0d71474548.png" alt="UTOOLS1560872969651.png"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/20/swsad-hw7/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1857,329 +3188,6 @@ J\left(W, b, a^{L}, y\right)=-\sum_{k} y_{k} \ln a_{k}^{L}</script><p>其中$ a_
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/24/7/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/24/7/" itemprop="url">系统分析作业2-v1</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-24T11:25:45+08:00">
-                2019-03-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/系统分析/" itemprop="url" rel="index">
-                    <span itemprop="name">系统分析</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简答题"><a href="#简答题" class="headerlink" title="简答题"></a>简答题</h4><h5 id="用简短的语言给出对分析、设计的理解"><a href="#用简短的语言给出对分析、设计的理解" class="headerlink" title="用简短的语言给出对分析、设计的理解"></a>用简短的语言给出对分析、设计的理解</h5><p>分析强调对问题和需求的调查而不是解决方案。例如，如果需要一个新的在线交易系统，该系统将如何使用?它的功能是什么?目标是do the right thing.</p>
-<p>设计强调满足需求的概念性解决方案而不是它的实现，例如对数据库模式和软件对象的描述。目标是do the thing right.</p>
-<h5 id="用一句话描述面向对象的分析与设计的优势"><a href="#用一句话描述面向对象的分析与设计的优势" class="headerlink" title="用一句话描述面向对象的分析与设计的优势"></a>用一句话描述面向对象的分析与设计的优势</h5><p>它更便于我们在软件中构建更真实的虚拟世界， 使我们能够编写一个模块化且易于阅读的软件。</p>
-<h5 id="简述-UML（统一建模语言）的作用。考试考哪些图？"><a href="#简述-UML（统一建模语言）的作用。考试考哪些图？" class="headerlink" title="简述 UML（统一建模语言）的作用。考试考哪些图？"></a>简述 UML（统一建模语言）的作用。考试考哪些图？</h5><p>UML是一种开放的方法，用于说明、可视化、构建和编写一个正在开发的、面向对象的、软件密集系统的制品的开放方法。</p>
-<p>十多种视图，分4类：</p>
-<ul>
-<li>用例图：用户角度：功能、执行者</li>
-<li>静态图：系统静态结构<ul>
-<li>类图：概念及关系</li>
-<li>对象图：某种状态或时间段内，系统中活跃的对象及其关系</li>
-<li>包图：描述系统的分解结构</li>
-</ul>
-</li>
-<li>行为图：系统的动态行为<ul>
-<li>交互图：描述对象间的消息传递<ul>
-<li>顺序图：强调对象间消息发送的时序</li>
-<li>合作图：强调对象间的动态协作关系</li>
-</ul>
-</li>
-<li>状态图：对象的动态行为。状态-事件-状态迁移-响应动作</li>
-<li>活动图：描述系统为完成某功能而执行的操作序列</li>
-</ul>
-</li>
-<li>实现图：描述系统的组成和分布状况<ul>
-<li>构件图：组成部件及其关系</li>
-<li>部署图：物理体系结构及与软件单元的对应关系</li>
-</ul>
-</li>
-</ul>
-<h5 id="从软件本质的角度，解释软件范围（需求）控制的可行性"><a href="#从软件本质的角度，解释软件范围（需求）控制的可行性" class="headerlink" title="从软件本质的角度，解释软件范围（需求）控制的可行性"></a>从软件本质的角度，解释软件范围（需求）控制的可行性</h5><p>由于软件本身的复杂性、不可见性、不一致性、可变性，软件范围多数情况下对于客户和开发者都是模糊的，这形成软件产品与其他产品不同的开发过程。因此，范围管理是软件项目管理的重中之重。</p>
-<h4 id="项目管理实践"><a href="#项目管理实践" class="headerlink" title="项目管理实践"></a>项目管理实践</h4><h5 id="看板使用练习（提交看板执行结果贴图，建议使用-Git-project）"><a href="#看板使用练习（提交看板执行结果贴图，建议使用-Git-project）" class="headerlink" title="看板使用练习（提交看板执行结果贴图，建议使用 Git project）"></a>看板使用练习（提交看板执行结果贴图，建议使用 Git project）</h5><ul>
-<li><p>使用截图工具（png格式输出），展现你团队的任务 Kanban</p>
-</li>
-<li><p>每个人的任务是明确的。必须一周后可以看到具体结果</p>
-</li>
-<li><p>每个人的任务是1-2项</p>
-</li>
-<li><p>至少包含一个团队活动任务</p>
-<p><img src="https://s2.ax1x.com/2019/04/13/ALQvDO.png" alt="ALQvDO.png"></p>
-</li>
-</ul>
-<h5 id="UML绘图工具练习（提交贴图，必须使用-UMLet）"><a href="#UML绘图工具练习（提交贴图，必须使用-UMLet）" class="headerlink" title="UML绘图工具练习（提交贴图，必须使用 UMLet）"></a>UML绘图工具练习（提交贴图，必须使用 UMLet）</h5><ul>
-<li><p>请在 参考书2 或 教材 中选择一个类图（给出参考书页码图号）</p>
-<p>《UML和模式应用》第9页</p>
-<p><img src="/2019/03/24/7/HW2.png" alt=""></p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/21/6/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/21/6/" itemprop="url">激活函数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-21T09:11:00+08:00">
-                2019-03-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Sigmod：</p>
-<ul>
-<li>问题1：当x很大或很小时导数为0，会让梯度流消失，零梯度传递到下游节点<img src="/2019/03/21/6/1.png" alt=""></li>
-<li>问题2：Sigmod的输出非0中心，<img src="/2019/03/21/6/2.png" alt=""></li>
-<li>指数函数计算代价高</li>
-</ul>
-<p>tanh：</p>
-<p><img src="/2019/03/21/6/3.png" alt=""></p>
-<p>ReLU:</p>
-<p>收敛快，更符合生物学，计算简单快速,但是输入小于零时梯度为0，会产生dead ReLU问题，有些人会在初始化时把偏置设为很小的正数例如0.01<img src="/2019/03/21/6/4.png" alt=""></p>
-<p>Leaky ReLU &amp; PReLU：</p>
-<p><img src="/2019/03/21/6/5.png" alt=""></p>
-<p>ELU:</p>
-<p><img src="/2019/03/21/6/6.png" alt=""></p>
-<p>实践中：</p>
-<p><img src="/2019/03/21/6/7.png" alt=""></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2230,7 +3238,7 @@ J\left(W, b, a^{L}, y\right)=-\sum_{k} y_{k} \ln a_{k}^{L}</script><p>其中$ a_
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">64</span>
+                  <span class="site-state-item-count">66</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
