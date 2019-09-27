@@ -248,6 +248,319 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/31/53-maximum-subarray/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/31/53-maximum-subarray/" itemprop="url">Leetcode53-最大子序和</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-31T20:02:45+08:00">
+                2019-08-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given an integer array <code>nums</code>, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.</p>
+<p><strong>Example:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [-2,1,-3,4,-1,2,1,-5,4],</span><br><span class="line">Output: 6</span><br><span class="line">Explanation: [4,-1,2,1] has the largest sum = 6.</span><br></pre></td></tr></table></figure>
+<p><strong>Follow up:</strong></p>
+<p>If you have figured out the O(<em>n</em>) solution, try coding another solution using the divide and conquer approach, which is more subtle.</p>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>题目要求找出一个最大和的连续子数组，返回它的最大和。关键在于负数的处理，要不然最大子序和就是整个数组的和了。想法就是用一个临时变量来保存当前元素的前一个元素的最大和，然后把它和当前元素相加，如果它们的和大于最大值就更新最大值，如果小于0（出现负数）就把这个临时变量置为0。代码如下：</p>
+<p>C++：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxSubArray</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> max = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> temSum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.size(); ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            temSum += nums[i];</span><br><span class="line">            <span class="keyword">if</span>(temSum &gt; max) max = temSum;</span><br><span class="line">            <span class="keyword">if</span>(temSum &lt; <span class="number">0</span>) temSum = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Python：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxSubArray</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        max = nums[<span class="number">0</span>]</span><br><span class="line">        temSum = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> nums:</span><br><span class="line">            temSum += i</span><br><span class="line">            <span class="keyword">if</span> temSum &gt; max:</span><br><span class="line">                max = temSum</span><br><span class="line">            <span class="keyword">if</span> temSum &lt; <span class="number">0</span>:</span><br><span class="line">                temSum = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> max</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/30/26-remove-duplicates-from-sorted-array/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/30/26-remove-duplicates-from-sorted-array/" itemprop="url">Leetcode26-删除排序数组中的重复项</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-30T22:58:24+08:00">
+                2019-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given a sorted array <em>nums</em>, remove the duplicates <a href="https://en.wikipedia.org/wiki/In-place_algorithm" target="_blank" rel="noopener"><strong>in-place</strong></a> such that each element appear only <em>once</em> and return the new length.</p>
+<p>Do not allocate extra space for another array, you must do this by <strong>modifying the input array in-place</strong>with O(1) extra memory.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Given nums = [1,1,2],</span><br><span class="line"></span><br><span class="line">Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively.</span><br><span class="line"></span><br><span class="line">It doesn&apos;t matter what you leave beyond the returned length.</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Given nums = [0,0,1,1,1,2,2,3,3,4],</span><br><span class="line"></span><br><span class="line">Your function should return length = 5, with the first five elements of nums being modified to 0, 1, 2, 3, and 4 respectively.</span><br><span class="line"></span><br><span class="line">It doesn&apos;t matter what values are set beyond the returned length.</span><br></pre></td></tr></table></figure>
+<p><strong>Clarification:</strong></p>
+<p>Confused why the returned value is an integer but your answer is an array?</p>
+<p>Note that the input array is passed in by <strong>reference</strong>, which means modification to the input array will be known to the caller as well.</p>
+<p>Internally you can think of this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// nums is passed in by reference. (i.e., without making a copy)</span><br><span class="line">int len = removeDuplicates(nums);</span><br><span class="line"></span><br><span class="line">// any modification to nums in your function would be known by the caller.</span><br><span class="line">// using the length returned by your function, it prints the first len elements.</span><br><span class="line">for (int i = 0; i &lt; len; i++) &#123;</span><br><span class="line">    print(nums[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>很简单，碰见和前面重复的删掉就行了。代码：</p>
+<p>C++：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">removeDuplicates</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator itor;</span><br><span class="line">        <span class="keyword">int</span> tem = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(itor = nums.begin() + <span class="number">1</span>; itor != nums.end(); ) &#123;</span><br><span class="line">            <span class="keyword">if</span>(*itor == tem)&#123;</span><br><span class="line">                itor = nums.erase(itor);</span><br><span class="line">                <span class="keyword">if</span>(itor == nums.end()) <span class="keyword">break</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                tem = *itor;</span><br><span class="line">                itor++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums.size();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Python：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">removeDuplicates</span><span class="params">(self, nums: list)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> len(nums) &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> len(nums)</span><br><span class="line">        i = <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> i &lt; len(nums):</span><br><span class="line">            <span class="keyword">if</span> nums[i] == nums[i<span class="number">-1</span>]:</span><br><span class="line">                nums.pop(i)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> len(nums)</span><br></pre></td></tr></table></figure>
+<p>后来我发现事情并没有那么简单，像上面那样的答案改变了数组的长度，把多余的都删掉了。然而题目中说了在返回的长度后面出现的元素不重要，也就是说没必要把多余的元素都删掉，毕竟在数组中间删除元素还是挺耗时的，只需要把不重复的元素都放到数组前面就可以了。代码如下：</p>
+<p>C++：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">removeDuplicates</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (nums.size() &lt; <span class="number">2</span>) <span class="keyword">return</span> nums.size();</span><br><span class="line">        <span class="keyword">int</span> subscript = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nums.size(); ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] != nums[i<span class="number">-1</span>]) nums[subscript++] = nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> subscript;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Python：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    def removeDuplicates(self, nums) -&gt; int:</span><br><span class="line">        if len(nums)&lt;2:</span><br><span class="line">            <span class="keyword">return</span> len(nums)</span><br><span class="line">        subscript = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> num in nums:</span><br><span class="line">            <span class="keyword">if</span> num != nums[subscript]:</span><br><span class="line">                subscript += <span class="number">1</span></span><br><span class="line">                nums[subscript] = num</span><br><span class="line">        <span class="keyword">return</span> subscript + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/29/4-median-of-two-sorted-arrays/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1480,334 +1793,6 @@ median= \frac{max(left\_part)+min(right\_part)}{2}</script><p>要确保这两个
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/13/231-power-of-two/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/13/231-power-of-two/" itemprop="url">Leetcode231-2的幂</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-13T20:49:18+08:00">
-                2019-08-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given an integer, write a function to determine if it is a power of two.</p>
-<p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: 1</span><br><span class="line">Output: true </span><br><span class="line">Explanation: 20 = 1</span><br></pre></td></tr></table></figure>
-<p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: 16</span><br><span class="line">Output: true</span><br><span class="line">Explanation: 24 = 16</span><br></pre></td></tr></table></figure>
-<p><strong>Example 3:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 218</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
-<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>给出一个数，判断它是不是2的幂次方。首先，非正数都不是。对于一个正整数来说，让他一直除以2，如果最终等于1就说明它是2的幂次方，否则就不是，然而这样太耗时。来观察一下2的幂次方的二进制表示的特征：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 =&gt; 00000000</span><br><span class="line">2 =&gt; 00000010</span><br><span class="line">4 =&gt; 00000100</span><br><span class="line">8 =&gt; 00001000</span><br><span class="line">……</span><br><span class="line">64 =&gt;  01000000</span><br><span class="line">128 =&gt; 10000000</span><br></pre></td></tr></table></figure>
-<p>可以看出特征就是只有一位是1，其余位都是0。接下来，让我们来分析一下把一个整数减去1的情况。</p>
-<p>如果一个整数不等于0，那么该数的二进制表示中至少有一位是1。假设它是奇数（最右边一位是1），它减去1之后，只有最后一位会从1变成0其余位都不变。把它和原数字做与运算，会发现只有最后一位从1变成0其余位都不变。例如<code>7&amp;6 = 1011&amp;1010 = 1010</code>。</p>
-<p>接下来假设这个数是偶数（最右边一位是0）的情况，如果该数的二进制表示中最右边的1出现在第m位（从右向左数），那么把它减1之后，第m位变成0，它右边的0都变成1，把它和原数字做与运算，会发现第m位及其右边的数字都变成0，左边的不受影响。例如<code>6&amp;5 = 1100&amp;1011 = 1000</code>。</p>
-<p>从上面两种情况可以得出结论，把一个整数减去1，再和原数做与运算，会把该数的最右边的1变成0而其余位不变。基于这个思路，如果一个数是2的幂次方，那么它的二进制表示只有一个1，那么把它和它减一的差做与运算就得到了0。</p>
-<p>代码如下：</p>
-<p>C++：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isPowerOfTwo</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> !(n &amp; (n<span class="number">-1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>Python：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isPowerOfTwo</span><span class="params">(self, n: int)</span> -&gt; bool:</span></span><br><span class="line">        <span class="keyword">if</span> n &lt;= <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">return</span> n &amp; (n<span class="number">-1</span>) == <span class="number">0</span></span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/13/pca/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/13/pca/" itemprop="url">线性降维-主成分分析（PCA）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-13T11:30:37+08:00">
-                2019-08-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/李宏毅机器学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">李宏毅机器学习笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="场景描述"><a href="#场景描述" class="headerlink" title="场景描述"></a>场景描述</h4><p>在机器学习领域中，我们对原始数据进行特征提取，有时会得到比较高维的特征向量。在这些向量所处的高维空间中，包含很多的冗余和噪声。我们希望通过降维的方式来寻找数据内部的特性，从而提升特征表达能力，降低训练复杂<br>度。主成分分析（Principal Components Analysis，PCA）作为降维中最经典的方法，至今已有100多年的历史，它属于一种线性、非监督、全局的降维算法。</p>
-<h4 id="两种角度"><a href="#两种角度" class="headerlink" title="两种角度"></a>两种角度</h4><h5 id="最大方差"><a href="#最大方差" class="headerlink" title="最大方差"></a>最大方差</h5><p><img src="https://i.loli.net/2019/08/13/9VXtTzygMENqO4n.png" alt="UTOOLS1565668745834.png"></p>
-<p>例如，<em>x</em>是2维的向量，我们想要把它降到1维，也就是说把这些点投影到一条直线上，在右上角的图中有两条分别朝向右上方和左上方的直线，明显投影到第一条线更好，因为它的分布更大，能保持数据的区分度，如果投影到第二条直线，原本很不像的点可能投影之后可能变成了很像的点。所以，我们要做的事就是找到矩阵$W$使得$z$的方差最大。</p>
-<p><img src="https://i.loli.net/2019/08/13/aJUrCzMbX2A9qTf.png" alt="1565669330912.png"></p>
-<p>$w^n$代表$W$的第<em>n</em>行，想要把<em>x</em>降到几维，$W$就有几行。假如我们已经找到了使$z_1$方差最大的$w^1$（constraint为$||w^1||^2=1$，否则就直接让$w$无穷大就好了），去找使$z_2$方差最大的$w^2$，我们会发现这件事情和找$w^1$一样，$w^2$直接和$w^1$一样就好了啊。所以我们再加上一个constraint $w^1 \cdot w^2 = 0$，即这两个向量是正交的。也就是说$W$的行向量是两两正交的。接下来就是计算使<em>z</em>的方差最大的<em>w</em>了。</p>
-<p><img src="https://i.loli.net/2019/08/13/qwBLAyurDs7fZme.png" alt="1565673239503.png"></p>
-<p>经过推导可以把问题转化成上图中右下角的问题。利用拉格朗日乘数法可以求解：</p>
-<p><img src="https://i.loli.net/2019/08/13/JvAe5PgtcayMfV8.png" alt="UTOOLS1565674137463.png"></p>
-<p>首先算出来$Sw^1=\alpha w^1$，这说明$w^1$是矩阵$S$的特征向量，而$(w^1)^TSw^1 = (w^1)^T\alpha w^1 = \alpha (w^1)^Tw^1 = \alpha$，我们要使它最大也就是使$\alpha$最大，那么$\alpha$就是$S$的最大的特征值，$w^1$就是它对应的特征向量。接下来求$w^2$:</p>
-<p><img src="https://i.loli.net/2019/08/13/nw8ukx1LzfElORo.png" alt="UTOOLS1565674650927.png"></p>
-<p>过程和求$w^1$类似，同样利用拉格朗日乘数法，可得$Sw^2-\alpha w^2-\beta w^1=0$，把它两边都乘以$(w^1)^T$，那也就是$(w^1)^TSw^2-(w^1)^T\alpha w^2-(w^1)^T\beta w^1=0$，其中第一项$(w^1)^TSw^2 = ((w^1)^TSw^2)^T = (w^2)^TSw^1 = (w^1)^T\lambda_1w^2 = 0$（因为它是一个scalar，所以它就等于它的转置），第二项等于0， 第三项等于$\beta$，都很容易看出来，所以上面的等式就可以转化为$\beta = 0$，所以$Sw^2-\alpha w^2-\beta w^1 = Sw^2-\alpha w^2=0$，所以$Sw^2 = \alpha w^2$，这说明$w^2$也是特征向量，接下来就和上面过程类似，可以得出它是矩阵$S$第二大特征值对应的特征向量。也就是$w^n$就是矩阵$S$第<em>n</em>大特征值对应的特征向量。</p>
-<p><img src="https://i.loli.net/2019/08/13/cQk7xI5SrmKhCYX.png" alt="1565676169187.png"></p>
-<p>经过PCA降维之后的数据还有一个好处，那就是<em>z</em>的协方差矩阵是对角阵，<em>z</em>的不同的维度之间是线性无关的，这样把经过PCA处理之后的数据扔给其它的model的时候这个model就可以假设特征的各维度间是没有correlation的，这样它就可以用更简单的模型更少的参数量，避免过拟合。</p>
-<h5 id="最小平方误差"><a href="#最小平方误差" class="headerlink" title="最小平方误差"></a>最小平方误差</h5><p><img src="https://i.loli.net/2019/08/13/YyuHU9xm17Bep4a.png" alt="1565679764133.png"></p>
-<p>以数字的图片为例，每一个数字都可以看作是不同的 component 组成的，而原图片就可以看作是 component 的线性组合，PCA要做的事清就是挑出 <em>k</em> 个 component，使得这 <em>k</em> 个 component 的线性组合与原图片最接近。</p>
-<p><img src="https://i.loli.net/2019/08/13/fEgdIsUMKLQzxwC.png" alt="UTOOLS1565679898635.png"></p>
-<p>转化成数学问题就是上图中间那个式子。</p>
-<p><img src="https://i.loli.net/2019/08/13/aOpjYdEGzmb731n.png" alt="UTOOLS1565680398680.png"></p>
-<p>令$x-\overline{x} \approx c_{1} u^{1}+c_{2} u^{2}+\cdots+c_{\mathrm{K}} u^{K}=\hat{x}$，$|(x-\overline{x})-\hat{x}|_{2}$被称为重构误差（如果$k=Dim(x)$那么就没有误差，因为<em>k</em>个正交（线性无关）的向量是空间$R^k$的一个 basis，是但是我们是做降维，所以$k$肯定小于$Dim(x)$，所以肯定有误差），我们的目的就是最小化这个误差（summation over所有的$|(x-\overline{x})-\hat{x}|_{2}$）。所以就可以像图中那样把它们排成矩阵，最小化左边的矩阵和右边两个矩阵相乘的结果误差。</p>
-<p>$\hat{x}$是$x-\overline{x}$在$\{u_1,u2,…,u_k\}$张成的平面的投影。$|(x-\overline{x})-\hat{x}|_{2}$就是它到它的投影的距离，所以我们要最小化的这个值也就是样本点到它的投影的距离之和，所以这个角度可以看做是从最小平方误差出发的。</p>
-<p><img src="https://i.loli.net/2019/08/13/B4Ymn6ZEb9NxI3s.png" alt="UTOOLS1565683416825.png"></p>
-<p><img src="https://i.loli.net/2019/08/13/inBucgRwSyQhPM7.png" alt="UTOOLS1565681417187.png"></p>
-<p>假设$x^i-\overline{x}$排成的矩阵为$X$，根据SVD，可以得出$u^1$到$u^k$就是$XX^T$的前<em>k</em>个特征向量。其实Eckart-Young-Mirsky定理说的也就是这么个事，如果矩阵<em>B</em>的秩为<em>k</em>，那么$|A-B| \geq |A-A_k|(A_k=U_k\Sigma_kV_k^T)$，其中$U_k,V_K$是保留了$U,V$前<em>k</em>列的矩阵，$U,V$分别是$AA^T,A^AA$的特征向量构成的矩阵，$\Sigma_k$是保留了前<em>k</em>个奇异值的对角阵。而且注意到，$XX^T=(N-1)Cov(x)$，也就是说$XX^T$的特征向量和$Cov(x)$的是一样的（特征值是倍数关系，但特征向量是一样的）。殊途同归了！</p>
-<h4 id="PCA的缺点"><a href="#PCA的缺点" class="headerlink" title="PCA的缺点"></a>PCA的缺点</h4><p><img src="https://i.loli.net/2019/08/13/XeftATZa9El3k8L.png" alt="UTOOLS1565683598647.png"></p>
-<ul>
-<li>它是无监督的，它只能把数据投影到方差最大的那个维度上而不能考虑类别信息。例如上图中左上角那部分，它会把样本点投影到红色那条线上，但是线的左下角和右上角可能是不同的类别，投影到红色那条线上就混淆了。这种情况可以使用LDA。</li>
-<li>它是线性的，比如对于上图中右上角那个S形的曲面，无论往哪个方向投影都不能把其中的样本点区分开，都会产生混淆。把它拉直（拉直成一个二维的平面）这件事是非线性的，PCA做不到。</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1858,7 +1843,7 @@ median= \frac{max(left\_part)+min(right\_part)}{2}</script><p>要确保这两个
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-count">68</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
