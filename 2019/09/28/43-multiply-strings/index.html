@@ -79,17 +79,19 @@
 
 
 
-<meta name="description" content="题目描述Given an array of integers, find if the array contains any duplicates. Your function should return true if any value appears at least twice in the array, and it should return false if every elemen">
+<meta name="description" content="题目描述Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string. Example 1: 12Input: num1 = &amp;quot;2&amp;quot;, num2 = &amp;quot;3&amp;qu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Leetcode217-存在重复元素">
-<meta property="og:url" content="http://yoursite.com/2019/09/16/217-contains-duplicate/index.html">
+<meta property="og:title" content="Leetcode43-字符串相乘">
+<meta property="og:url" content="http://yoursite.com/2019/09/28/43-multiply-strings/index.html">
 <meta property="og:site_name" content="天地一键">
-<meta property="og:description" content="题目描述Given an array of integers, find if the array contains any duplicates. Your function should return true if any value appears at least twice in the array, and it should return false if every elemen">
+<meta property="og:description" content="题目描述Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string. Example 1: 12Input: num1 = &amp;quot;2&amp;quot;, num2 = &amp;quot;3&amp;qu">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-16T11:47:11.856Z">
+<meta property="og:image" content="https://i.loli.net/2019/09/28/IRzWbdTKU3MvHOQ.png">
+<meta property="og:updated_time" content="2019-09-28T08:26:11.463Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Leetcode217-存在重复元素">
-<meta name="twitter:description" content="题目描述Given an array of integers, find if the array contains any duplicates. Your function should return true if any value appears at least twice in the array, and it should return false if every elemen">
+<meta name="twitter:title" content="Leetcode43-字符串相乘">
+<meta name="twitter:description" content="题目描述Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string. Example 1: 12Input: num1 = &amp;quot;2&amp;quot;, num2 = &amp;quot;3&amp;qu">
+<meta name="twitter:image" content="https://i.loli.net/2019/09/28/IRzWbdTKU3MvHOQ.png">
 
 
 
@@ -119,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/16/217-contains-duplicate/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/28/43-multiply-strings/">
 
 
 
 
 
-  <title>Leetcode217-存在重复元素 | 天地一键</title>
+  <title>Leetcode43-字符串相乘 | 天地一键</title>
   
 
 
@@ -251,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/16/217-contains-duplicate/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/28/43-multiply-strings/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="天地一键">
@@ -268,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Leetcode217-存在重复元素</h1>
+          <h1 class="post-title" itemprop="name headline">Leetcode43-字符串相乘</h1>
         
 
         <div class="post-meta">
@@ -280,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-16T19:42:04+08:00">
-                2019-09-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-28T16:22:24+08:00">
+                2019-09-28
               </time>
             
 
@@ -340,18 +342,22 @@
       
 
       
-        <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given an array of integers, find if the array contains any duplicates.</p>
-<p>Your function should return true if any value appears at least twice in the array, and it should return false if every element is distinct.</p>
+        <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given two non-negative integers <code>num1</code> and <code>num2</code> represented as strings, return the product of <code>num1</code> and <code>num2</code>, also represented as a string.</p>
 <p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,2,3,1]</span><br><span class="line">Output: true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: num1 = &quot;2&quot;, num2 = &quot;3&quot;</span><br><span class="line">Output: &quot;6&quot;</span><br></pre></td></tr></table></figure>
 <p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,2,3,4]</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
-<p><strong>Example 3:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,1,1,3,3,4,3,2,4,2]</span><br><span class="line">Output: true</span><br></pre></td></tr></table></figure>
-<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>如果数组中含有重复的元素就返回真。有两种方法，一种是先排序再看看有没有相同的元素，但是排序的时间复杂度最少为$O(nlog(n))$，另一种方法是用哈希表记录已经出现的元素，时间复杂度为$O(n)$但是需要额外的空间，和TwoSum那题有点像。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: num1 = &quot;123&quot;, num2 = &quot;456&quot;</span><br><span class="line">Output: &quot;56088&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>Note:</strong></p>
+<ol>
+<li>The length of both <code>num1</code> and <code>num2</code> is &lt; 110.</li>
+<li>Both <code>num1</code> and <code>num2</code> contain only digits <code>0-9</code>.</li>
+<li>Both <code>num1</code> and <code>num2</code> do not contain any leading zero, except the number 0 itself.</li>
+<li>You <strong>must not use any built-in BigInteger library</strong> or <strong>convert the inputs to integer</strong> directly.</li>
+</ol>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>使用竖式相乘的原理即可。如图所示：</p>
+<p><img src="https://i.loli.net/2019/09/28/IRzWbdTKU3MvHOQ.png" alt="UTOOLS1569659097090.png"></p>
 <p>Python：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">containsDuplicate</span><span class="params">(self, nums: List[int])</span> -&gt; bool:</span></span><br><span class="line">        s = set()</span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="keyword">if</span> num <span class="keyword">in</span> s:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">else</span>: s.add(num)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
-<p>因为只需要记录之前出现的元素所以使用set就可以了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">multiply</span><span class="params">(self, num1: str, num2: str)</span> -&gt; str:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> num1 <span class="keyword">or</span> <span class="keyword">not</span> num2 <span class="keyword">or</span> num1 == <span class="string">'0'</span> <span class="keyword">or</span> num2 == <span class="string">'0'</span>: <span class="keyword">return</span> <span class="string">'0'</span></span><br><span class="line">        len1, len2 = len(num1), len(num2)</span><br><span class="line">        digits = [<span class="number">0</span>] * (len1 + len2)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len1<span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(len2<span class="number">-1</span>, <span class="number">-1</span>, <span class="number">-1</span>):</span><br><span class="line">                tmp = int(num1[i]) * int(num2[j]) + digits[i + j + <span class="number">1</span>]</span><br><span class="line">                digits[i + j + <span class="number">1</span>] = tmp % <span class="number">10</span></span><br><span class="line">                digits[i + j] += tmp // <span class="number">10</span></span><br><span class="line">        ans = <span class="string">''</span></span><br><span class="line">        <span class="comment"># print(digits)</span></span><br><span class="line">        <span class="keyword">for</span> digit <span class="keyword">in</span> digits:</span><br><span class="line">            <span class="keyword">if</span> digit != <span class="number">0</span> <span class="keyword">or</span> ans:</span><br><span class="line">                ans += str(digit)</span><br><span class="line">        <span class="comment"># print(ans)</span></span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -376,8 +382,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/15/88-merge-sorted-array/" rel="next" title="Leetcode88-合并两个有序数组">
-                <i class="fa fa-chevron-left"></i> Leetcode88-合并两个有序数组
+              <a href="/2019/09/27/9-palindrome-number/" rel="next" title="Leetcode9-回文数">
+                <i class="fa fa-chevron-left"></i> Leetcode9-回文数
               </a>
             
           </div>
@@ -385,10 +391,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09/16/238-product-of-array-except-self/" rel="prev" title="Leetcode238-除自身以外数组的乘积">
-                Leetcode238-除自身以外数组的乘积 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -711,26 +713,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
