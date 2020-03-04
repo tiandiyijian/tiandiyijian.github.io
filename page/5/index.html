@@ -248,6 +248,165 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/13/231-power-of-two/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/13/231-power-of-two/" itemprop="url">Leetcode231-2的幂</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-13T20:49:18+08:00">
+                2019-08-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given an integer, write a function to determine if it is a power of two.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: 1</span><br><span class="line">Output: true </span><br><span class="line">Explanation: 20 = 1</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: 16</span><br><span class="line">Output: true</span><br><span class="line">Explanation: 24 = 16</span><br></pre></td></tr></table></figure>
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 218</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>给出一个数，判断它是不是2的幂次方。首先，非正数都不是。对于一个正整数来说，让他一直除以2，如果最终等于1就说明它是2的幂次方，否则就不是，然而这样太耗时。来观察一下2的幂次方的二进制表示的特征：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 =&gt; 00000000</span><br><span class="line">2 =&gt; 00000010</span><br><span class="line">4 =&gt; 00000100</span><br><span class="line">8 =&gt; 00001000</span><br><span class="line">……</span><br><span class="line">64 =&gt;  01000000</span><br><span class="line">128 =&gt; 10000000</span><br></pre></td></tr></table></figure>
+<p>可以看出特征就是只有一位是1，其余位都是0。接下来，让我们来分析一下把一个整数减去1的情况。</p>
+<p>如果一个整数不等于0，那么该数的二进制表示中至少有一位是1。假设它是奇数（最右边一位是1），它减去1之后，只有最后一位会从1变成0其余位都不变。把它和原数字做与运算，会发现只有最后一位从1变成0其余位都不变。例如<code>7&amp;6 = 1011&amp;1010 = 1010</code>。</p>
+<p>接下来假设这个数是偶数（最右边一位是0）的情况，如果该数的二进制表示中最右边的1出现在第m位（从右向左数），那么把它减1之后，第m位变成0，它右边的0都变成1，把它和原数字做与运算，会发现第m位及其右边的数字都变成0，左边的不受影响。例如<code>6&amp;5 = 1100&amp;1011 = 1000</code>。</p>
+<p>从上面两种情况可以得出结论，把一个整数减去1，再和原数做与运算，会把该数的最右边的1变成0而其余位不变。基于这个思路，如果一个数是2的幂次方，那么它的二进制表示只有一个1，那么把它和它减一的差做与运算就得到了0。</p>
+<p>代码如下：</p>
+<p>C++：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isPowerOfTwo</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> !(n &amp; (n<span class="number">-1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Python：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isPowerOfTwo</span><span class="params">(self, n: int)</span> -&gt; bool:</span></span><br><span class="line">        <span class="keyword">if</span> n &lt;= <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">return</span> n &amp; (n<span class="number">-1</span>) == <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/13/pca/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1685,158 +1844,6 @@ false          &      & {else}
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/07/23-merge-k-sorted-lists/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/07/23-merge-k-sorted-lists/" itemprop="url">Leetcode23-合并K个排序链表</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-07T09:29:55+08:00">
-                2019-08-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Merge <em>k</em> sorted linked lists and return it as one sorted list. Analyze and describe its complexity.</p>
-<p><strong>Example:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">[</span><br><span class="line">  1-&gt;4-&gt;5,</span><br><span class="line">  1-&gt;3-&gt;4,</span><br><span class="line">  2-&gt;6</span><br><span class="line">]</span><br><span class="line">Output: 1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6</span><br></pre></td></tr></table></figure>
-<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>这题和合并两个有序链表很像，只不过两个链表的时候一次是从两个链表头里选一个最小的，而多个的时候要从多个链表头里选一个最小的。假如说有<em>k</em>个链表，那么每一次选择最小的节点就需要$O(k)$的时间，而一共需要选<em>N</em>（N是所有的节点总数）次，所以总共需要$O(Nk)$的时间，看起来好像还行。但是写起来有点麻烦，毕竟要从<em>k</em>个链表头里面选一个最小的。有没有办法利用之前写好的合并两个有序链表的答案呢？肯定是有，把所有的链表逐个合并起来就好了，比如说把第一个和第二个合并，然后再把这两个合并起来的结果和第三个合并，直到把所有的都合并完。这样如果一共有<em>k</em>个链表的话，一共需要合并<em>(k-1)</em>次，假设总共有<em>N</em>个节点，每个链表有$\frac{N}{k}$个节点，那么该算法的时间复杂度为：$O\left(\sum_{i=1}^{k-1}\left(i *\left(\frac{N}{k}\right)+\frac{N}{k}\right)\right)=O(k N)$，竟然和第一种方法一样。好像这样逐个合并有点费事，还有没有更好的方法呢？假如我们先两两合并，再把两两合并的结果两两合并，直到只剩一个链表，这样是不是合并的次数就更少了呢？如图所示：</p>
-<p><img src="https://i.loli.net/2019/08/07/eaCUTLAR67YKFPG.png" alt="UTOOLS1565143928796.png"></p>
-<p>假如总共有<em>k</em>个链表，<em>N</em>个节点，把所有链表两两合并称为一次循环，每一次循环之后的链表个数为之前的一半，那么一共需要合并$log(k)$次，每一循环都需要访问所有节点一次即每次循环都需要$O(N)$时间，所以一共耗费的时间为$O(Nlog(k))$，比前两种方法都要快。第三种方法的代码如下：</p>
-<p>C++：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeKLists</span><span class="params">(<span class="built_in">vector</span>&lt;ListNode*&gt;&amp; lists)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (lists.empty()) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">int</span> len = lists.size();</span><br><span class="line">        <span class="keyword">while</span> (len &gt; <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> halfLen = (len + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len / <span class="number">2</span>; ++i) &#123;</span><br><span class="line">                lists[i] = mergeTwoList(lists[i], lists[i+halfLen]);</span><br><span class="line">            &#125;</span><br><span class="line">            len = halfLen;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> lists[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeTwoList</span><span class="params">(ListNode* a, ListNode* b)</span> </span>&#123;</span><br><span class="line">        ListNode *dummy = <span class="keyword">new</span> ListNode(<span class="number">-1</span>);</span><br><span class="line">        ListNode *rhead = dummy;</span><br><span class="line">        <span class="keyword">while</span> (a <span class="keyword">and</span> b) &#123;</span><br><span class="line">            <span class="keyword">if</span> (a-&gt;val &lt;= b-&gt;val) &#123;</span><br><span class="line">                rhead-&gt;next = a;</span><br><span class="line">                a = a-&gt;next;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                rhead-&gt;next = b;</span><br><span class="line">                b = b-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            rhead = rhead-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        rhead-&gt;next = a ? a : b;</span><br><span class="line">        <span class="keyword">return</span> dummy-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>Python：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">mergeKLists</span><span class="params">(self, lists: List[ListNode])</span> -&gt; ListNode:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">mergeList</span><span class="params">(a: ListNode, b: ListNode)</span>:</span></span><br><span class="line">            dummy = ListNode(<span class="number">-1</span>)</span><br><span class="line">            rhead = dummy</span><br><span class="line">            <span class="keyword">while</span> a <span class="keyword">and</span> b:</span><br><span class="line">                <span class="keyword">if</span> a.val &lt; b.val:</span><br><span class="line">                    rhead.next = a</span><br><span class="line">                    a = a.next</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    rhead.next = b</span><br><span class="line">                    b = b.next</span><br><span class="line">                rhead = rhead.next</span><br><span class="line">            rhead.next = a <span class="keyword">or</span> b</span><br><span class="line">            <span class="keyword">return</span> dummy.next</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> lists: <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">        n = len(lists)</span><br><span class="line">        <span class="keyword">while</span> (n &gt; <span class="number">1</span>):</span><br><span class="line">            halfLen = int((n + <span class="number">1</span>) / <span class="number">2</span>)</span><br><span class="line">            <span class="comment"># print(halfLen)</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(int(n/<span class="number">2</span>)):</span><br><span class="line">                <span class="comment"># print(i, i + halfLen)</span></span><br><span class="line">                lists[i] = mergeList(lists[i], lists[i + halfLen])</span><br><span class="line">            n = halfLen</span><br><span class="line">        <span class="keyword">return</span> lists[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
-<p>实际上我并没有把相邻的链表合并，而是把前半部分的和后半部分的合并，比如说一共有5个链表，我把第1个和第4个，第2个和第5个合并，这样做的好处是每一次循环过后不用考虑需要合并的链表它们的索引在向量中的间隔的变化。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1887,7 +1894,7 @@ false          &      & {else}
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">77</span>
+                  <span class="site-state-item-count">78</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1937,7 +1944,7 @@ false          &      & {else}
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
