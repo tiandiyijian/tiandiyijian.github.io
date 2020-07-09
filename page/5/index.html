@@ -248,6 +248,166 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/15/230-kth-smallest-element-in-a-bst/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="天地一键">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="天地一键">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/15/230-kth-smallest-element-in-a-bst/" itemprop="url">Leetcode230-二叉搜索树中第K小的元素</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-15T10:27:59+08:00">
+                2019-08-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Given a binary search tree, write a function <code>kthSmallest</code> to find the kth smallest element in it.</p>
+<p>You may assume k is always valid, 1 ≤ k ≤ BST’s total elements.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: root = [3,1,4,null,2], k = 1</span><br><span class="line">   3</span><br><span class="line">  / \</span><br><span class="line"> 1   4</span><br><span class="line">  \</span><br><span class="line">   2</span><br><span class="line">Output: 1</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Input: root = [5,3,6,2,4,null,null,1], k = 3</span><br><span class="line">       5</span><br><span class="line">      / \</span><br><span class="line">     3   6</span><br><span class="line">    / \</span><br><span class="line">   2   4</span><br><span class="line">  /</span><br><span class="line"> 1</span><br><span class="line">Output: 3</span><br></pre></td></tr></table></figure>
+<p>What if the BST is modified (insert/delete operations) often and you need to find the kth smallest frequently? How would you optimize the kthSmallest routine?</p>
+<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>题目要求找出二插搜索树中第 k 小的元素，一下就想到了二插搜索数的中序遍历结果就是从小到大排列的有序数组这个性质，我们可以利用这个性质，先中序遍历一遍，然后返回中序遍历结果的第 k 个元素就行了。代码如下：</p>
+<p>C++：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(TreeNode* node, <span class="keyword">int</span> &amp;k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!node) <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">// cout &lt;&lt; node-&gt;val &lt;&lt; endl;</span></span><br><span class="line">        inOrder(node-&gt;left, k);</span><br><span class="line">        nums.push_back(node-&gt;val);</span><br><span class="line">        inOrder(node-&gt;right, k);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">kthSmallest</span><span class="params">(TreeNode* root, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        inOrder(root, k);</span><br><span class="line">        <span class="comment">// cout &lt;&lt; nums.size();</span></span><br><span class="line">        <span class="keyword">return</span> nums[k - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>但是其实只要找到第k个元素就行了，没有必要遍历所有的二叉树节点，可以优化为：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; nums;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(TreeNode* node, <span class="keyword">int</span> &amp;k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!node) <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">// cout &lt;&lt; node-&gt;val &lt;&lt; endl;</span></span><br><span class="line">        inOrder(node-&gt;left, k);</span><br><span class="line">        <span class="keyword">if</span> (nums.size() &lt; k) <span class="comment">// 只有数组大小不到k的时候才push元素进去</span></span><br><span class="line">            nums.push_back(node-&gt;val);</span><br><span class="line">        <span class="keyword">if</span> (nums.size() == k) <span class="keyword">return</span>; <span class="comment">// 数组大小为k之后就没必要再遍历后面的节点了</span></span><br><span class="line">        inOrder(node-&gt;right, k);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">kthSmallest</span><span class="params">(TreeNode* root, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        inOrder(root, k);</span><br><span class="line">        <span class="comment">// cout &lt;&lt; nums.size();</span></span><br><span class="line">        <span class="keyword">return</span> nums[k - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>可以去掉代码中那几行注释执行一下看看结果有什么区别。</p>
+<p>进一步想，也没必要把第 k 小元素之前的元素都存到数组里，通过引入一个计数器就可以避免使用数组来节省空间和时间，代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> ans, count = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inOrder</span><span class="params">(TreeNode* node, <span class="keyword">int</span> &amp;k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!node) <span class="keyword">return</span>;</span><br><span class="line">        <span class="comment">// cout &lt;&lt; node-&gt;val &lt;&lt; endl;</span></span><br><span class="line">        inOrder(node-&gt;left, k);</span><br><span class="line">        <span class="keyword">if</span> (count &gt;= k) <span class="keyword">return</span>;</span><br><span class="line">        ++count;</span><br><span class="line">        <span class="keyword">if</span>(count == k) &#123;</span><br><span class="line">            ans = node-&gt;val;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        inOrder(node-&gt;right, k);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">kthSmallest</span><span class="params">(TreeNode* root, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        inOrder(root, k);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h5 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h5><p>题目末尾还有一个问题是：如果二叉搜索树经常被修改（插入/删除操作）并且你需要频繁地查找第 k 小的值，你将如何优化 <code>kthSmallest</code> 函数？</p>
+<p>其实这道题还有一种解法，如果说一个节点是第 k 小的元素，那么它的左子树中的节点个数就有 k-1 个，因为它的左子树中的元素都比它小，右子树中的元素都比它大。基于这个思路，可以写出如下代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">    <span class="comment">//求当前节点左子树中节点的个数</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">countNodes</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> countNodes(root-&gt;left) + countNodes(root-&gt;right) + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">kthSmallest</span><span class="params">(TreeNode* root, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">nullptr</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> count = countNodes(root-&gt;left);</span><br><span class="line">        <span class="keyword">if</span> (k &lt; count + <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> kthSmallest(root-&gt;left, k);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (k &gt; count + <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> kthSmallest(root-&gt;right, k - <span class="number">1</span> - count); </span><br><span class="line">        <span class="keyword">return</span> root-&gt;val; <span class="comment">// k = count + 1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>但是这种解法就比较慢了，因为要反复执行<code>countNodes()</code>很耗时，但是如果在节点类中引入一个变量，直接就记录该节点的左子树中节点的个数，就能使时间复杂度降低至$O(h)$（h是树的高度）。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/14/124-binary-tree-maximum-path-sum/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1685,165 +1845,11 @@ false          &      & {else}
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/09/148-sort-list/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="天地一键">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="天地一键">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/09/148-sort-list/" itemprop="url">Leetcode148-排序链表</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-09T12:55:30+08:00">
-                2019-08-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><p>Sort a linked list in <em>O</em>(<em>n</em> log <em>n</em>) time using constant space complexity.</p>
-<p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 4-&gt;2-&gt;1-&gt;3</span><br><span class="line">Output: 1-&gt;2-&gt;3-&gt;4</span><br></pre></td></tr></table></figure>
-<p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: -1-&gt;5-&gt;3-&gt;4-&gt;0</span><br><span class="line">Output: -1-&gt;0-&gt;3-&gt;4-&gt;5</span><br></pre></td></tr></table></figure>
-<h5 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h5><p>题目要求在<em>O</em>(<em>n</em> log <em>n</em>)时间和常数空间复杂度下对链表进行排序。符合该条件的只有自底向上的归并排序，也就是迭代版本的归并排序。该算法的思路如图所示：</p>
-<p><img src="https://i.loli.net/2019/08/09/FoTHRNq7bIdecaZ.png" alt="UTOOLS1565329727090.png"></p>
-<p>每个花括号内的元素都是有序的，第一次循环合并相邻的单个元素，这样链表中相邻的两个元素就是有序的了，第二次循环合并相邻的双个元素，这样相邻的四个元素就是有序的了，直到合并前半部分和后半部分得到就得到了整个有序的链表，一共循环$log_{2}(n)$次，每一次循环都要访问所有节点一次需要$O(n)$时间。用迭代替代了递归，从而只需常数空间复杂度。代码如下：</p>
-<p>C++：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">sortList</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">        ListNode* tmp = head;</span><br><span class="line">        <span class="keyword">while</span> (tmp)</span><br><span class="line">        &#123;</span><br><span class="line">            tmp = tmp-&gt;next;</span><br><span class="line">            ++len;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function">ListNode <span class="title">dummy</span><span class="params">(<span class="number">-1</span>)</span></span>;</span><br><span class="line">        dummy.next = head;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; len; i *= <span class="number">2</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ListNode* cur = dummy.next;</span><br><span class="line">            ListNode* tail = &amp;dummy;</span><br><span class="line">            <span class="keyword">while</span> (cur) &#123;</span><br><span class="line">                <span class="keyword">auto</span> l = cur;</span><br><span class="line">                <span class="keyword">auto</span> r = split(cur, i);</span><br><span class="line">                cur = split(r, i); <span class="comment">//分出两部分之后下次循环的第一个节点</span></span><br><span class="line">                <span class="keyword">auto</span> nodes = merge(l, r);</span><br><span class="line">                tail-&gt;next = nodes.first;</span><br><span class="line">                tail = nodes.second;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dummy.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    pair&lt;ListNode*, ListNode*&gt; merge(ListNode* a, ListNode* b) &#123;</span><br><span class="line">        <span class="function">ListNode <span class="title">dummy</span><span class="params">(<span class="number">-1</span>)</span></span>;</span><br><span class="line">        ListNode *tail = &amp;dummy;</span><br><span class="line">        <span class="keyword">while</span> (a &amp;&amp; b) &#123;</span><br><span class="line">            <span class="keyword">if</span> (a-&gt;val &lt;= b-&gt;val) &#123;</span><br><span class="line">                tail-&gt;next = a;</span><br><span class="line">                a = a-&gt;next;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                tail-&gt;next = b;</span><br><span class="line">                b = b-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            tail = tail-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        tail-&gt;next = a ? a : b;</span><br><span class="line">        <span class="keyword">while</span> (tail-&gt;next) tail = tail-&gt;next;</span><br><span class="line">        <span class="keyword">return</span> make_pair(dummy.next, tail);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">ListNode* <span class="title">split</span><span class="params">(ListNode* a, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (len &gt; <span class="number">1</span> &amp;&amp; a) &#123;</span><br><span class="line">            a = a-&gt;next;</span><br><span class="line">            --len;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode* rest = a ? a-&gt;next : <span class="literal">nullptr</span>; <span class="comment">//有可能从a到结尾不到len个节点，此时a为空</span></span><br><span class="line">        <span class="keyword">if</span> (a) a-&gt;next = <span class="literal">nullptr</span>; <span class="comment">//断开左右两部分</span></span><br><span class="line">        <span class="keyword">return</span> rest;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>代码实现起来有一点麻烦，首先是<em>split()</em>，它需要分出去特定长度的元素，即断开这部分和剩下的部分的连接并饭后剩余部分的头节点用于下次split。然后是<em>merge()</em>，它需要合并两部分链表之后并返回合并之后的链表的头节点和尾节点，目的是把split开的部分再链接起来，即把这次的头接到上次的尾后，把这次的尾接到下次的头前。</p>
-<p>Python：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sortList</span><span class="params">(self, head: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">merge</span><span class="params">(nodea: ListNode, nodeb: ListNode)</span>:</span></span><br><span class="line">            a,b = nodea, nodeb</span><br><span class="line">            thead = rhead = ListNode(<span class="number">-1</span>)</span><br><span class="line">            <span class="keyword">while</span> a <span class="keyword">and</span> b:</span><br><span class="line">                <span class="keyword">if</span> a.val &lt; b.val:</span><br><span class="line">                    rhead.next = a</span><br><span class="line">                    a = a.next</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    rhead.next = b</span><br><span class="line">                    b = b.next</span><br><span class="line">                rhead = rhead.next</span><br><span class="line">            rhead.next = a <span class="keyword">or</span> b</span><br><span class="line">            <span class="keyword">while</span> rhead.next:</span><br><span class="line">                rhead = rhead.next</span><br><span class="line">            <span class="keyword">return</span> thead.next, rhead</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">split</span><span class="params">(head, n)</span>:</span></span><br><span class="line">            <span class="keyword">while</span> n &gt; <span class="number">1</span> <span class="keyword">and</span> head:</span><br><span class="line">                head = head.next</span><br><span class="line">                n -= <span class="number">1</span></span><br><span class="line">            rest = head.next <span class="keyword">if</span> head <span class="keyword">else</span> <span class="keyword">None</span></span><br><span class="line">            <span class="keyword">if</span> head:</span><br><span class="line">                head.next = <span class="keyword">None</span></span><br><span class="line">            <span class="keyword">return</span> rest</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head <span class="keyword">or</span> <span class="keyword">not</span> head.next:</span><br><span class="line">            <span class="keyword">return</span> head</span><br><span class="line">        temp = head</span><br><span class="line">        length = <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> temp.next:</span><br><span class="line">            temp = temp.next</span><br><span class="line">            length += <span class="number">1</span></span><br><span class="line">        <span class="comment"># print(length)</span></span><br><span class="line">        dummy = ListNode(<span class="number">-1</span>)</span><br><span class="line">        dummy.next = head</span><br><span class="line">        <span class="comment"># l = r = cur = None</span></span><br><span class="line">        i = <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> i &lt; length:</span><br><span class="line">            cur = dummy.next</span><br><span class="line">            tail = dummy</span><br><span class="line">            <span class="keyword">while</span> cur:</span><br><span class="line">                l = cur</span><br><span class="line">                r = split(l, i)</span><br><span class="line">                cur = split(r, i)</span><br><span class="line">                nodes = merge(l, r)</span><br><span class="line">                tail.next = nodes[<span class="number">0</span>]</span><br><span class="line">                tail = nodes[<span class="number">1</span>]</span><br><span class="line">            i *= <span class="number">2</span></span><br><span class="line">        <span class="keyword">return</span> dummy.next</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1889,7 +1895,7 @@ false          &      & {else}
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">80</span>
+                  <span class="site-state-item-count">81</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
