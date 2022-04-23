@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on 天地一键</title>
+    <link>https://tiandiyijian.top/posts/</link>
+    <description>Recent content in Posts on 天地一键</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 18 Apr 2022 18:56:31 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Goland和IDEA使用cmder</title>
+      <link>https://tiandiyijian.top/posts/goland%E5%92%8Cidea%E4%BD%BF%E7%94%A8cmder/</link>
+      <pubDate>Mon, 18 Apr 2022 18:56:31 +0800</pubDate>
+      
+      <guid>https://tiandiyijian.top/posts/goland%E5%92%8Cidea%E4%BD%BF%E7%94%A8cmder/</guid>
+      <description>如图：</description>
+    </item>
+    
+    <item>
+      <title>Conda安装gcc和g&#43;&#43;</title>
+      <link>https://tiandiyijian.top/posts/conda%E5%AE%89%E8%A3%85gcc%E5%92%8Cg&#43;&#43;/</link>
+      <pubDate>Mon, 18 Apr 2022 18:55:55 +0800</pubDate>
+      
+      <guid>https://tiandiyijian.top/posts/conda%E5%AE%89%E8%A3%85gcc%E5%92%8Cg&#43;&#43;/</guid>
+      <description>1 2 $ conda install gcc_linux-64 # 安装gcc, 可以加等于号指定版本，下同 $ conda install gxx_linux-64 # 安装g++, 直接执行这个也会安装上面那个, 应该是依赖关系 这两行命令执行过之后会</description>
+    </item>
+    
+    <item>
+      <title>Hugo踩坑</title>
+      <link>https://tiandiyijian.top/posts/hugo%E8%B8%A9%E5%9D%91/</link>
+      <pubDate>Tue, 05 Apr 2022 20:03:10 +0800</pubDate>
+      
+      <guid>https://tiandiyijian.top/posts/hugo%E8%B8%A9%E5%9D%91/</guid>
+      <description>添加搜索 添加分类和标签</description>
+    </item>
+    
+  </channel>
+</rss>

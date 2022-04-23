@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on 天地一键</title>
+    <link>https://tiandiyijian.top/categories/</link>
+    <description>Recent content in Categories on 天地一键</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 18 Apr 2022 18:56:31 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tips</title>
+      <link>https://tiandiyijian.top/categories/tips/</link>
+      <pubDate>Mon, 18 Apr 2022 18:56:31 +0800</pubDate>
+      
+      <guid>https://tiandiyijian.top/categories/tips/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

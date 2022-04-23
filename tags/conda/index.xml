@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>conda on 天地一键</title>
+    <link>https://tiandiyijian.top/tags/conda/</link>
+    <description>Recent content in conda on 天地一键</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 18 Apr 2022 18:55:55 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/tags/conda/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Conda安装gcc和g&#43;&#43;</title>
+      <link>https://tiandiyijian.top/posts/conda%E5%AE%89%E8%A3%85gcc%E5%92%8Cg&#43;&#43;/</link>
+      <pubDate>Mon, 18 Apr 2022 18:55:55 +0800</pubDate>
+      
+      <guid>https://tiandiyijian.top/posts/conda%E5%AE%89%E8%A3%85gcc%E5%92%8Cg&#43;&#43;/</guid>
+      <description>1 2 $ conda install gcc_linux-64 # 安装gcc, 可以加等于号指定版本，下同 $ conda install gxx_linux-64 # 安装g++, 直接执行这个也会安装上面那个, 应该是依赖关系 这两行命令执行过之后会</description>
+    </item>
+    
+  </channel>
+</rss>
