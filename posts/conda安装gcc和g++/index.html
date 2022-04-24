@@ -69,7 +69,7 @@
   "keywords": [
     "conda"
   ],
-  "articleBody": "1 2  $ conda install gcc_linux-64 # 安装gcc, 可以加等于号指定版本，下同 $ conda install gxx_linux-64 # 安装g++, 直接执行这个也会安装上面那个, 应该是依赖关系   这两行命令执行过之后会在当前 conda 环境的 bin 目录中生成这两个文件：\n1 2  x86_64-conda-linux-gnu-gcc x86_64-conda-linux-gnu-g++   为了方便使用可以用软链创建两个文件：\n1 2  $ ln -s ~/miniconda3(your conda path)/envs/(env)/bin/x86_64-conda-linux-gnu-gcc ~/miniconda3(your conda path)/envs/(env)/bin/gcc $ ln -s ~/miniconda3(your conda path)/envs/(env)/bin/x86_64-conda-linux-gnu-g++ ~/miniconda3(your conda path)/envs/(env)/bin/g++   然后重启一下环境应该就生效了。\n参考：如何改变anaconda 的 gcc 版本？ - 徐智明的回答 - 知乎 \n",
+  "articleBody": "1 2  $ conda install gcc_linux-64 # 安装gcc, 可以加等于号指定版本，下同 $ conda install gxx_linux-64 # 安装g++, 直接执行这个也会安装上面那个, 应该是依赖关系   这两行命令执行过之后会在当前 conda 环境的 bin 目录中生成这两个文件：\n1 2  x86_64-conda-linux-gnu-gcc x86_64-conda-linux-gnu-g++   为了方便使用可以用软链创建两个文件：\n1 2  $ ln -s ~/miniconda3(your conda path)/envs/(env)/bin/x86_64-conda-linux-gnu-gcc ~/miniconda3(your conda path)/envs/(env)/bin/gcc $ ln -s ~/miniconda3(your conda path)/envs/(env)/bin/x86_64-conda-linux-gnu-g++ ~/miniconda3(your conda path)/envs/(env)/bin/g++   然后重启一下环境应该就生效了。\n参考：\n如何改变anaconda 的 gcc 版本？ - 徐智明的回答 - 知乎 \n",
   "wordCount" : "176",
   "inLanguage": "en",
   "datePublished": "2022-04-18T18:55:55+08:00",
@@ -254,7 +254,8 @@ April 18, 2022&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Me
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>然后重启一下环境应该就生效了。</p>
-<p><a href="https://www.zhihu.com/question/56272908/answer/1311529269">参考：如何改变anaconda 的 gcc 版本？ - 徐智明的回答 - 知乎 </a></p>
+<p>参考：</p>
+<p><a href="https://www.zhihu.com/question/56272908/answer/1311529269">如何改变anaconda 的 gcc 版本？ - 徐智明的回答 - 知乎 </a></p>
 
 </div>
   <footer class="post-footer">
