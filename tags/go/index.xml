@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Go on 天地一键</title>
+    <link>https://tiandiyijian.top/tags/go/</link>
+    <description>Recent content in Go on 天地一键</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 12 Apr 2022 13:37:07 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ultimate Go Programming 笔记——第二章</title>
+      <link>https://tiandiyijian.top/posts/ultimate-go-programming-%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 12 Apr 2022 13:37:07 +0800</pubDate>
+      
+      <guid>https://tiandiyijian.top/posts/ultimate-go-programming-%E7%AC%94%E8%AE%B0/</guid>
+      <description>2.语言机制 2.1变量 Type is everything, type is life! 类型提供了两个信息：内存大小和它的表示方法。 如果要使用一种类型的零值的话，为了保持一致性，最好使用 var 来声明</description>
+    </item>
+    
+  </channel>
+</rss>
