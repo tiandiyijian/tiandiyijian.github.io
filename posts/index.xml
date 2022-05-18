@@ -6,7 +6,16 @@
     <description>Recent content in Posts on 天地一键</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 18 Apr 2022 18:56:31 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 06 May 2022 18:06:56 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ultimate Go Programming 笔记——第三章</title>
+      <link>https://tiandiyijian.top/posts/ultimate-go-programming-chap3/</link>
+      <pubDate>Fri, 06 May 2022 18:06:56 +0800</pubDate>
+      
+      <guid>https://tiandiyijian.top/posts/ultimate-go-programming-chap3/</guid>
+      <description>3.数据结构 3.1 面向数据设计 任何想要解决的问题都是数据问题，如果不理解要使用的数据就不理解要解决的问题。 如果数据变了，那么问题也就变了，如果问</description>
+    </item>
+    
     <item>
       <title>Goland和IDEA使用cmder</title>
       <link>https://tiandiyijian.top/posts/goland%E5%92%8Cidea%E4%BD%BF%E7%94%A8cmder/</link>
@@ -27,10 +36,10 @@
     
     <item>
       <title>Ultimate Go Programming 笔记——第二章</title>
-      <link>https://tiandiyijian.top/posts/ultimate-go-programming-%E7%AC%94%E8%AE%B0/</link>
+      <link>https://tiandiyijian.top/posts/ultimate-go-programming-chap2/</link>
       <pubDate>Tue, 12 Apr 2022 13:37:07 +0800</pubDate>
       
-      <guid>https://tiandiyijian.top/posts/ultimate-go-programming-%E7%AC%94%E8%AE%B0/</guid>
+      <guid>https://tiandiyijian.top/posts/ultimate-go-programming-chap2/</guid>
       <description>2.语言机制 2.1变量 Type is everything, type is life! 类型提供了两个信息：内存大小和它的表示方法。 如果要使用一种类型的零值的话，为了保持一致性，最好使用 var 来声明</description>
     </item>
     

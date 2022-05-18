@@ -6,7 +6,16 @@
     <description>Recent content in Tags on 天地一键</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 18 Apr 2022 18:56:31 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 06 May 2022 18:06:56 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go</title>
+      <link>https://tiandiyijian.top/tags/go/</link>
+      <pubDate>Fri, 06 May 2022 18:06:56 +0800</pubDate>
+      
+      <guid>https://tiandiyijian.top/tags/go/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>工具</title>
       <link>https://tiandiyijian.top/tags/%E5%B7%A5%E5%85%B7/</link>
@@ -22,15 +31,6 @@
       <pubDate>Mon, 18 Apr 2022 18:55:55 +0800</pubDate>
       
       <guid>https://tiandiyijian.top/tags/conda/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Go</title>
-      <link>https://tiandiyijian.top/tags/go/</link>
-      <pubDate>Tue, 12 Apr 2022 13:37:07 +0800</pubDate>
-      
-      <guid>https://tiandiyijian.top/tags/go/</guid>
       <description></description>
     </item>
     

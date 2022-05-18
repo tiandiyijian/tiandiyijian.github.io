@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Ultimate Go Programming 笔记——第三章 | 天地一键</title>
+
+<meta name="keywords" content="Go" />
+<meta name="description" content="3.数据结构 3.1 面向数据设计 任何想要解决的问题都是数据问题，如果不理解要使用的数据就不理解要解决的问题。 如果数据变了，那么问题也就变了，如果问">
+<meta name="author" content="Me">
+<link rel="canonical" href="https://tiandiyijian.top/posts/ultimate-go-programming-chap3/" />
+<meta name="google-site-verification" content="XYZabc" />
+<meta name="yandex-verification" content="XYZabc" />
+<meta name="msvalidate.01" content="XYZabc" />
+<link href="/assets/css/stylesheet.min.746a86b58bb2b052b5e4df8216510494f04f81e62c08d626150c26c69ca929da.css" integrity="sha256-dGqGtYuysFK15N&#43;CFlEElPBPgeYsCNYmFQwmxpypKdo=" rel="preload stylesheet"
+    as="style">
+
+<link rel="icon" href="https://s2.loli.net/2022/04/05/vc3QdeULpWlCjbh.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://s2.loli.net/2022/04/05/vc3QdeULpWlCjbh.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://s2.loli.net/2022/04/05/vc3QdeULpWlCjbh.png">
+<link rel="apple-touch-icon" href="https://s2.loli.net/2022/04/05/vc3QdeULpWlCjbh.png">
+<link rel="mask-icon" href="https://s2.loli.net/2022/04/05/vc3QdeULpWlCjbh.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.97.0-DEV" />
+
+
+<meta property="og:title" content="Ultimate Go Programming 笔记——第三章" />
+<meta property="og:description" content="3.数据结构 3.1 面向数据设计 任何想要解决的问题都是数据问题，如果不理解要使用的数据就不理解要解决的问题。 如果数据变了，那么问题也就变了，如果问" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tiandiyijian.top/posts/ultimate-go-programming-chap3/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-06T18:06:56&#43;08:00" />
+<meta property="article:modified_time" content="2022-05-06T18:06:56&#43;08:00" /><meta property="og:site_name" content="ExampleSite" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Ultimate Go Programming 笔记——第三章"/>
+<meta name="twitter:description" content="3.数据结构 3.1 面向数据设计 任何想要解决的问题都是数据问题，如果不理解要使用的数据就不理解要解决的问题。 如果数据变了，那么问题也就变了，如果问"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://tiandiyijian.top/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Ultimate Go Programming 笔记——第三章",
+      "item": "https://tiandiyijian.top/posts/ultimate-go-programming-chap3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Ultimate Go Programming 笔记——第三章",
+  "name": "Ultimate Go Programming 笔记——第三章",
+  "description": "3.数据结构 3.1 面向数据设计 任何想要解决的问题都是数据问题，如果不理解要使用的数据就不理解要解决的问题。 如果数据变了，那么问题也就变了，如果问",
+  "keywords": [
+    "Go"
+  ],
+  "articleBody": "3.数据结构 3.1 面向数据设计 任何想要解决的问题都是数据问题，如果不理解要使用的数据就不理解要解决的问题。\n如果数据变了，那么问题也就变了，如果问题变了，那么要使用的算法也就变了，有时候会导致连带变化，这时候就要关注如何把代码和数据的变化分离开来，以便将这些连带变化降到最低。如果在抽象的基础上再建立抽象，那就和正确性和可读性走远了，甚至会影响理解代码的心智模型的能力。我们需要解耦的平衡，要用薄的解耦层来应对变化。如果写代码的时候不确定要使用的数据，这时候不应该猜测，这是停下来的指示，转去思考摆在自己面前的数据转换是什么，不必知道所有的数据，但是只对自己有信心的部分编码，不要在今天写下明天的 bug。\n3.2 数组 缓存层次：\n酷睿 i7 系列 CPU 延迟：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22  3GHz(3 clock cycles/ns） * 4 instructions per cycle = 12 instructions per ns!  1 ns ............. 1 ns .............. 12 instructions (one） 1 µs .......... 1000 ns .......... 12,000 instructions (thousand） 1 ms ..... 1,000,000 ns ...... 12,000,000 instructions (million） 1 s .. 1,000,000,000 ns .. 12,000,000,000 instructions (billion）  L1 - 64KB Cache (Per Core） \t4 cycles of latency at 1.3 ns \tStalls for 16 instructions  L2 - 256KB Cache (Per Core） \t12 cycles of latency at 4 ns \tStalls for 48 instructions  L3 - 8MB Cache \t40 cycles of latency at 13.3 ns \tStalls for 160 instructions  Main Memory \t100 cycle of latency at 33.3 ns \tStalled for 400 instructions   访问主存太慢了，所以需要缓存。访问主存的一个字节会导致读取和缓存整个缓存线（cache line），向缓存线中写一个字节也会导致写整个缓存线，一个缓存线的大小通常是 32 或 64 字节。\n可预测的访问模式也很重要，这样预取器（prefetcher）可以提前把需要的数据读到缓存里，所以说预取器喜欢数组，硬件喜欢数组，数组（在 Go 中其实是切片）真的是当今硬件中最重要的数据结构。\n比如说实践中通常采用线性数组遍历（比如说一行一行访问而不是一列一列访问）。\n缓存的缺失也可能导致快表（TLB）的缺失，这使得可预测的访问模式更加重要，它不仅有助于缓存线，还有助于确保 TLB 也是正确的缓存，这样对内存的访问才是尽可能快的。当今的性能并不是时钟有多快，而是如何有效地将数据在需要之前就把它送进处理器。\nfor i, v := range arr 创建数组本身的拷贝然后再遍历，而且 v 也是拷贝数组中元素的拷贝，但它的地址是不变的，即它是复用的。不要对数组的指针进行遍历，这样语义就太混乱了。\n3.3 切片 声明和长度和引用类型 切片和字符串类似，也是引用类型（这个视频把字符串、切片、映射、通道、接口和函数类型称作引用类型，因为它们的数据结构中包含指针，而且除了字符串的零值是空值外它们的零值都是 nil），它有三个字段分别是指向数组的指针、长度和容量。\n长度是从指针位置可以访问到的元素总数，容量是存在于指针指向的数组中的元素总数，容量可以比长度大反之则不行。\n引用类型使用的是值语义，目的是可以直接传值来共享数据并且开销很小且固定，因为它里面包含的是指向真正数据的指针，在复制时复制指针就可以了。\n追加 一个有趣的现象是，使用 var s1 []string 声明的切片是 nil 切片，而使用 s2 := []string{} 声明的切片是空切片，它们两个的意义并不一样，虽然它们的长度和容量都为0，但是空切片中的指针是指向空结构体的而 nil 切片中的指针也是 nil。这种差异可以用于判断返回值是否出错，如果返回 nil 可以认为是出错了，如果是空切片的话可以认为没有出错只不过返回的数据为空而已。\n在使用 append 函数时如果切片的长度和容量一样即满了则创建新的底层数组并且扩容，当需要的容量超过原切片容量的两倍时，会使用需要的容量作为新容量；当切片长度小于 1024 时容量翻倍，大于 1024 时会反复增加 25% 直到新容量超过所需要的容量。需要注意，切片使用值语义，在使用 append 时传递的是切片的拷贝，当然这个拷贝和原切片共享底层数组，所以使用 append 后最好把返回值赋给原切片，以免出现内存泄漏，即：\n1 2  s = append(s, value) s1 = append(s, value) // 不要这样   如果知道切片的长度的话就直接在创建时指定，这样就不用使用 append 了。\n切片的切片 切片值可以在栈上，底层数组才需要在堆上。\narr[a:b] 的意思是取切片或数组 arr 从 a 到 b 不包括 b 的部分，即前闭后开区间，所以最好使用长度来取切片即 arr[a:a+len]，这样比较不容易出错。\n取切片也存在副作用，因为切片的切片和原切片共享底层数组，所以如果改变其中一个切片两者共同索引区间内的元素那么另一个切片也会受到影响；另外一方面，如果子切片的容量比长度大，那么对其调用 append 时会直接改变它尾部后面的那个元素从而影响原切片，但是可以使用三个索引创建切片即 arr[a🅱️b] 来解决这个问题，最后一个索引用来指定容量，这样这个切片的长度和容量就是一样的，如果再对其调用 append 函数则会创建新的底层数组。\n有时候需要使用 copy(dst, src) 来复制切片。\n切片和引用 如果有指向切片中某个元素的指针，然后这个切片扩容后改变了底层数组，导致原来的指针失效并且造成内存泄漏，这是非常烦人的 bug，所以对切片调用 append 时一定要注意检查是否会创建新的底层数组，如果会的话一定要再三检查是否有副作用。\nrange 机制 切片的 range 和数组一样也会创建切片的拷贝，如果在遍历过程中改变了原切片，使用值语义是不受影响的，但是使用指针语义会受影响：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28  // Using the value semantic form of the for range. friends := []string{\"Annie\", \"Betty\", \"Charley\", \"Doug\", \"Edward\"} for _, v := range friends { friends = friends[:2] fmt.Printf(\"v[%s]\\n\", v) }  // Using the pointer semantic form of the for range. friends = []string{\"Annie\", \"Betty\", \"Charley\", \"Doug\", \"Edward\"} for i := range friends { friends = friends[:2] fmt.Printf(\"v[%s]\\n\", friends[i]) }  // Output: // v[Betty] // v[Charley] // v[Doug] // v[Edward] // v[Annie] // v[Betty] // panic: runtime error: index out of range [2] with length 2  // goroutine 1 [running]: // main.main() // /tmp/sandbox1154993090/prog.go:22 +0x2ae  // Program exited.   3.4 映射 映射的零值不可用，必须 make 或者使用字面量声明才可以用。\n映射使用值语义，它的值是原始值的拷贝而不是指针。\n映射的 range 循环得到的也是映射中键和值的拷贝。\n可以使用 delete(mp, key) 删除映射中的键，如果使用映射当作缓存则必须删除键来避免内存泄漏。\n映射的键必须是可哈希的，即可以出现在 if 中。\n映射的键是无序的，如果需要有序键的话要手动排序。\n映射也是引用类型，传递给函数有副作用。\n",
+  "wordCount" : "2323",
+  "inLanguage": "en",
+  "datePublished": "2022-05-06T18:06:56+08:00",
+  "dateModified": "2022-05-06T18:06:56+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Me"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://tiandiyijian.top/posts/ultimate-go-programming-chap3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "天地一键",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://s2.loli.net/2022/04/05/vc3QdeULpWlCjbh.png"
+    }
+  }
+}
+</script>
+
+
+
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+    </style>
+
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://tiandiyijian.top" accesskey="h" title="天地一键 (Alt + H)">天地一键</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                
+                
+            </span>
+        </div>
+        <ul id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://tiandiyijian.top/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://tiandiyijian.top/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://tiandiyijian.top/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://tiandiyijian.top/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li></ul>
+    </nav>
+</header>
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+<div class="breadcrumbs">
+
+    <a href="https://tiandiyijian.top">Home</a>&nbsp;»&nbsp;<a href="https://tiandiyijian.top/posts/">Posts</a>
+</div>
+
+    <h1 class="post-title">
+      Ultimate Go Programming 笔记——第三章
+    </h1>
+    <div class="post-meta">
+
+May 6, 2022&nbsp;·&nbsp;5 min&nbsp;·&nbsp;Me
+
+|&nbsp;<a href="https://github.com/%3cpath_to_repo%3e/content/posts%5cUltimate-Go-Programming-Chap3.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+</div>
+  </header> 
+
+  <div class="post-content">
+<h2 id="3数据结构">3.数据结构<a hidden class="anchor" aria-hidden="true" href="#3数据结构">#</a></h2>
+<h3 id="31-面向数据设计">3.1 面向数据设计<a hidden class="anchor" aria-hidden="true" href="#31-面向数据设计">#</a></h3>
+<p>任何想要解决的问题都是数据问题，如果不理解要使用的数据就不理解要解决的问题。</p>
+<p>如果数据变了，那么问题也就变了，如果问题变了，那么要使用的算法也就变了，有时候会导致连带变化，这时候就要关注如何把代码和数据的变化分离开来，以便将这些连带变化降到最低。如果在抽象的基础上再建立抽象，那就和正确性和可读性走远了，甚至会影响理解代码的心智模型的能力。我们需要解耦的平衡，要用薄的解耦层来应对变化。如果写代码的时候不确定要使用的数据，这时候不应该猜测，这是停下来的指示，转去思考摆在自己面前的数据转换是什么，不必知道所有的数据，但是只对自己有信心的部分编码，不要在今天写下明天的 bug。</p>
+<h3 id="32-数组">3.2 数组<a hidden class="anchor" aria-hidden="true" href="#32-数组">#</a></h3>
+<p>缓存层次：</p>
+<p><img loading="lazy" src="https://s2.loli.net/2022/05/10/Da4ARXH6SLj2w3l.png" alt="figure1"  />
+</p>
+<p>酷睿 i7 系列 CPU 延迟：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>3GHz(3 clock cycles/ns） * 4 instructions per cycle = 12 instructions per ns!
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>1 ns ............. 1 ns .............. 12 instructions  (one） 
+</span></span><span style="display:flex;"><span>1 µs .......... 1000 ns .......... 12,000 instructions  (thousand）
+</span></span><span style="display:flex;"><span>1 ms ..... 1,000,000 ns ...... 12,000,000 instructions  (million）
+</span></span><span style="display:flex;"><span>1 s .. 1,000,000,000 ns .. 12,000,000,000 instructions  (billion）
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>L1 - 64KB Cache (Per Core）
+</span></span><span style="display:flex;"><span>	4 cycles of latency at 1.3 ns
+</span></span><span style="display:flex;"><span>	Stalls for 16 instructions
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>L2 - 256KB Cache (Per Core）
+</span></span><span style="display:flex;"><span>	12 cycles of latency at 4 ns
+</span></span><span style="display:flex;"><span>	Stalls for 48 instructions
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>L3 - 8MB Cache
+</span></span><span style="display:flex;"><span>	40 cycles of latency at 13.3 ns
+</span></span><span style="display:flex;"><span>	Stalls for 160 instructions
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Main Memory
+</span></span><span style="display:flex;"><span>	100 cycle of latency at 33.3 ns
+</span></span><span style="display:flex;"><span>	Stalled for 400 instructions
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>访问主存太慢了，所以需要缓存。访问主存的一个字节会导致读取和缓存整个缓存线（cache line），向缓存线中写一个字节也会导致写整个缓存线，一个缓存线的大小通常是 32 或 64 字节。</p>
+<p>可预测的访问模式也很重要，这样预取器（prefetcher）可以提前把需要的数据读到缓存里，所以说预取器喜欢数组，硬件喜欢数组，数组（在 Go 中其实是切片）真的是当今硬件中最重要的数据结构。</p>
+<p>比如说实践中通常采用线性数组遍历（比如说一行一行访问而不是一列一列访问）。</p>
+<p>缓存的缺失也可能导致快表（TLB）的缺失，这使得可预测的访问模式更加重要，它不仅有助于缓存线，还有助于确保 TLB 也是正确的缓存，这样对内存的访问才是尽可能快的。当今的性能并不是时钟有多快，而是如何有效地将数据在需要之前就把它送进处理器。</p>
+<p><code>for i, v := range arr</code> 创建数组本身的拷贝然后再遍历，而且 <code>v</code> 也是拷贝数组中元素的拷贝，但它的地址是不变的，即它是复用的。不要对数组的指针进行遍历，这样语义就太混乱了。</p>
+<h3 id="33-切片">3.3 切片<a hidden class="anchor" aria-hidden="true" href="#33-切片">#</a></h3>
+<h4 id="声明和长度和引用类型">声明和长度和引用类型<a hidden class="anchor" aria-hidden="true" href="#声明和长度和引用类型">#</a></h4>
+<p>切片和字符串类似，也是引用类型（这个视频把字符串、切片、映射、通道、接口和函数类型称作引用类型，因为它们的数据结构中包含指针，而且除了字符串的零值是空值外它们的零值都是 <code>nil</code>），它有三个字段分别是指向数组的指针、长度和容量。</p>
+<p>长度是从指针位置可以访问到的元素总数，容量是存在于指针指向的数组中的元素总数，容量可以比长度大反之则不行。</p>
+<p>引用类型使用的是值语义，目的是可以直接传值来共享数据并且开销很小且固定，因为它里面包含的是指向真正数据的指针，在复制时复制指针就可以了。</p>
+<h4 id="追加">追加<a hidden class="anchor" aria-hidden="true" href="#追加">#</a></h4>
+<p>一个有趣的现象是，使用 <code>var s1 []string</code> 声明的切片是 <code>nil</code> 切片，而使用 <code>s2 := []string{}</code> 声明的切片是空切片，它们两个的意义并不一样，虽然它们的长度和容量都为0，但是空切片中的指针是指向空结构体的而 <code>nil</code> 切片中的指针也是 <code>nil</code>。这种差异可以用于判断返回值是否出错，如果返回 <code>nil</code> 可以认为是出错了，如果是空切片的话可以认为没有出错只不过返回的数据为空而已。</p>
+<p>在使用 <code>append</code> 函数时如果切片的长度和容量一样即满了则创建新的底层数组并且扩容，当需要的容量超过原切片容量的两倍时，会使用需要的容量作为新容量；当切片长度小于 1024 时容量翻倍，大于 1024 时会反复增加 25% 直到新容量超过所需要的容量。需要注意，切片使用值语义，在使用 <code>append</code> 时传递的是切片的拷贝，当然这个拷贝和原切片共享底层数组，所以使用 <code>append</code> 后最好把返回值赋给原切片，以免出现内存泄漏，即：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>s = <span style="color:#fff;font-weight:bold">append</span>(s, value)
+</span></span><span style="display:flex;"><span>s1 = <span style="color:#fff;font-weight:bold">append</span>(s, value)  <span style="color:#007f7f">// 不要这样
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果知道切片的长度的话就直接在创建时指定，这样就不用使用 <code>append</code> 了。</p>
+<h4 id="切片的切片">切片的切片<a hidden class="anchor" aria-hidden="true" href="#切片的切片">#</a></h4>
+<p>切片值可以在栈上，底层数组才需要在堆上。</p>
+<p><code>arr[a:b]</code> 的意思是取切片或数组 <code>arr</code> 从 <code>a</code> 到 <code>b</code> 不包括 <code>b</code> 的部分，即前闭后开区间，所以最好使用长度来取切片即 <code>arr[a:a+len]</code>，这样比较不容易出错。</p>
+<p>取切片也存在副作用，因为切片的切片和原切片共享底层数组，所以如果改变其中一个切片两者共同索引区间内的元素那么另一个切片也会受到影响；另外一方面，如果子切片的容量比长度大，那么对其调用 <code>append</code> 时会直接改变它尾部后面的那个元素从而影响原切片，但是可以使用三个索引创建切片即 <code>arr[a🅱️b]</code> 来解决这个问题，最后一个索引用来指定容量，这样这个切片的长度和容量就是一样的，如果再对其调用 <code>append</code> 函数则会创建新的底层数组。</p>
+<p>有时候需要使用 <code>copy(dst, src)</code> 来复制切片。</p>
+<h4 id="切片和引用">切片和引用<a hidden class="anchor" aria-hidden="true" href="#切片和引用">#</a></h4>
+<p>如果有指向切片中某个元素的指针，然后这个切片扩容后改变了底层数组，导致原来的指针失效并且造成内存泄漏，这是非常烦人的 <strong>bug</strong>，所以对切片调用 <code>append</code> 时一定要注意检查是否会创建新的底层数组，如果会的话一定要再三检查是否有副作用。</p>
+<h4 id="range-机制"><code>range</code> 机制<a hidden class="anchor" aria-hidden="true" href="#range-机制">#</a></h4>
+<p>切片的 <code>range</code> 和数组一样也会创建切片的拷贝，如果在遍历过程中改变了原切片，使用值语义是不受影响的，但是使用指针语义会受影响：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#007f7f">// Using the value semantic form of the for range.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>friends := []<span style="color:#fff;font-weight:bold">string</span>{<span style="color:#0ff;font-weight:bold">&#34;Annie&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Betty&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Charley&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Doug&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Edward&#34;</span>}
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> _, v := <span style="color:#fff;font-weight:bold">range</span> friends {
+</span></span><span style="display:flex;"><span>friends = friends[:<span style="color:#ff0;font-weight:bold">2</span>]
+</span></span><span style="display:flex;"><span>fmt.Printf(<span style="color:#0ff;font-weight:bold">&#34;v[%s]\n&#34;</span>, v)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// Using the pointer semantic form of the for range.
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>friends = []<span style="color:#fff;font-weight:bold">string</span>{<span style="color:#0ff;font-weight:bold">&#34;Annie&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Betty&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Charley&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Doug&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;Edward&#34;</span>}
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> i := <span style="color:#fff;font-weight:bold">range</span> friends {
+</span></span><span style="display:flex;"><span>friends = friends[:<span style="color:#ff0;font-weight:bold">2</span>]
+</span></span><span style="display:flex;"><span>fmt.Printf(<span style="color:#0ff;font-weight:bold">&#34;v[%s]\n&#34;</span>, friends[i])
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// Output:
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// v[Betty]
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// v[Charley]
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// v[Doug]
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// v[Edward]
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// v[Annie]
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// v[Betty]
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// panic: runtime error: index out of range [2] with length 2
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// goroutine 1 [running]:
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// main.main()
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// 	/tmp/sandbox1154993090/prog.go:22 +0x2ae
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// Program exited.
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="34-映射">3.4 映射<a hidden class="anchor" aria-hidden="true" href="#34-映射">#</a></h3>
+<p>映射的零值不可用，必须 <code>make</code> 或者使用字面量声明才可以用。</p>
+<p>映射使用值语义，它的值是原始值的拷贝而不是指针。</p>
+<p>映射的 <code>range</code> 循环得到的也是映射中键和值的拷贝。</p>
+<p>可以使用 <code>delete(mp, key)</code> 删除映射中的键，如果使用映射当作缓存则必须删除键来避免内存泄漏。</p>
+<p>映射的键必须是可哈希的，即可以出现在 <code>if</code> 中。</p>
+<p>映射的键是无序的，如果需要有序键的话要手动排序。</p>
+<p>映射也是引用类型，传递给函数有副作用。</p>
+
+</div>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://tiandiyijian.top/tags/go/">Go</a></li>
+    </ul>
+    <nav class="paginav">
+      <a class="next" href="https://tiandiyijian.top/posts/goland%E5%92%8Cidea%E4%BD%BF%E7%94%A8cmder/">
+        <span class="title">Next Page »</span>
+        <br>
+        <span>Goland和IDEA使用cmder</span>
+      </a>
+    </nav>
+
+
+
+
+
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Ultimate Go Programming 笔记——第三章 on twitter"
+        href="https://twitter.com/intent/tweet/?text=Ultimate%20Go%20Programming%20%e7%ac%94%e8%ae%b0%e2%80%94%e2%80%94%e7%ac%ac%e4%b8%89%e7%ab%a0&amp;url=https%3a%2f%2ftiandiyijian.top%2fposts%2fultimate-go-programming-chap3%2f&amp;hashtags=Go">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Ultimate Go Programming 笔记——第三章 on linkedin"
+        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2ftiandiyijian.top%2fposts%2fultimate-go-programming-chap3%2f&amp;title=Ultimate%20Go%20Programming%20%e7%ac%94%e8%ae%b0%e2%80%94%e2%80%94%e7%ac%ac%e4%b8%89%e7%ab%a0&amp;summary=Ultimate%20Go%20Programming%20%e7%ac%94%e8%ae%b0%e2%80%94%e2%80%94%e7%ac%ac%e4%b8%89%e7%ab%a0&amp;source=https%3a%2f%2ftiandiyijian.top%2fposts%2fultimate-go-programming-chap3%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Ultimate Go Programming 笔记——第三章 on reddit"
+        href="https://reddit.com/submit?url=https%3a%2f%2ftiandiyijian.top%2fposts%2fultimate-go-programming-chap3%2f&title=Ultimate%20Go%20Programming%20%e7%ac%94%e8%ae%b0%e2%80%94%e2%80%94%e7%ac%ac%e4%b8%89%e7%ab%a0">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Ultimate Go Programming 笔记——第三章 on facebook"
+        href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2ftiandiyijian.top%2fposts%2fultimate-go-programming-chap3%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Ultimate Go Programming 笔记——第三章 on whatsapp"
+        href="https://api.whatsapp.com/send?text=Ultimate%20Go%20Programming%20%e7%ac%94%e8%ae%b0%e2%80%94%e2%80%94%e7%ac%ac%e4%b8%89%e7%ab%a0%20-%20https%3a%2f%2ftiandiyijian.top%2fposts%2fultimate-go-programming-chap3%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Ultimate Go Programming 笔记——第三章 on telegram"
+        href="https://telegram.me/share/url?text=Ultimate%20Go%20Programming%20%e7%ac%94%e8%ae%b0%e2%80%94%e2%80%94%e7%ac%ac%e4%b8%89%e7%ab%a0&amp;url=https%3a%2f%2ftiandiyijian.top%2fposts%2fultimate-go-programming-chap3%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28">
+            <path
+                d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+</div>
+
+  </footer>
+</article>
+    </main><footer class="footer">
+    <span>&copy; 2022 <a href="https://tiandiyijian.top">天地一键</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+
+
+<script defer src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+</body>
+
+</html>
