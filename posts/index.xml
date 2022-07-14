@@ -6,7 +6,34 @@
     <description>Recent content in Posts on 天地一键</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 06 May 2022 18:06:56 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 07 Jul 2022 15:01:15 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ultimate Go Programming 笔记——第六章</title>
+      <link>https://tiandiyijian.top/posts/ultimate-go-programming-chap6/</link>
+      <pubDate>Thu, 07 Jul 2022 15:01:15 +0800</pubDate>
+      
+      <guid>https://tiandiyijian.top/posts/ultimate-go-programming-chap6/</guid>
+      <description>6. Error Handling 6.1 Default Error Values 退出程序的两种方式：os.exit() 和 panic()，如果需要跟踪堆栈信息就用后者。 error 是接口，是解耦的，这很重要，提供了很大</description>
+    </item>
+    
+    <item>
+      <title>Ultimate Go Programming 笔记——第五章</title>
+      <link>https://tiandiyijian.top/posts/ultimate-go-programming-chap5/</link>
+      <pubDate>Sun, 12 Jun 2022 21:07:39 +0800</pubDate>
+      
+      <guid>https://tiandiyijian.top/posts/ultimate-go-programming-chap5/</guid>
+      <description>5. 组合 在 Go 中，组合是最应该关注的事情，重要性甚至超过并发。 5.1 Grouping Types Go 中没有子类型，也没有子类。 Go 是按照能够做什么来分组的，而不是是什么。 嵌入是</description>
+    </item>
+    
+    <item>
+      <title>Ultimate Go Programming 笔记——第四章</title>
+      <link>https://tiandiyijian.top/posts/ultimate-go-programming-chap4/</link>
+      <pubDate>Wed, 18 May 2022 20:40:08 +0800</pubDate>
+      
+      <guid>https://tiandiyijian.top/posts/ultimate-go-programming-chap4/</guid>
+      <description>4. 解耦 4.1 方法 一切都是基于数据的，不理解数据就不理解问题，不理解问题就无法写代码。如果问题发生变化，那就意味着数据发生了变化，代码也必须要改变</description>
+    </item>
+    
     <item>
       <title>Ultimate Go Programming 笔记——第三章</title>
       <link>https://tiandiyijian.top/posts/ultimate-go-programming-chap3/</link>
