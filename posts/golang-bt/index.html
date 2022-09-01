@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Golang 实现BT下载器（一） | 天地一键</title>
+
+<meta name="keywords" content="Go" />
+<meta name="description" content="最近几年有在使用PT（Private Tracker）站，主要是高校站点，近几年看的剧和电影几乎都是在PT站里下载的，虽然校园网平时上网很慢，">
+<meta name="author" content="Me">
+<link rel="canonical" href="https://tiandiyijian.top/posts/golang-bt/" />
+<meta name="google-site-verification" content="XYZabc" />
+<meta name="yandex-verification" content="XYZabc" />
+<meta name="msvalidate.01" content="XYZabc" />
+<link href="/assets/css/stylesheet.min.746a86b58bb2b052b5e4df8216510494f04f81e62c08d626150c26c69ca929da.css" integrity="sha256-dGqGtYuysFK15N&#43;CFlEElPBPgeYsCNYmFQwmxpypKdo=" rel="preload stylesheet"
+    as="style">
+
+<link rel="icon" href="https://s2.loli.net/2022/04/05/vc3QdeULpWlCjbh.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://s2.loli.net/2022/04/05/vc3QdeULpWlCjbh.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://s2.loli.net/2022/04/05/vc3QdeULpWlCjbh.png">
+<link rel="apple-touch-icon" href="https://s2.loli.net/2022/04/05/vc3QdeULpWlCjbh.png">
+<link rel="mask-icon" href="https://s2.loli.net/2022/04/05/vc3QdeULpWlCjbh.png">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.97.0-DEV" />
+
+
+<meta property="og:title" content="Golang 实现BT下载器（一）" />
+<meta property="og:description" content="最近几年有在使用PT（Private Tracker）站，主要是高校站点，近几年看的剧和电影几乎都是在PT站里下载的，虽然校园网平时上网很慢，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tiandiyijian.top/posts/golang-bt/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-30T08:40:57&#43;08:00" />
+<meta property="article:modified_time" content="2022-08-30T08:40:57&#43;08:00" /><meta property="og:site_name" content="ExampleSite" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Golang 实现BT下载器（一）"/>
+<meta name="twitter:description" content="最近几年有在使用PT（Private Tracker）站，主要是高校站点，近几年看的剧和电影几乎都是在PT站里下载的，虽然校园网平时上网很慢，"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://tiandiyijian.top/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Golang 实现BT下载器（一）",
+      "item": "https://tiandiyijian.top/posts/golang-bt/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Golang 实现BT下载器（一）",
+  "name": "Golang 实现BT下载器（一）",
+  "description": "最近几年有在使用PT（Private Tracker）站，主要是高校站点，近几年看的剧和电影几乎都是在PT站里下载的，虽然校园网平时上网很慢，",
+  "keywords": [
+    "Go"
+  ],
+  "articleBody": "最近几年有在使用PT（Private Tracker）站，主要是高校站点，近几年看的剧和电影几乎都是在PT站里下载的，虽然校园网平时上网很慢，但是ipv6速度还是很快的。前一阵子突然好奇BT下载的原理具体是啥，能不能用Go语言实现BT下载器，在网上搜了一下发现还真有人做了，于是自己学习实现了一下。\n什么是BT BT，顾名思义，就是变态，是 BitTorrent（比特洪流）的简称。BitTorrent 是一种 P2P（peer-to-peer）协议，BitTorrent 网络中的用户被称作 peer，每个 peer 都是向别的 peer 请求资源，即 peer 在下载的同时也拥有上传的能力，这样的好处是用户越多，下载同一文件的人越多，下载该文件的速度越快，与传统的C/S模式中所有的用户只能向同一个服务器请求资源明显不同。\n获取 Peers 第一个问题就是怎么发现别的 peers，这就是 tracker 的作用，根据维基百科定义，tracker 是收集下载者信息的服务器，并将此信息提供给其他下载者，使下载者们相互连接起来，传输数据。那么 tracker 又在哪呢？这就是 .torrent 文件的作用，我们一般都把 .torrent 文件叫做种子文件，但其实 torrent 的中文意思是洪流，把通过一个 tracker 服务器连接起来的 peers 网络称作一个洪流，还挺形象的。\n解析 .torrent 文件 .torrent 文件使用 Bencode（发音为 bee-encode）进行了编码。Bencode 使用 ASCII 字符进行编码：\n  Integer 编码为 ie，如 i7e 表示整数 7\n  Byte string 编码为 :，如 4:spam 表示字符串 “spam”\n  List 编码为 le，如 l4:spam4:eggse 表示 [\"spam\", \"eggs\"]，list 可以包含任何其他类型的 bencoded value\n  Dictionary 编码为 de，如 d3:cow3:moo4:spam4:eggse 表示字典：{ \"cow\" : \"moo\", \"spam\" : \"eggs\" }\n  如文件 debian-11.4.0-amd64-netinst.iso.torrent 的内容为：\n1  d8:announce41:http://bttracker.debian.org:6969/announce7:comment35:\"Debian CD from cdimage.debian.org\"13:creation datei1657367679e9:httpseedsl145:https://cdimage.debian.org/cdimage/release/11.4.0//srv/cdbuilder.debian.org/dst/deb-cd/weekly-builds/amd64/iso-cd/debian-11.4.0-amd64-netinst.iso145:https://cdimage.debian.org/cdimage/archive/11.4.0//srv/cdbuilder.debian.org/dst/deb-cd/weekly-builds/amd64/iso-cd/debian-11.4.0-amd64-netinst.isoe4:infod6:lengthi397410304e4:name31:debian-11.4.0-amd64-netinst.iso12:piece lengthi262144e6:pieces30320:(binary blob of the hashes of each piece)   把它转换成更好看的形式：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24  d  8:announce  41:http://bttracker.debian.org:6969/announce  7:comment  35:\"Debian CD from cdimage.debian.org\"  13:creation date  i1657367679e  9:httpseeds  l  145:https://cdimage.debian.org/cdimage/release/11.4.0//srv/cdbuilder.debian.org/dst/deb-cd/weekly-builds/amd64/iso-cd/debian-11.4.0-amd64-netinst.iso  145:https://cdimage.debian.org/cdimage/archive/11.4.0//srv/cdbuilder.debian.org/dst/deb-cd/weekly-builds/amd64/iso-cd/debian-11.4.0-amd64-netinst.iso  e  4:info  d  6:length  i351272960e  4:name  31:debian-10.2.0-amd64-netinst.iso  12:piece length  i262144e  6:pieces  26800:�\u001f�\u000f���PS�^�� (binary blob of the hashes of each piece)  e e   这个文件中包括 tracker 的 URL、创建时间、文件的大小和名称、piece 的大小以及所有 piece 的 SHA-1 哈希值的 BLOB （binary large object）。httpseeds 字段是后续为了支持通过 HTTP 协议分发数据的拓展，本文不使用这个功能，可以直接忽略。\n实现 Bencode 解析器 所以要解析 .torrent 文件就需要一个 bencode 解析器，网上已经有现成的了，但是我没有写过这种解析器，所以就参考这个项目写了一个。\n首先定义以下内容：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14  type BType uint8 type BVal interface{}  const (  BINT BType = iota  BSTR  BLIST  BDICT )  type BObj struct {  type_ BType  val_ BVal }   把任意 bencode 编码的对象表示为一个 BObj，它有类型和值两个字段，又因为具体值的类型是不确定的，所以使用空接口类型。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75  func Decode(r io.Reader) (*BObj, error) {  br, ok := r.(*bufio.Reader)  if !ok {  br = bufio.NewReader(r)  }   b, err := br.Peek(1)  if err != nil {  return nil, err  }   switch {  case b[0] = '0' \u0026\u0026 b[0] '9':  s, err := DecodeString(br)  if err != nil {  return nil, err  }   return NewBObj(BSTR, s), nil  case b[0] == 'i':  num, err := DecodeInt(br)  if err != nil {  return nil, err  }   return NewBObj(BINT, num), nil  case b[0] == 'l':  br.ReadByte() // start l  var list []*BObj  for {  b, err := br.Peek(1)  if err != nil {  return nil, err  }   if b[0] == 'e' { // end e  br.ReadByte()  return NewBObj(BLIST, list), nil  }   bobj, err := Decode(br)  if err != nil {  return nil, err  }  list = append(list, bobj)  }  case b[0] == 'd':  br.ReadByte() // start d  dict := map[string]*BObj{}  for {  b, err := br.Peek(1)  if err != nil {  return nil, err  }   if b[0] == 'e' { // end e  br.ReadByte()  return NewBObj(BDICT, dict), nil  }   key, err := DecodeString(br)  if err != nil {  return nil, err  }   bobj, err := Decode(br)  if err != nil {  return nil, err  }  dict[key] = bobj  }  }   return nil, ErrIvd }   解码函数思路是首先根据开头判断数据类型，然后去解析，如果是 List 或 Dictionary 类型直接循环递归处理就行了，在循环中检查下一个待读取的字符是不是 ’e’ ，如果是的话那么一定是该 BObj 最后一个 ’e’，因为它嵌套的 BObj 一定会把前面的 ’e’（如果有的话，当嵌套了 List 和 Dictionary 和 Integer 类型时会有）读取出来 。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68  func (o *BObj) Encode(w io.Writer) (int, error) {  bw, ok := w.(*bufio.Writer)  if !ok {  bw = bufio.NewWriter(w)  }   curLen := 0  switch o.type_ {  case BINT:  num, _ := o.Int()  wLen, err := EncodeInt(bw, num)  if err != nil {  return 0, err  }  curLen += wLen  case BSTR:  s, _ := o.Str()  wLen, err := EncodeStr(bw, s)  if err != nil {  return 0, err  }  curLen += wLen  case BLIST:  list, _ := o.List()   curLen += 1  bw.WriteByte('l')   for _, bobj := range list {  wLen, err := bobj.Encode(bw)  if err != nil {  return 0, err  }  curLen += wLen  }   curLen += 1  bw.WriteByte('e')  case BDICT:  dict, _ := o.Dict()   curLen += 1  bw.WriteByte('d')   for key, bobj := range dict {  wLen, err := EncodeStr(bw, key)  if err != nil {  return 0, err  }  curLen += wLen   wLen, err = bobj.Encode(bw)  if err != nil {  return 0, err  }  curLen += wLen  }   curLen += 1  bw.WriteByte('e')  }   if err := bw.Flush(); err != nil {  return 0, err  }   return curLen, nil }   编码函数思路和解码函数差不多，直接判断 BObj 的类型然后去编码，如果是 List 或 Dictionary 类型同样去循环递归处理。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32  func Unmarshal(r io.Reader, s interface{}) error {  o, err := Decode(r)  if err != nil {  return err  }   v := reflect.ValueOf(s)  if v.Kind() != reflect.Ptr {  return errors.New(\"dst must be a pointer\")  }   switch o.type_ {  case BLIST:  list, _ := o.List()  l := reflect.MakeSlice(v.Elem().Type(), len(list), len(list))  v.Elem().Set(l)  err = unmarshalList(list, v)  if err != nil {  return err  }  case BDICT:  dict, _ := o.Dict()  err := unmarshalDict(dict, v)  if err != nil {  return err  }  default:  return errors.New(\"src must be struct or slice\")  }   return err }   Unmarshal 函数首先利用之前的解码函数得到一个 BObj， 然后利用这个 BObj 去反序列化。反序列化的目标只能是切片或者结构体类型，输入是它们的指针。如果是 List 的话要先利用反射把切片的长度设置好。重点是 unmarshalList 和 UnmarshalDict 这两个函数。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67  func unmarshalList(list []*BObj, v reflect.Value) error {  if v.Kind() != reflect.Ptr || v.Elem().Kind() != reflect.Slice {  return errors.New(\"dst must be pointer of slice\")  }   v = v.Elem()  if len(list) == 0 {  return nil  }   switch list[0].type_ {  case BSTR:  for i, bObj := range list {  s, err := bObj.Str()  if err != nil {  return err  }  v.Index(i).SetString(s)  }  case BINT:  for i, bObj := range list {  num, err := bObj.Int()  if err != nil {  return err  }  v.Index(i).SetInt(int64(num))  }  case BLIST:  if v.Type().Elem().Kind() != reflect.Slice {  return ErrTyp  }  for i, bObj := range list {  bList, err := bObj.List()  if err != nil {  return err  }   newPtr := reflect.New(v.Type().Elem())  newSlice := reflect.MakeSlice(v.Type().Elem(), len(bList), len(bList))  newPtr.Elem().Set(newSlice)  err = unmarshalList(bList, newPtr)  if err != nil {  return err  }  v.Index(i).Set(newPtr.Elem())  }  case BDICT:  if v.Type().Elem().Kind() != reflect.Struct {  return ErrTyp  }  for i, bObj := range list {  bDict, err := bObj.Dict()  if err != nil {  return err  }   newPtr := reflect.New(v.Type().Elem())  err = unmarshalDict(bDict, newPtr)  if err != nil {  return err  }  v.Index(i).Set(newPtr.Elem())  }  }   return nil }   unmarshalList 函数首先判断输入的 v 只能是切片的指针类型，要不然不能 Set。输入 list 中的元素的类型肯定都是一样的，对应切片中元素的类型，所以只判断第一个元素的类型就可以了，然后去循环设置每一个位置的元素。整数和字符串的情况比较简单，不再赘述。\n对于 BLIST 类型，先判断输入 v 的类型的的基本元素（v.Type().Elem() 的返回值也是 reflect.Type 类型，指的是当前类型的基本元素类型，只针对指针、数组、切片、映射、通道类型才是有效的，要和 v.Elem() 区分开，该函数的返回值类型是 reflect.Value，只针对指针和接口类型才有效，指的就是 v 指向的值）也是切片类型才可以正确进行反序列化。判断完成之后再去循环设置，每一次循环都先获取到当前位置对应的 bList 然后创建一个切片的指针，设置其长度和容量，再进行递归处理。最后设置该位置的元素。\n对于 BDICT 类型，过程和 BLIST 类型类似。unmarshalDict 函数和 unmarshalList 基本一致，只不过因为每一个字段的类型可能是不一样的，所以要在每一次循环里面判断类型。另外就是 tag 的处理，过程也比较简单：\n1 2 3 4 5 6 7  fieldType := v.Type().Field(i) key := fieldType.Tag.Get(\"bencode\") if key == \"\" {  key = strings.ToLower(fieldType.Name) }  bObj, ok := bDict[key]   Marshal 函数就比较简单了，直接判断当前值的类型然后去编码就行了，过程跟编码函数基本一致：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92  func Marshal(w io.Writer, i interface{}) (int, error) {  v := reflect.ValueOf(i)  if v.Kind() == reflect.Ptr {  v = v.Elem()  }  return marshalValue(w, v) }  func marshalValue(w io.Writer, v reflect.Value) (int, error) {  curLen := 0  switch v.Kind() {  case reflect.Int:  wLen, err := EncodeInt(w, int(v.Int()))  if err != nil {  return 0, err  }   curLen += wLen  case reflect.String:  wLen, err := EncodeStr(w, v.String())  if err != nil {  return 0, err  }   curLen += wLen  case reflect.Slice:  wLen, err := marshalList(w, v)  if err != nil {  return 0, err  }   curLen += wLen  case reflect.Struct:  wLen, err := marshalDict(w, v)  if err != nil {  return 0, err  }   curLen += wLen  default:  return 0, errors.New(\"unsupported type\")  }   return curLen, nil }  func marshalList(w io.Writer, v reflect.Value) (int, error) {  curLen := 1  w.Write([]byte{'l'})   for i := 0; i  curV := v.Index(i)  wLen, err := marshalValue(w, curV)  if err != nil {  return 0, err  }  curLen += wLen  }   w.Write([]byte{'e'})  return curLen + 1, nil }  func marshalDict(w io.Writer, v reflect.Value) (int, error) {  curLen := 1  w.Write([]byte{'d'})   for i := 0; i  field := v.Field(i)  fieldType := v.Type().Field(i)   key := fieldType.Tag.Get(\"bencode\")  if key == \"\" {  key = strings.ToLower(fieldType.Name)  }   wLen, err := EncodeStr(w, key)  if err != nil {  return 0, err  }  curLen += wLen   wLen, err = marshalValue(w, field)  if err != nil {  return 0, err  }  curLen += wLen  }   w.Write([]byte{'e'})  return curLen + 1, nil }   使用 bencode 解析器解析 .torrent 文件 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18  type Info struct {  Length int `bencode:\"length\"`  Name string `bencode:\"name\"`  PieceLength int `bencode:\"piece length\"`  Pieces string `bencode:\"pieces\"` }  type TorrentFile struct {  Announce string `bencode:\"announce\"`  Info Info `bencode:\"info\"` }  var tf torrentfile.TorrentFile file, _ := os.Open(\"xxx.torrent\") err := bencode.Unmarshal(file, \u0026tf) if err != nil {  log.Fatalln(\"invalid torrent file\") }   以上就完成了 .torrent 文件的解析\n从 tracker 获取 peers 首先定义一个新的结构体，与序列化结构体区分开，作为应用结构体：\n1 2 3 4 5 6 7 8 9 10  type Torrent struct {  Announce string  Name string  Length int  InfoHash [20]byte  PieceLength int  PieceHashes [][20]byte  Peers []peer.Peer  PeerID [20]byte }   TorrentFile 实现向 Torrent 转换的方法 ToTorrent：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47  func (i *Info) Hash() ([20]byte, error) { \tvar buf bytes.Buffer \t_, err := bencode.Marshal(\u0026buf, *i) \tif err != nil { \treturn [20]byte{}, err \t} \th := sha1.Sum(buf.Bytes()) \treturn h, nil }  func (i *Info) splitPieceHashes() ([][20]byte, error) { \thashLen := 20 \tbuf := []byte(i.Pieces) \tif len(buf)%hashLen != 0 { \treturn nil, fmt.Errorf(\"malformed pieces hash length: %d\", len(buf)) \t}  \tnumHashes := len(buf) / hashLen \thashes := make([][20]byte, numHashes)  \tfor i := 0; i \tcopy(hashes[i][:], buf[i*hashLen:(i+1)*hashLen]) \t}  \treturn hashes, nil }  func (tf *TorrentFile) ToTorrent() (torrent.Torrent, error) { \tinfoHash, err := tf.Info.Hash() \tif err != nil { \treturn torrent.Torrent{}, err \t}  \tpieceHashes, err := tf.Info.splitPieceHashes() \tif err != nil { \treturn torrent.Torrent{}, err \t}  \treturn torrent.Torrent{ \tAnnounce: tf.Announce, \tName: tf.Info.Name, \tLength: tf.Info.Length, \tInfoHash: infoHash, \tPieceLength: tf.Info.PieceLength, \tPieceHashes: pieceHashes, \t}, nil }   Torrent 获取 Peers 的方法为：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53  type TrackerResp struct { \tInterval int `bencode:\"interval\"` \tPeers string `bencode:\"peers\"` }  func (t *Torrent) buildTrackerURL(peerID [20]byte, port uint16) (string, error) { \tbase, err := url.Parse(t.Announce) \tif err != nil { \treturn \"\", err \t} \tparams := url.Values{ \t\"info_hash\": []string{string(t.InfoHash[:])}, \t\"peer_id\": []string{string(peerID[:])}, \t\"port\": []string{strconv.Itoa(int(Port))}, \t\"uploaded\": []string{\"0\"}, \t\"downloaded\": []string{\"0\"}, \t\"compact\": []string{\"1\"}, \t\"left\": []string{strconv.Itoa(t.Length)}, \t} \tbase.RawQuery = params.Encode() \treturn base.String(), nil }  func (t *Torrent) GetPeers() error { \t_, err := rand.Read(t.PeerID[:]) \tif err != nil { \treturn err \t}  \turl, err := t.buildTrackerURL(t.PeerID, uint16(Port))  \tc := \u0026http.Client{Timeout: 15 * time.Second} \tresp, err := c.Get(url) \tif err != nil { \treturn err \t} \tdefer resp.Body.Close()  \tres, err := io.ReadAll(resp.Body) \tvar tr TrackerResp \terr = bencode.Unmarshal(bytes.NewBuffer(res), \u0026tr) \tif err != nil { \treturn err \t}  \tpeers, err := peer.Unmarshal([]byte(tr.Peers)) \tif err != nil { \treturn err \t}  \tt.Peers = peers \treturn nil }   在向 tracker 请求的参数中：\n  info_hash：.torrent 文件中 info 部分的 SHA-1 哈希值，tracker 用这个确认想要下载哪个文件，这样才能确认拥有这个文件的 peers\n  peer_id：客户端的 ID，如”utorrent-xxx“，标识客户端软件和版本，本文直接用随机生成的\n  port：客户端监听的端口号\n  uploaded：总上传量\n  downloaded：总下载量\n  compact：设为 1 表示使用紧凑模式，每个 peer 用六个字节表示，前四个是 IP 地址后两个是端口号\n  left：剩余下载量\n  Tracker 发回的响应也是 bencode 编码的格式，可以用上文实现的 bencode 解析器直接反序列化得到 TrackerResp 结构体，其中包括两个字段：Interval 表示应该隔多久再次连接到 tracker 来更新 peers 列表，Peers 是一个包含上文提到的 6 字节地址的 BLOB，定义 Peer 结构体来解析它：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22  type Peer struct { \tIP net.IP \tPort uint16 }  func Unmarshal(peersBin []byte) ([]Peer, error) { \tconst peerSize = 6 // 4 for ip, 2 for port \tif len(peersBin)%peerSize != 0 { \treturn nil, fmt.Errorf(\"malformed binary peers length: %d\", len(peersBin)) \t}  \tnumPeers := len(peersBin) / peerSize \tpeers := make([]Peer, numPeers) \tfor i := 0; i \toffset := i * peerSize \t//peers[i].IP = net.IP(peersBin[offset : offset+4]) \tpeers[i].IP = peersBin[offset : offset+4] \tpeers[i].Port = binary.BigEndian.Uint16(peersBin[offset+4 : offset+6]) \t}  \treturn peers, nil }   到此，已经获取到了拥有 .torrent 中文件的 peers。\n",
+  "wordCount" : "4148",
+  "inLanguage": "en",
+  "datePublished": "2022-08-30T08:40:57+08:00",
+  "dateModified": "2022-08-30T08:40:57+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Me"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://tiandiyijian.top/posts/golang-bt/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "天地一键",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://s2.loli.net/2022/04/05/vc3QdeULpWlCjbh.png"
+    }
+  }
+}
+</script>
+
+
+
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+    </style>
+
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://tiandiyijian.top" accesskey="h" title="天地一键 (Alt + H)">天地一键</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                
+                
+            </span>
+        </div>
+        <ul id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://tiandiyijian.top/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://tiandiyijian.top/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://tiandiyijian.top/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://tiandiyijian.top/archives/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li></ul>
+    </nav>
+</header>
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+<div class="breadcrumbs">
+
+    <a href="https://tiandiyijian.top">Home</a>&nbsp;»&nbsp;<a href="https://tiandiyijian.top/posts/">Posts</a>
+</div>
+
+    <h1 class="post-title">
+      Golang 实现BT下载器（一）
+    </h1>
+    <div class="post-meta">
+
+August 30, 2022&nbsp;·&nbsp;9 min&nbsp;·&nbsp;Me
+
+|&nbsp;<a href="https://github.com/%3cpath_to_repo%3e/content/posts%5cGolang-BT.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+</div>
+  </header> 
+
+  <div class="toc">
+    <details >
+      <summary accesskey="c" title="(Alt + C)">
+        <div class="details">Table of Contents</div>
+      </summary>
+      <div class="inner"><ul><li>
+        <a href="#%e4%bb%80%e4%b9%88%e6%98%afbt" aria-label="什么是BT">什么是BT</a></li><li>
+        <a href="#%e8%8e%b7%e5%8f%96-peers" aria-label="获取 Peers">获取 Peers</a><ul>
+            <li>
+        <a href="#%e8%a7%a3%e6%9e%90-torrent-%e6%96%87%e4%bb%b6" aria-label="解析 .torrent 文件">解析 .torrent 文件</a><ul>
+            <li>
+        <a href="#%e5%ae%9e%e7%8e%b0-bencode%e8%a7%a3%e6%9e%90%e5%99%a8" aria-label="实现 Bencode 解析器">实现 Bencode 解析器</a></li><li>
+        <a href="#%e4%bd%bf%e7%94%a8-bencode-%e8%a7%a3%e6%9e%90%e5%99%a8%e8%a7%a3%e6%9e%90-torrent-%e6%96%87%e4%bb%b6" aria-label="使用 bencode 解析器解析 .torrent 文件">使用 bencode 解析器解析 .torrent 文件</a></li></ul>
+    </li><li>
+        <a href="#%e4%bb%8e-tracker-%e8%8e%b7%e5%8f%96-peers" aria-label="从 tracker 获取 peers">从 tracker 获取 peers</a></li></ul>
+</li></ul>
+      </div>
+    </details>
+  </div>
+  <div class="post-content">
+<p>最近几年有在使用PT（Private Tracker）站，主要是高校站点，近几年看的剧和电影几乎都是在PT站里下载的，虽然校园网平时上网很慢，但是ipv6速度还是很快的。前一阵子突然好奇BT下载的原理具体是啥，能不能用Go语言实现BT下载器，在网上搜了一下发现还真有人做了，于是自己学习实现了一下。</p>
+<h2 id="什么是bt">什么是BT<a hidden class="anchor" aria-hidden="true" href="#什么是bt">#</a></h2>
+<p>BT，顾名思义，<del>就是变态</del>，是 BitTorrent（比特洪流）的简称。BitTorrent 是一种 P2P（peer-to-peer）协议，BitTorrent 网络中的用户被称作 peer，每个 peer 都是向别的 peer 请求资源，即 peer 在下载的同时也拥有上传的能力，这样的好处是用户越多，下载同一文件的人越多，下载该文件的速度越快，与传统的C/S模式中所有的用户只能向同一个服务器请求资源明显不同。</p>
+<h2 id="获取-peers">获取 Peers<a hidden class="anchor" aria-hidden="true" href="#获取-peers">#</a></h2>
+<p>第一个问题就是怎么发现别的 peers，这就是 tracker 的作用，根据<a href="https://zh.wikipedia.org/wiki/BitTorrent_(%E5%8D%8F%E8%AE%AE)">维基百科</a>定义，tracker 是收集下载者信息的服务器，并将此信息提供给其他下载者，使下载者们相互连接起来，传输数据。那么 tracker 又在哪呢？这就是 .torrent 文件的作用，我们一般都把 .torrent 文件叫做种子文件，但其实 torrent 的中文意思是洪流，把通过一个 tracker 服务器连接起来的 peers 网络称作一个洪流，还挺形象的。</p>
+<h3 id="解析-torrent-文件">解析 .torrent 文件<a hidden class="anchor" aria-hidden="true" href="#解析-torrent-文件">#</a></h3>
+<p>.torrent 文件使用 <strong>Bencode</strong>（发音为 <em>bee-encode</em>）进行了编码。Bencode 使用 ASCII 字符进行编码：</p>
+<ul>
+<li>
+<p>Integer 编码为 <strong>i</strong>&lt;10进制编码整数&gt;<strong>e</strong>，如 i7e 表示整数 7</p>
+</li>
+<li>
+<p>Byte string 编码为 <length>:<string data>，如 4:spam 表示字符串 &ldquo;spam&rdquo;</p>
+</li>
+<li>
+<p>List 编码为 <strong>l</strong><bencoded values><strong>e</strong>，如 l4:spam4:eggse 表示 <code>[&quot;spam&quot;, &quot;eggs&quot;]</code>，list 可以包含任何其他类型的 bencoded value</p>
+</li>
+<li>
+<p>Dictionary 编码为 <strong>d</strong><bencoded string><bencoded element><strong>e</strong>，如 d3:cow3:moo4:spam4:eggse 表示字典：<code>{ &quot;cow&quot; : &quot;moo&quot;, &quot;spam&quot; : &quot;eggs&quot; }</code></p>
+</li>
+</ul>
+<p>如文件 debian-11.4.0-amd64-netinst.iso.torrent 的内容为：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>d8:announce41:http://bttracker.debian.org:6969/announce7:comment35:&#34;Debian CD from cdimage.debian.org&#34;13:creation datei1657367679e9:httpseedsl145:https://cdimage.debian.org/cdimage/release/11.4.0//srv/cdbuilder.debian.org/dst/deb-cd/weekly-builds/amd64/iso-cd/debian-11.4.0-amd64-netinst.iso145:https://cdimage.debian.org/cdimage/archive/11.4.0//srv/cdbuilder.debian.org/dst/deb-cd/weekly-builds/amd64/iso-cd/debian-11.4.0-amd64-netinst.isoe4:infod6:lengthi397410304e4:name31:debian-11.4.0-amd64-netinst.iso12:piece lengthi262144e6:pieces30320:(binary blob of the hashes of each piece)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>把它转换成更好看的形式：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>d
+</span></span><span style="display:flex;"><span>  8:announce
+</span></span><span style="display:flex;"><span>    41:http://bttracker.debian.org:6969/announce
+</span></span><span style="display:flex;"><span>  7:comment
+</span></span><span style="display:flex;"><span>    35:&#34;Debian CD from cdimage.debian.org&#34;
+</span></span><span style="display:flex;"><span>  13:creation date
+</span></span><span style="display:flex;"><span>    i1657367679e
+</span></span><span style="display:flex;"><span>  9:httpseeds
+</span></span><span style="display:flex;"><span>    l
+</span></span><span style="display:flex;"><span>        145:https://cdimage.debian.org/cdimage/release/11.4.0//srv/cdbuilder.debian.org/dst/deb-cd/weekly-builds/amd64/iso-cd/debian-11.4.0-amd64-netinst.iso
+</span></span><span style="display:flex;"><span>        145:https://cdimage.debian.org/cdimage/archive/11.4.0//srv/cdbuilder.debian.org/dst/deb-cd/weekly-builds/amd64/iso-cd/debian-11.4.0-amd64-netinst.iso
+</span></span><span style="display:flex;"><span>    e
+</span></span><span style="display:flex;"><span>  4:info
+</span></span><span style="display:flex;"><span>    d
+</span></span><span style="display:flex;"><span>      6:length
+</span></span><span style="display:flex;"><span>        i351272960e
+</span></span><span style="display:flex;"><span>      4:name
+</span></span><span style="display:flex;"><span>        31:debian-10.2.0-amd64-netinst.iso
+</span></span><span style="display:flex;"><span>      12:piece length
+</span></span><span style="display:flex;"><span>        i262144e
+</span></span><span style="display:flex;"><span>      6:pieces
+</span></span><span style="display:flex;"><span>        26800:�����PS�^�� (binary blob of the hashes of each piece)
+</span></span><span style="display:flex;"><span>    e
+</span></span><span style="display:flex;"><span>e
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个文件中包括 tracker 的 URL、创建时间、文件的大小和名称、piece 的大小以及所有 piece 的 SHA-1 哈希值的 BLOB （binary large object）。httpseeds 字段是后续为了支持通过 HTTP 协议分发数据的拓展，本文不使用这个功能，可以直接忽略。</p>
+<h4 id="实现-bencode解析器">实现 Bencode 解析器<a hidden class="anchor" aria-hidden="true" href="#实现-bencode解析器">#</a></h4>
+<p>所以要解析 .torrent 文件就需要一个 bencode 解析器，网上已经有现成的了，但是我没有写过这种解析器，所以就参考<a href="https://github.com/archeryue/go-torrent">这个</a>项目写了一个。</p>
+<p>首先定义以下内容：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> BType <span style="color:#fff;font-weight:bold">uint8</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> BVal <span style="color:#fff;font-weight:bold">interface</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">const</span> (
+</span></span><span style="display:flex;"><span>    BINT BType = <span style="color:#fff;font-weight:bold">iota</span>
+</span></span><span style="display:flex;"><span>    BSTR
+</span></span><span style="display:flex;"><span>    BLIST
+</span></span><span style="display:flex;"><span>    BDICT
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> BObj <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>    type_ BType
+</span></span><span style="display:flex;"><span>    val_  BVal
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>把任意 bencode 编码的对象表示为一个 BObj，它有类型和值两个字段，又因为具体值的类型是不确定的，所以使用空接口类型。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">44
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">45
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">46
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">47
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">48
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">49
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">50
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">51
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">52
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">53
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">54
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">55
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">56
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">57
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">58
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">59
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">60
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">61
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">62
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">63
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">64
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">65
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">66
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">67
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">68
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">69
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">70
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">71
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">72
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">73
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">74
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">75
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> Decode(r io.Reader) (*BObj, <span style="color:#fff;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>    br, ok := r.(*bufio.Reader)
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> !ok {
+</span></span><span style="display:flex;"><span>        br = bufio.NewReader(r)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    b, err := br.Peek(<span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>, err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">switch</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> b[<span style="color:#ff0;font-weight:bold">0</span>] &gt;= <span style="color:#0ff;font-weight:bold">&#39;0&#39;</span> &amp;&amp; b[<span style="color:#ff0;font-weight:bold">0</span>] &lt;= <span style="color:#0ff;font-weight:bold">&#39;9&#39;</span>:
+</span></span><span style="display:flex;"><span>        s, err := DecodeString(br)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>, err
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> NewBObj(BSTR, s), <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> b[<span style="color:#ff0;font-weight:bold">0</span>] == <span style="color:#0ff;font-weight:bold">&#39;i&#39;</span>:
+</span></span><span style="display:flex;"><span>        num, err := DecodeInt(br)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>, err
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> NewBObj(BINT, num), <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> b[<span style="color:#ff0;font-weight:bold">0</span>] == <span style="color:#0ff;font-weight:bold">&#39;l&#39;</span>:
+</span></span><span style="display:flex;"><span>        br.ReadByte() <span style="color:#007f7f">// start l
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">var</span> list []*BObj
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> {
+</span></span><span style="display:flex;"><span>            b, err := br.Peek(<span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>, err
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> b[<span style="color:#ff0;font-weight:bold">0</span>] == <span style="color:#0ff;font-weight:bold">&#39;e&#39;</span> { <span style="color:#007f7f">// end e
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>                br.ReadByte()
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> NewBObj(BLIST, list), <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            bobj, err := Decode(br)
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>, err
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            list = <span style="color:#fff;font-weight:bold">append</span>(list, bobj)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> b[<span style="color:#ff0;font-weight:bold">0</span>] == <span style="color:#0ff;font-weight:bold">&#39;d&#39;</span>:
+</span></span><span style="display:flex;"><span>        br.ReadByte() <span style="color:#007f7f">// start d
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        dict := <span style="color:#fff;font-weight:bold">map</span>[<span style="color:#fff;font-weight:bold">string</span>]*BObj{}
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> {
+</span></span><span style="display:flex;"><span>            b, err := br.Peek(<span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>, err
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> b[<span style="color:#ff0;font-weight:bold">0</span>] == <span style="color:#0ff;font-weight:bold">&#39;e&#39;</span> { <span style="color:#007f7f">// end e
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>                br.ReadByte()
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> NewBObj(BDICT, dict), <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            key, err := DecodeString(br)
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>, err
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            bobj, err := Decode(br)
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>, err
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            dict[key] = bobj
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>, ErrIvd
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解码函数思路是首先根据开头判断数据类型，然后去解析，如果是 List 或 Dictionary 类型直接循环递归处理就行了，在循环中检查下一个待读取的字符是不是 &rsquo;e&rsquo; ，如果是的话那么一定是该 BObj 最后一个 &rsquo;e&rsquo;，因为它嵌套的 BObj 一定会把前面的 &rsquo;e&rsquo;（如果有的话，当嵌套了 List 和 Dictionary 和 Integer 类型时会有）读取出来 。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">44
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">45
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">46
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">47
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">48
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">49
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">50
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">51
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">52
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">53
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">54
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">55
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">56
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">57
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">58
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">59
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">60
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">61
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">62
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">63
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">64
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">65
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">66
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">67
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">68
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (o *BObj) Encode(w io.Writer) (<span style="color:#fff;font-weight:bold">int</span>, <span style="color:#fff;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>    bw, ok := w.(*bufio.Writer)
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> !ok {
+</span></span><span style="display:flex;"><span>        bw = bufio.NewWriter(w)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    curLen := <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">switch</span> o.type_ {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> BINT:
+</span></span><span style="display:flex;"><span>        num, _ := o.Int()
+</span></span><span style="display:flex;"><span>        wLen, err := EncodeInt(bw, num)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>, err
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        curLen += wLen
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> BSTR:
+</span></span><span style="display:flex;"><span>        s, _ := o.Str()
+</span></span><span style="display:flex;"><span>        wLen, err := EncodeStr(bw, s)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>, err
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        curLen += wLen
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> BLIST:
+</span></span><span style="display:flex;"><span>        list, _ := o.List()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        curLen += <span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>        bw.WriteByte(<span style="color:#0ff;font-weight:bold">&#39;l&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> _, bobj := <span style="color:#fff;font-weight:bold">range</span> list {
+</span></span><span style="display:flex;"><span>            wLen, err := bobj.Encode(bw)
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>, err
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            curLen += wLen
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        curLen += <span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>        bw.WriteByte(<span style="color:#0ff;font-weight:bold">&#39;e&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> BDICT:
+</span></span><span style="display:flex;"><span>        dict, _ := o.Dict()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        curLen += <span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>        bw.WriteByte(<span style="color:#0ff;font-weight:bold">&#39;d&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> key, bobj := <span style="color:#fff;font-weight:bold">range</span> dict {
+</span></span><span style="display:flex;"><span>            wLen, err := EncodeStr(bw, key)
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>, err
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            curLen += wLen
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            wLen, err = bobj.Encode(bw)
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>, err
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            curLen += wLen
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        curLen += <span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>        bw.WriteByte(<span style="color:#0ff;font-weight:bold">&#39;e&#39;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> err := bw.Flush(); err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>, err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> curLen, <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>编码函数思路和解码函数差不多，直接判断 BObj 的类型然后去编码，如果是 List 或 Dictionary 类型同样去循环递归处理。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> Unmarshal(r io.Reader, s <span style="color:#fff;font-weight:bold">interface</span>{}) <span style="color:#fff;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>    o, err := Decode(r)
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    v := reflect.ValueOf(s)
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> v.Kind() != reflect.Ptr {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> errors.New(<span style="color:#0ff;font-weight:bold">&#34;dst must be a pointer&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">switch</span> o.type_ {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> BLIST:
+</span></span><span style="display:flex;"><span>        list, _ := o.List()
+</span></span><span style="display:flex;"><span>        l := reflect.MakeSlice(v.Elem().Type(), <span style="color:#fff;font-weight:bold">len</span>(list), <span style="color:#fff;font-weight:bold">len</span>(list))
+</span></span><span style="display:flex;"><span>        v.Elem().Set(l)
+</span></span><span style="display:flex;"><span>        err = unmarshalList(list, v)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> BDICT:
+</span></span><span style="display:flex;"><span>        dict, _ := o.Dict()
+</span></span><span style="display:flex;"><span>        err := unmarshalDict(dict, v)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">default</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> errors.New(<span style="color:#0ff;font-weight:bold">&#34;src must be struct or slice&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Unmarshal</code> 函数首先利用之前的解码函数得到一个 BObj， 然后利用这个 BObj 去反序列化。反序列化的目标只能是切片或者结构体类型，输入是它们的指针。如果是 List 的话要先利用反射把切片的长度设置好。重点是 <code>unmarshalList</code> 和 <code>UnmarshalDict</code> 这两个函数。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">44
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">45
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">46
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">47
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">48
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">49
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">50
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">51
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">52
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">53
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">54
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">55
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">56
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">57
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">58
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">59
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">60
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">61
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">62
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">63
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">64
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">65
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">66
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">67
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> unmarshalList(list []*BObj, v reflect.Value) <span style="color:#fff;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> v.Kind() != reflect.Ptr || v.Elem().Kind() != reflect.Slice {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> errors.New(<span style="color:#0ff;font-weight:bold">&#34;dst must be pointer of slice&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    v = v.Elem()
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">len</span>(list) == <span style="color:#ff0;font-weight:bold">0</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">switch</span> list[<span style="color:#ff0;font-weight:bold">0</span>].type_ {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> BSTR:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> i, bObj := <span style="color:#fff;font-weight:bold">range</span> list {
+</span></span><span style="display:flex;"><span>            s, err := bObj.Str()
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            v.Index(i).SetString(s)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> BINT:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> i, bObj := <span style="color:#fff;font-weight:bold">range</span> list {
+</span></span><span style="display:flex;"><span>            num, err := bObj.Int()
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            v.Index(i).SetInt(<span style="color:#fff;font-weight:bold">int64</span>(num))
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> BLIST:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> v.Type().Elem().Kind() != reflect.Slice {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> ErrTyp
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> i, bObj := <span style="color:#fff;font-weight:bold">range</span> list {
+</span></span><span style="display:flex;"><span>            bList, err := bObj.List()
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            newPtr := reflect.New(v.Type().Elem())
+</span></span><span style="display:flex;"><span>            newSlice := reflect.MakeSlice(v.Type().Elem(), <span style="color:#fff;font-weight:bold">len</span>(bList), <span style="color:#fff;font-weight:bold">len</span>(bList))
+</span></span><span style="display:flex;"><span>            newPtr.Elem().Set(newSlice)
+</span></span><span style="display:flex;"><span>            err = unmarshalList(bList, newPtr)
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            v.Index(i).Set(newPtr.Elem())
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> BDICT:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> v.Type().Elem().Kind() != reflect.Struct {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> ErrTyp
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> i, bObj := <span style="color:#fff;font-weight:bold">range</span> list {
+</span></span><span style="display:flex;"><span>            bDict, err := bObj.Dict()
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            newPtr := reflect.New(v.Type().Elem())
+</span></span><span style="display:flex;"><span>            err = unmarshalDict(bDict, newPtr)
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            v.Index(i).Set(newPtr.Elem())
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>unmarshalList</code> 函数首先判断输入的 <code>v</code> 只能是切片的指针类型，要不然不能 Set。输入 list 中的元素的类型肯定都是一样的，对应切片中元素的类型，所以只判断第一个元素的类型就可以了，然后去循环设置每一个位置的元素。整数和字符串的情况比较简单，不再赘述。</p>
+<p>对于 <code>BLIST</code> 类型，先判断输入 <code>v</code> 的类型的的基本元素（<code>v.Type().Elem()</code> 的返回值也是 <code>reflect.Type</code> 类型，指的是当前类型的基本元素类型，只针对指针、数组、切片、映射、通道类型才是有效的，要和 <code>v.Elem()</code> 区分开，该函数的返回值类型是 <code>reflect.Value</code>，只针对指针和接口类型才有效，指的就是 <code>v</code> 指向的值）也是切片类型才可以正确进行反序列化。判断完成之后再去循环设置，每一次循环都先获取到当前位置对应的 <code>bList</code> 然后创建一个切片的指针，设置其长度和容量，再进行递归处理。最后设置该位置的元素。</p>
+<p>对于 <code>BDICT</code> 类型，过程和 <code>BLIST</code> 类型类似。<code>unmarshalDict</code> 函数和 <code>unmarshalList</code> 基本一致，只不过因为每一个字段的类型可能是不一样的，所以要在每一次循环里面判断类型。另外就是 tag 的处理，过程也比较简单：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>fieldType := v.Type().Field(i)
+</span></span><span style="display:flex;"><span>key := fieldType.Tag.Get(<span style="color:#0ff;font-weight:bold">&#34;bencode&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> key == <span style="color:#0ff;font-weight:bold">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>    key = strings.ToLower(fieldType.Name)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bObj, ok := bDict[key]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Marshal</code> 函数就比较简单了，直接判断当前值的类型然后去编码就行了，过程跟编码函数基本一致：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">44
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">45
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">46
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">47
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">48
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">49
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">50
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">51
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">52
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">53
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">54
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">55
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">56
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">57
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">58
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">59
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">60
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">61
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">62
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">63
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">64
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">65
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">66
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">67
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">68
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">69
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">70
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">71
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">72
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">73
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">74
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">75
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">76
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">77
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">78
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">79
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">80
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">81
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">82
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">83
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">84
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">85
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">86
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">87
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">88
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">89
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">90
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">91
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">92
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> Marshal(w io.Writer, i <span style="color:#fff;font-weight:bold">interface</span>{}) (<span style="color:#fff;font-weight:bold">int</span>, <span style="color:#fff;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>    v := reflect.ValueOf(i)
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> v.Kind() == reflect.Ptr {
+</span></span><span style="display:flex;"><span>        v = v.Elem()
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> marshalValue(w, v)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> marshalValue(w io.Writer, v reflect.Value) (<span style="color:#fff;font-weight:bold">int</span>, <span style="color:#fff;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>    curLen := <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">switch</span> v.Kind() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> reflect.Int:
+</span></span><span style="display:flex;"><span>        wLen, err := EncodeInt(w, <span style="color:#fff;font-weight:bold">int</span>(v.Int()))
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>, err
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        curLen += wLen
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> reflect.String:
+</span></span><span style="display:flex;"><span>        wLen, err := EncodeStr(w, v.String())
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>, err
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        curLen += wLen
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> reflect.Slice:
+</span></span><span style="display:flex;"><span>        wLen, err := marshalList(w, v)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>, err
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        curLen += wLen
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">case</span> reflect.Struct:
+</span></span><span style="display:flex;"><span>        wLen, err := marshalDict(w, v)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>, err
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        curLen += wLen
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">default</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>, errors.New(<span style="color:#0ff;font-weight:bold">&#34;unsupported type&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> curLen, <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> marshalList(w io.Writer, v reflect.Value) (<span style="color:#fff;font-weight:bold">int</span>, <span style="color:#fff;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>    curLen := <span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>    w.Write([]<span style="color:#fff;font-weight:bold">byte</span>{<span style="color:#0ff;font-weight:bold">&#39;l&#39;</span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span> i := <span style="color:#ff0;font-weight:bold">0</span>; i &lt; v.Len(); i++ {
+</span></span><span style="display:flex;"><span>        curV := v.Index(i)
+</span></span><span style="display:flex;"><span>        wLen, err := marshalValue(w, curV)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>, err
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        curLen += wLen
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    w.Write([]<span style="color:#fff;font-weight:bold">byte</span>{<span style="color:#0ff;font-weight:bold">&#39;e&#39;</span>})
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> curLen + <span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> marshalDict(w io.Writer, v reflect.Value) (<span style="color:#fff;font-weight:bold">int</span>, <span style="color:#fff;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>    curLen := <span style="color:#ff0;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>    w.Write([]<span style="color:#fff;font-weight:bold">byte</span>{<span style="color:#0ff;font-weight:bold">&#39;d&#39;</span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span> i := <span style="color:#ff0;font-weight:bold">0</span>; i &lt; v.NumField(); i++ {
+</span></span><span style="display:flex;"><span>        field := v.Field(i)
+</span></span><span style="display:flex;"><span>        fieldType := v.Type().Field(i)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        key := fieldType.Tag.Get(<span style="color:#0ff;font-weight:bold">&#34;bencode&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> key == <span style="color:#0ff;font-weight:bold">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>            key = strings.ToLower(fieldType.Name)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        wLen, err := EncodeStr(w, key)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>, err
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        curLen += wLen
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        wLen, err = marshalValue(w, field)
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> <span style="color:#ff0;font-weight:bold">0</span>, err
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        curLen += wLen
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    w.Write([]<span style="color:#fff;font-weight:bold">byte</span>{<span style="color:#0ff;font-weight:bold">&#39;e&#39;</span>})
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> curLen + <span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="使用-bencode-解析器解析-torrent-文件">使用 bencode 解析器解析 .torrent 文件<a hidden class="anchor" aria-hidden="true" href="#使用-bencode-解析器解析-torrent-文件">#</a></h4>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Info <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>    Length      <span style="color:#fff;font-weight:bold">int</span>    <span style="color:#0ff;font-weight:bold">`bencode:&#34;length&#34;`</span>
+</span></span><span style="display:flex;"><span>    Name        <span style="color:#fff;font-weight:bold">string</span> <span style="color:#0ff;font-weight:bold">`bencode:&#34;name&#34;`</span>
+</span></span><span style="display:flex;"><span>    PieceLength <span style="color:#fff;font-weight:bold">int</span>    <span style="color:#0ff;font-weight:bold">`bencode:&#34;piece length&#34;`</span>
+</span></span><span style="display:flex;"><span>    Pieces      <span style="color:#fff;font-weight:bold">string</span> <span style="color:#0ff;font-weight:bold">`bencode:&#34;pieces&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> TorrentFile <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>    Announce <span style="color:#fff;font-weight:bold">string</span> <span style="color:#0ff;font-weight:bold">`bencode:&#34;announce&#34;`</span>
+</span></span><span style="display:flex;"><span>    Info     Info   <span style="color:#0ff;font-weight:bold">`bencode:&#34;info&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> tf torrentfile.TorrentFile
+</span></span><span style="display:flex;"><span>file, _ := os.Open(<span style="color:#0ff;font-weight:bold">&#34;xxx.torrent&#34;</span>)
+</span></span><span style="display:flex;"><span>err := bencode.Unmarshal(file, &amp;tf)
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>    log.Fatalln(<span style="color:#0ff;font-weight:bold">&#34;invalid torrent file&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以上就完成了 .torrent 文件的解析</p>
+<h3 id="从-tracker-获取-peers">从 tracker 获取 peers<a hidden class="anchor" aria-hidden="true" href="#从-tracker-获取-peers">#</a></h3>
+<p>首先定义一个新的结构体，与序列化结构体区分开，作为应用结构体：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Torrent <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>    Announce    <span style="color:#fff;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>    Name        <span style="color:#fff;font-weight:bold">string</span>
+</span></span><span style="display:flex;"><span>    Length      <span style="color:#fff;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>    InfoHash    [<span style="color:#ff0;font-weight:bold">20</span>]<span style="color:#fff;font-weight:bold">byte</span>
+</span></span><span style="display:flex;"><span>    PieceLength <span style="color:#fff;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>    PieceHashes [][<span style="color:#ff0;font-weight:bold">20</span>]<span style="color:#fff;font-weight:bold">byte</span>
+</span></span><span style="display:flex;"><span>    Peers       []peer.Peer
+</span></span><span style="display:flex;"><span>    PeerID      [<span style="color:#ff0;font-weight:bold">20</span>]<span style="color:#fff;font-weight:bold">byte</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>TorrentFile</code> 实现向 <code>Torrent</code> 转换的方法 <code>ToTorrent</code>：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">44
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">45
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">46
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">47
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (i *Info) Hash() ([<span style="color:#ff0;font-weight:bold">20</span>]<span style="color:#fff;font-weight:bold">byte</span>, <span style="color:#fff;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">var</span> buf bytes.Buffer
+</span></span><span style="display:flex;"><span>	_, err := bencode.Marshal(&amp;buf, *i)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> [<span style="color:#ff0;font-weight:bold">20</span>]<span style="color:#fff;font-weight:bold">byte</span>{}, err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	h := sha1.Sum(buf.Bytes())
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> h, <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (i *Info) splitPieceHashes() ([][<span style="color:#ff0;font-weight:bold">20</span>]<span style="color:#fff;font-weight:bold">byte</span>, <span style="color:#fff;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>	hashLen := <span style="color:#ff0;font-weight:bold">20</span>
+</span></span><span style="display:flex;"><span>	buf := []<span style="color:#fff;font-weight:bold">byte</span>(i.Pieces)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">len</span>(buf)%hashLen != <span style="color:#ff0;font-weight:bold">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>, fmt.Errorf(<span style="color:#0ff;font-weight:bold">&#34;malformed pieces hash length: %d&#34;</span>, <span style="color:#fff;font-weight:bold">len</span>(buf))
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	numHashes := <span style="color:#fff;font-weight:bold">len</span>(buf) / hashLen
+</span></span><span style="display:flex;"><span>	hashes := <span style="color:#fff;font-weight:bold">make</span>([][<span style="color:#ff0;font-weight:bold">20</span>]<span style="color:#fff;font-weight:bold">byte</span>, numHashes)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> i := <span style="color:#ff0;font-weight:bold">0</span>; i &lt; numHashes; i++ {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">copy</span>(hashes[i][:], buf[i*hashLen:(i+<span style="color:#ff0;font-weight:bold">1</span>)*hashLen])
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> hashes, <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (tf *TorrentFile) ToTorrent() (torrent.Torrent, <span style="color:#fff;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>	infoHash, err := tf.Info.Hash()
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> torrent.Torrent{}, err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	pieceHashes, err := tf.Info.splitPieceHashes()
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> torrent.Torrent{}, err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> torrent.Torrent{
+</span></span><span style="display:flex;"><span>		Announce:    tf.Announce,
+</span></span><span style="display:flex;"><span>		Name:        tf.Info.Name,
+</span></span><span style="display:flex;"><span>		Length:      tf.Info.Length,
+</span></span><span style="display:flex;"><span>		InfoHash:    infoHash,
+</span></span><span style="display:flex;"><span>		PieceLength: tf.Info.PieceLength,
+</span></span><span style="display:flex;"><span>		PieceHashes: pieceHashes,
+</span></span><span style="display:flex;"><span>	}, <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Torrent</code> 获取 Peers 的方法为：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">43
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">44
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">45
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">46
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">47
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">48
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">49
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">50
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">51
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">52
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">53
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> TrackerResp <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	Interval <span style="color:#fff;font-weight:bold">int</span>    <span style="color:#0ff;font-weight:bold">`bencode:&#34;interval&#34;`</span>
+</span></span><span style="display:flex;"><span>	Peers    <span style="color:#fff;font-weight:bold">string</span> <span style="color:#0ff;font-weight:bold">`bencode:&#34;peers&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (t *Torrent) buildTrackerURL(peerID [<span style="color:#ff0;font-weight:bold">20</span>]<span style="color:#fff;font-weight:bold">byte</span>, port <span style="color:#fff;font-weight:bold">uint16</span>) (<span style="color:#fff;font-weight:bold">string</span>, <span style="color:#fff;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>	base, err := url.Parse(t.Announce)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> <span style="color:#0ff;font-weight:bold">&#34;&#34;</span>, err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	params := url.Values{
+</span></span><span style="display:flex;"><span>		<span style="color:#0ff;font-weight:bold">&#34;info_hash&#34;</span>:  []<span style="color:#fff;font-weight:bold">string</span>{<span style="color:#fff;font-weight:bold">string</span>(t.InfoHash[:])},
+</span></span><span style="display:flex;"><span>		<span style="color:#0ff;font-weight:bold">&#34;peer_id&#34;</span>:    []<span style="color:#fff;font-weight:bold">string</span>{<span style="color:#fff;font-weight:bold">string</span>(peerID[:])},
+</span></span><span style="display:flex;"><span>		<span style="color:#0ff;font-weight:bold">&#34;port&#34;</span>:       []<span style="color:#fff;font-weight:bold">string</span>{strconv.Itoa(<span style="color:#fff;font-weight:bold">int</span>(Port))},
+</span></span><span style="display:flex;"><span>		<span style="color:#0ff;font-weight:bold">&#34;uploaded&#34;</span>:   []<span style="color:#fff;font-weight:bold">string</span>{<span style="color:#0ff;font-weight:bold">&#34;0&#34;</span>},
+</span></span><span style="display:flex;"><span>		<span style="color:#0ff;font-weight:bold">&#34;downloaded&#34;</span>: []<span style="color:#fff;font-weight:bold">string</span>{<span style="color:#0ff;font-weight:bold">&#34;0&#34;</span>},
+</span></span><span style="display:flex;"><span>		<span style="color:#0ff;font-weight:bold">&#34;compact&#34;</span>:    []<span style="color:#fff;font-weight:bold">string</span>{<span style="color:#0ff;font-weight:bold">&#34;1&#34;</span>},
+</span></span><span style="display:flex;"><span>		<span style="color:#0ff;font-weight:bold">&#34;left&#34;</span>:       []<span style="color:#fff;font-weight:bold">string</span>{strconv.Itoa(t.Length)},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	base.RawQuery = params.Encode()
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> base.String(), <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> (t *Torrent) GetPeers() <span style="color:#fff;font-weight:bold">error</span> {
+</span></span><span style="display:flex;"><span>	_, err := rand.Read(t.PeerID[:])
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	url, err := t.buildTrackerURL(t.PeerID, <span style="color:#fff;font-weight:bold">uint16</span>(Port))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	c := &amp;http.Client{Timeout: <span style="color:#ff0;font-weight:bold">15</span> * time.Second}
+</span></span><span style="display:flex;"><span>	resp, err := c.Get(url)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">defer</span> resp.Body.Close()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	res, err := io.ReadAll(resp.Body)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">var</span> tr TrackerResp
+</span></span><span style="display:flex;"><span>	err = bencode.Unmarshal(bytes.NewBuffer(res), &amp;tr)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	peers, err := peer.Unmarshal([]<span style="color:#fff;font-weight:bold">byte</span>(tr.Peers))
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">if</span> err != <span style="color:#fff;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> err
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	t.Peers = peers
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在向 tracker 请求的参数中：</p>
+<ul>
+<li>
+<p>info_hash：.torrent 文件中 info 部分的 SHA-1 哈希值，tracker 用这个确认想要下载哪个文件，这样才能确认拥有这个文件的 peers</p>
+</li>
+<li>
+<p>peer_id：客户端的 ID，如”utorrent-xxx“，标识客户端软件和版本，本文直接用随机生成的</p>
+</li>
+<li>
+<p>port：客户端监听的端口号</p>
+</li>
+<li>
+<p>uploaded：总上传量</p>
+</li>
+<li>
+<p>downloaded：总下载量</p>
+</li>
+<li>
+<p>compact：设为 1 表示使用紧凑模式，每个 peer 用六个字节表示，前四个是 IP 地址后两个是端口号</p>
+</li>
+<li>
+<p>left：剩余下载量</p>
+</li>
+</ul>
+<p>Tracker 发回的响应也是 bencode 编码的格式，可以用上文实现的 bencode 解析器直接反序列化得到 <code>TrackerResp</code> 结构体，其中包括两个字段：<code>Interval</code> 表示应该隔多久再次连接到 tracker 来更新 peers 列表，<code>Peers</code> 是一个包含上文提到的 6 字节地址的 BLOB，定义 <code>Peer</code> 结构体来解析它：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">type</span> Peer <span style="color:#fff;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	IP   net.IP
+</span></span><span style="display:flex;"><span>	Port <span style="color:#fff;font-weight:bold">uint16</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">func</span> Unmarshal(peersBin []<span style="color:#fff;font-weight:bold">byte</span>) ([]Peer, <span style="color:#fff;font-weight:bold">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">const</span> peerSize = <span style="color:#ff0;font-weight:bold">6</span> <span style="color:#007f7f">// 4 for ip, 2 for port
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	<span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">len</span>(peersBin)%peerSize != <span style="color:#ff0;font-weight:bold">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">nil</span>, fmt.Errorf(<span style="color:#0ff;font-weight:bold">&#34;malformed binary peers length: %d&#34;</span>, <span style="color:#fff;font-weight:bold">len</span>(peersBin))
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	numPeers := <span style="color:#fff;font-weight:bold">len</span>(peersBin) / peerSize
+</span></span><span style="display:flex;"><span>	peers := <span style="color:#fff;font-weight:bold">make</span>([]Peer, numPeers)
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">for</span> i := <span style="color:#ff0;font-weight:bold">0</span>; i &lt; numPeers; i++ {
+</span></span><span style="display:flex;"><span>		offset := i * peerSize
+</span></span><span style="display:flex;"><span>		<span style="color:#007f7f">//peers[i].IP = net.IP(peersBin[offset : offset+4])
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>		peers[i].IP = peersBin[offset : offset+<span style="color:#ff0;font-weight:bold">4</span>]
+</span></span><span style="display:flex;"><span>		peers[i].Port = binary.BigEndian.Uint16(peersBin[offset+<span style="color:#ff0;font-weight:bold">4</span> : offset+<span style="color:#ff0;font-weight:bold">6</span>])
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#fff;font-weight:bold">return</span> peers, <span style="color:#fff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>到此，已经获取到了拥有 .torrent 中文件的 peers。</p>
+
+</div>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://tiandiyijian.top/tags/go/">Go</a></li>
+    </ul>
+    <nav class="paginav">
+      <a class="next" href="https://tiandiyijian.top/posts/ultimate-go-programming-chap6/">
+        <span class="title">Next Page »</span>
+        <br>
+        <span>Ultimate Go Programming 笔记——第六章</span>
+      </a>
+    </nav>
+
+
+
+
+
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Golang 实现BT下载器（一） on twitter"
+        href="https://twitter.com/intent/tweet/?text=Golang%20%e5%ae%9e%e7%8e%b0BT%e4%b8%8b%e8%bd%bd%e5%99%a8%ef%bc%88%e4%b8%80%ef%bc%89&amp;url=https%3a%2f%2ftiandiyijian.top%2fposts%2fgolang-bt%2f&amp;hashtags=Go">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Golang 实现BT下载器（一） on linkedin"
+        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2ftiandiyijian.top%2fposts%2fgolang-bt%2f&amp;title=Golang%20%e5%ae%9e%e7%8e%b0BT%e4%b8%8b%e8%bd%bd%e5%99%a8%ef%bc%88%e4%b8%80%ef%bc%89&amp;summary=Golang%20%e5%ae%9e%e7%8e%b0BT%e4%b8%8b%e8%bd%bd%e5%99%a8%ef%bc%88%e4%b8%80%ef%bc%89&amp;source=https%3a%2f%2ftiandiyijian.top%2fposts%2fgolang-bt%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Golang 实现BT下载器（一） on reddit"
+        href="https://reddit.com/submit?url=https%3a%2f%2ftiandiyijian.top%2fposts%2fgolang-bt%2f&title=Golang%20%e5%ae%9e%e7%8e%b0BT%e4%b8%8b%e8%bd%bd%e5%99%a8%ef%bc%88%e4%b8%80%ef%bc%89">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Golang 实现BT下载器（一） on facebook"
+        href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2ftiandiyijian.top%2fposts%2fgolang-bt%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Golang 实现BT下载器（一） on whatsapp"
+        href="https://api.whatsapp.com/send?text=Golang%20%e5%ae%9e%e7%8e%b0BT%e4%b8%8b%e8%bd%bd%e5%99%a8%ef%bc%88%e4%b8%80%ef%bc%89%20-%20https%3a%2f%2ftiandiyijian.top%2fposts%2fgolang-bt%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Golang 实现BT下载器（一） on telegram"
+        href="https://telegram.me/share/url?text=Golang%20%e5%ae%9e%e7%8e%b0BT%e4%b8%8b%e8%bd%bd%e5%99%a8%ef%bc%88%e4%b8%80%ef%bc%89&amp;url=https%3a%2f%2ftiandiyijian.top%2fposts%2fgolang-bt%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28">
+            <path
+                d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+</div>
+
+  </footer>
+</article>
+    </main><footer class="footer">
+    <span>&copy; 2022 <a href="https://tiandiyijian.top">天地一键</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+
+
+<script defer src="/assets/js/highlight.min.4dcb3c4f38462f66c6b6137227726f5543cb934cca9788f041c087e374491df2.js" integrity="sha256-Tcs8TzhGL2bGthNyJ3JvVUPLk0zKl4jwQcCH43RJHfI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+</body>
+
+</html>

@@ -6,7 +6,16 @@
     <description>Recent content on 天地一键</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 07 Jul 2022 15:01:15 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 30 Aug 2022 08:40:57 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Golang 实现BT下载器（一）</title>
+      <link>https://tiandiyijian.top/posts/golang-bt/</link>
+      <pubDate>Tue, 30 Aug 2022 08:40:57 +0800</pubDate>
+      
+      <guid>https://tiandiyijian.top/posts/golang-bt/</guid>
+      <description>最近几年有在使用PT（Private Tracker）站，主要是高校站点，近几年看的剧和电影几乎都是在PT站里下载的，虽然校园网平时上网很慢，</description>
+    </item>
+    
     <item>
       <title>Ultimate Go Programming 笔记——第六章</title>
       <link>https://tiandiyijian.top/posts/ultimate-go-programming-chap6/</link>
