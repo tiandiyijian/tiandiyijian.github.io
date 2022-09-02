@@ -183,6 +183,23 @@
 
   <header class="entry-header">
     <h2>
+      Golang 实现BT下载器（二）
+    </h2>
+  </header>
+  <section class="entry-content">
+    <p>前文已经完成了获取 peers 的功能。本文实现 peer 间通信和并发下载。 Peer 间通信 定义结构体 Client 来进行 peer 间通信： 1 2 3 4 5 6 7 8 type Client struct { Conn net.Conn Chocked bool BitField bitfield.BitField peer peer.Peer infoHash [20]byte peerID [20]byte...</p>
+  </section>
+  <footer class="entry-footer">
+
+September 1, 2022&nbsp;·&nbsp;7 min&nbsp;·&nbsp;Me
+</footer>
+  <a class="entry-link" aria-label="post link to Golang 实现BT下载器（二）" href="https://tiandiyijian.top/posts/go-bt-2/"></a>
+</article>
+
+<article class="post-entry"> 
+
+  <header class="entry-header">
+    <h2>
       Golang 实现BT下载器（一）
     </h2>
   </header>
@@ -193,7 +210,7 @@
 
 August 30, 2022&nbsp;·&nbsp;9 min&nbsp;·&nbsp;Me
 </footer>
-  <a class="entry-link" aria-label="post link to Golang 实现BT下载器（一）" href="https://tiandiyijian.top/posts/golang-bt/"></a>
+  <a class="entry-link" aria-label="post link to Golang 实现BT下载器（一）" href="https://tiandiyijian.top/posts/go-bt/"></a>
 </article>
 
 <article class="post-entry"> 

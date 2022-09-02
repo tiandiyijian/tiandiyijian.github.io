@@ -6,13 +6,22 @@
     <description>Recent content on 天地一键</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 30 Aug 2022 08:40:57 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 01 Sep 2022 13:21:12 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Golang 实现BT下载器（二）</title>
+      <link>https://tiandiyijian.top/posts/go-bt-2/</link>
+      <pubDate>Thu, 01 Sep 2022 13:21:12 +0800</pubDate>
+      
+      <guid>https://tiandiyijian.top/posts/go-bt-2/</guid>
+      <description>前文已经完成了获取 peers 的功能。本文实现 peer 间通信和并发下载。 Peer 间通信 定义结构体 Client 来进行 peer 间通信： 1 2 3 4 5 6 7 8 type Client struct { Conn net.Conn Chocked bool BitField bitfield.BitField peer peer.Peer infoHash [20]byte peerID [20]byte</description>
+    </item>
+    
     <item>
       <title>Golang 实现BT下载器（一）</title>
-      <link>https://tiandiyijian.top/posts/golang-bt/</link>
+      <link>https://tiandiyijian.top/posts/go-bt/</link>
       <pubDate>Tue, 30 Aug 2022 08:40:57 +0800</pubDate>
       
-      <guid>https://tiandiyijian.top/posts/golang-bt/</guid>
+      <guid>https://tiandiyijian.top/posts/go-bt/</guid>
       <description>最近几年有在使用PT（Private Tracker）站，主要是高校站点，近几年看的剧和电影几乎都是在PT站里下载的，虽然校园网平时上网很慢，</description>
     </item>
     
