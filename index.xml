@@ -6,7 +6,16 @@
     <description>Recent content on 天地一键</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 01 Sep 2022 13:21:12 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 09 Dec 2022 19:16:29 +0800</lastBuildDate><atom:link href="https://tiandiyijian.top/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SSH 免密登录</title>
+      <link>https://tiandiyijian.top/posts/ssh/</link>
+      <pubDate>Fri, 09 Dec 2022 19:16:29 +0800</pubDate>
+      
+      <guid>https://tiandiyijian.top/posts/ssh/</guid>
+      <description>客户端指本地的电脑，服务器指远程的电脑。比如在 A 上 ssh user@B，A 就是客户端，B 就是服务器。 SSH 免密登录的原理是当从客户端连接 SSH 服务器的时候</description>
+    </item>
+    
     <item>
       <title>Golang 实现BT下载器（二）</title>
       <link>https://tiandiyijian.top/posts/go-bt-2/</link>
